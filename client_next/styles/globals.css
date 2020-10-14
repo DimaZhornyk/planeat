@@ -8,6 +8,8 @@ body {
   font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #F2F2F2;
+
 }
 
 code {
@@ -16,7 +18,8 @@ code {
 }
 
 html {
-  min-height: 100vh;
-  background-color: #F2F2F2;
-
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }

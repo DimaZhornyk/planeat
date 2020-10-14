@@ -1,18 +1,18 @@
 import React from "react"
 import Icon from '@ant-design/icons'
 import PlanEatSvg from "../../../../static/icons/PlanEat.svg"
-import dishImageSvg from "../../../../static/icons/dishIcon.svg"
+import DishImageSvg from "../../../../static/icons/dishIcon.svg"
 
 export function Logo(props) {
 
     return (
-        <PlanEatSvg/>
+        <PlanEatSvg style={{margin: "0 80px 0 0"}}/>
     )
 }
 
 export function DishIcon(props) {
 
     return (
-        <Icon component={dishImageSvg} style={{}}/>
+        <Icon component={DishImageSvg} style={{fontSize: "18px"}}/>
     )
 }

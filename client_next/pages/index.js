@@ -4,7 +4,7 @@ import Link from "next/link";
 const Index = () => {
     return (
         <>
-            <div>index</div>
+            <p>Landing</p>
             <Link href={"/main"}>lol</Link>
         </>
     )
