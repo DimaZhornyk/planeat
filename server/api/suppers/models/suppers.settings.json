@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "suppers",
+  "info": {
+    "name": "Suppers"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "supperCaption": {
+      "type": "string"
+    },
+    "supperDescription": {
+      "type": "text"
+    },
+    "supperImage": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    }
+  }
+}

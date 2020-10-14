@@ -2,48 +2,48 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/recipes",
-      "handler": "recipes.find",
+      "path": "/salads",
+      "handler": "salads.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/recipes/count",
-      "handler": "recipes.count",
+      "path": "/salads/count",
+      "handler": "salads.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/recipes/:id",
-      "handler": "recipes.findOne",
+      "path": "/salads/:id",
+      "handler": "salads.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/recipes",
-      "handler": "recipes.create",
+      "path": "/salads",
+      "handler": "salads.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/recipes/:id",
-      "handler": "recipes.update",
+      "path": "/salads/:id",
+      "handler": "salads.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/recipes/:id",
-      "handler": "recipes.delete",
+      "path": "/salads/:id",
+      "handler": "salads.delete",
       "config": {
         "policies": []
       }

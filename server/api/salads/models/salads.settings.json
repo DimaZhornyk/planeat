@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "salads",
+  "info": {
+    "name": "Salads"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "saladCaption": {
+      "type": "string"
+    },
+    "saladDescription": {
+      "type": "text"
+    },
+    "saladImage": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    }
+  }
+}

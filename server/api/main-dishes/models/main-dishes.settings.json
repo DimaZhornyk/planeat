@@ -1,15 +1,18 @@
 {
   "kind": "collectionType",
-  "collectionName": "recipes",
+  "collectionName": "main_dishes",
   "info": {
-    "name": "Recipes"
+    "name": "Main dishes"
   },
   "options": {
     "increments": true,
     "timestamps": true
   },
   "attributes": {
-    "Image": {
+    "mainDishCaption": {
+      "type": "string"
+    },
+    "mainDishImage": {
       "model": "file",
       "via": "related",
       "allowedTypes": [
@@ -20,8 +23,8 @@
       "plugin": "upload",
       "required": false
     },
-    "Name": {
-      "type": "string"
+    "mainDishDescription": {
+      "type": "text"
     }
   }
 }

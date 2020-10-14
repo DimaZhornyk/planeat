@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "categories",
+  "info": {
+    "name": "Categories"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "breakfasts": {
+      "collection": "breakfasts"
+    },
+    "dinners": {
+      "collection": "dinners"
+    },
+    "main_dishes": {
+      "collection": "main-dishes"
+    },
+    "salads": {
+      "collection": "salads"
+    },
+    "suppers": {
+      "collection": "suppers"
+    }
+  }
+}
