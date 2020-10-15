@@ -9,20 +9,12 @@
     "timestamps": true
   },
   "attributes": {
-    "breakfasts": {
-      "collection": "breakfasts"
+    "categoryName": {
+      "type": "string"
     },
-    "dinners": {
-      "collection": "dinners"
-    },
-    "main_dishes": {
-      "collection": "main-dishes"
-    },
-    "salads": {
-      "collection": "salads"
-    },
-    "suppers": {
-      "collection": "suppers"
+    "recipe": {
+      "model": "recipes",
+      "via": "categories"
     }
   }
 }

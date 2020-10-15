@@ -22,8 +22,71 @@ html {
     padding: 0;
     width: 100%;
     height: 100%;
+    --antd-wave-shadow-color: grey;
 }
 
 .ant-card-body .ant-image-img {
     border-radius: 10px;
 }
+
+
+.ant-input-search-button {
+  background: #101622;
+  border-color: #101622;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
+
+.ant-input-search-button:hover {
+  background-color: #101622;
+  border-color: #101622;
+}
+
+.ant-input-search-button:focus {
+  background-color: #101622;
+}
+
+.ant-input-search-button::selection {
+  background-color: #101622;
+}
+
+.ant-input {
+  border-radius: 0;
+}
+
+.ant-input:focus {
+  -webkit-box-shadow: grey;
+  box-shadow: grey;
+}
+
+.ant-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.06);
+  width: 170px;
+  vertical-align: top;
+  margin: 0;
+  padding-left: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  border-right: none;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.ant-menu-horizontal > .ant-menu-item:hover,
+.ant-menu-horizontal > .ant-menu-submenu:hover,
+.ant-menu-horizontal > .ant-menu-item-active,
+.ant-menu-horizontal > .ant-menu-submenu-active,
+.ant-menu-horizontal > .ant-menu-item-open,
+.ant-menu-horizontal > .ant-menu-submenu-open,
+.ant-menu-horizontal > .ant-menu-item-selected,
+.ant-menu-horizontal > .ant-menu-submenu-selected {
+  color: #FFCA44;
+  border-bottom: 2px solid #FFCA44;
+}
+

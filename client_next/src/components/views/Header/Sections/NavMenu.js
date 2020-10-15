@@ -1,9 +1,9 @@
 import React, {useState} from "react"
 import {Menu} from 'antd'
-import {DishIcon} from "./Icons"
+import {DishIcon, MoreIcon} from "./Icons"
 
 
-function NavMenu(props) {
+function NavMenu({categories}) {
 
     const [current, setCurrent] = useState()
 
@@ -15,21 +15,16 @@ function NavMenu(props) {
 
     return (
         <Menu onClick={handleMenuClick} selectedKeys={[current]} mode="horizontal">
-            <Menu.Item key="all" icon={<DishIcon/>}>
+            <Menu.Item key="all" icon={<MoreIcon/>}>
                 Усі страви
             </Menu.Item>
-            <Menu.Item key="breakfasts" icon={<DishIcon/>}>
-                Сніданки
-            </Menu.Item>
-            <Menu.Item key="dinners" icon={<DishIcon/>}>
-                Обіди
-            </Menu.Item>
-            <Menu.Item key="mainDishes" icon={<DishIcon/>}>
-                Основні страви
-            </Menu.Item>
-            <Menu.Item key="salads" icon={<DishIcon/>}>
-                Салати
-            </Menu.Item>
+            {
+                categories.map((category) => (
+                    <Menu.Item key={category.id} icon={<DishIcon/>} style={{alignItems: "center"}}>
+                        {category.categoryName}
+                    </Menu.Item>
+                ))
+            }
         </Menu>
     )
 }
