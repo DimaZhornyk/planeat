@@ -9,11 +9,14 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
+    "@apollo/client": "^3.2.4",
     "@svgr/webpack": "^5.4.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.7.0",
+    "graphql": "^15.3.0",
+    "graphql-tag": "^2.11.0",
     "next": "9.5.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -22,7 +25,6 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-promise": "^0.6.0",
-    "redux-thunk": "^2.3.0",
-    "strapi-sdk-javascript": "^0.3.3"
+    "redux-thunk": "^2.3.0"
   }
 }

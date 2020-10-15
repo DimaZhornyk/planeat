@@ -12,9 +12,19 @@
     "categoryName": {
       "type": "string"
     },
-    "recipe": {
-      "model": "recipes",
-      "via": "categories"
+    "categoryDisplayNameUA": {
+      "type": "string"
+    },
+    "categoryImage": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
     }
   }
 }

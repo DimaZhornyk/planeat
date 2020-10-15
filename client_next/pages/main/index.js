@@ -1,25 +1,42 @@
 import React from "react"
-import Strapi from 'strapi-sdk-javascript';
 import styles from "../../styles/Main.module.css"
-import {Col} from 'antd'
+import {Col, Row} from 'antd'
 import Header from "../../src/components/views/Header/Header";
+import Client from "../../lib/apollo"
+import gql from 'graphql-tag';
+import ProductCard from "../../src/components/utils/card/Card";
 
-const strapi = new Strapi('http://localhost:1337');
+const QUERY = gql`
+    query {
+        categories{
+            id
+            categoryName
+            categoryImage{
+                url
+            }
+            categoryDisplayNameUA
+        }
+    }`
+
 
 export async function getStaticProps() {
-    const categories = await strapi.getEntries('categories');
-    return {props: {categories}}
+    const {data} = await Client.query({
+        query: QUERY
+    })
+    return {props: {categories: data.categories}}
 }
 
 function Main({categories}) {
 
     const displayCategories = categories.map(category => (
-        <h2>{category.categoryName}</h2>
+        <Col xl={8} lg={8} md={12} sm={12} xs={24}>
+            <ProductCard id={category.id} image={category.categoryImage.url} caption={category.categoryDisplayNameUA}/>
+        </Col>
     ));
 
 
     return (
-        <div>
+        <div style={{display: "flex", flexDirection: "column"}}>
             <Header categories={categories}/>
             <div className={styles["main-page-wrapper"]}>
                 <h1 className={styles["heading"]}>Lorem ipsum dolor sit amet, consectetur </h1>
@@ -27,10 +44,9 @@ function Main({categories}) {
                     ipsum
                     dolor sit amet,
                     consectetur adipiscing elit. Sit felis sed nec platea a, magna.</p>
-                <Col xs={24} sm={12} md={12} lg={8} xl={8}>
-
-                </Col>
-                {displayCategories}
+                <Row gutter={[16, 16]}>
+                    {displayCategories}
+                </Row>
             </div>
         </div>
     )

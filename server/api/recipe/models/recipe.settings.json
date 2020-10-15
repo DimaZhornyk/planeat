@@ -1,18 +1,21 @@
 {
   "kind": "collectionType",
-  "collectionName": "main_dishes",
+  "collectionName": "recipes",
   "info": {
-    "name": "Main dishes"
+    "name": "Recipe"
   },
   "options": {
     "increments": true,
     "timestamps": true
   },
   "attributes": {
-    "mainDishCaption": {
+    "recipeCaption": {
       "type": "string"
     },
-    "mainDishImage": {
+    "recipeDescription": {
+      "type": "richtext"
+    },
+    "recipeImage": {
       "model": "file",
       "via": "related",
       "allowedTypes": [
@@ -23,8 +26,16 @@
       "plugin": "upload",
       "required": false
     },
-    "mainDishDescription": {
-      "type": "text"
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "breakfast",
+        "mainDish",
+        "firstDish",
+        "salad",
+        "dessert",
+        "quick"
+      ]
     }
   }
 }

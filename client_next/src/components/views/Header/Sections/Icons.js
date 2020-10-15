@@ -3,11 +3,14 @@ import Icon from '@ant-design/icons'
 import PlanEatSvg from "../../../../static/icons/PlanEat.svg"
 import DishImageSvg from "../../../../static/icons/dishIcon.svg"
 import MoreImageSvg from "../../../../static/icons/moreIcon.svg"
+import Link from "next/link";
 
 export function Logo(props) {
 
     return (
-        <PlanEatSvg style={{margin: "0 80px 0 0"}}/>
+        <Link href={"/main"}>
+            <PlanEatSvg style={{margin: "0 80px 0 0", cursor: "pointer"}}/>
+        </Link>
     )
 }
 

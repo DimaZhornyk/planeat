@@ -21,7 +21,7 @@ function NavMenu({categories}) {
             {
                 categories.map((category) => (
                     <Menu.Item key={category.id} icon={<DishIcon/>} style={{alignItems: "center"}}>
-                        {category.categoryName}
+                        {category.categoryDisplayNameUA}
                     </Menu.Item>
                 ))
             }
