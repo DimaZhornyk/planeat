@@ -6,17 +6,15 @@ import NavMenu from "./Sections/NavMenu";
 
 
 function Header(props) {
-    useEffect(() => {
-        console.log(props)
-    }, [])
+
     return (
         <header className={styles["header"]}>
             <div className={styles["header-first-horizontal-row"]}>
                 <Logo/>
-                <Searchbar/>
+                <Searchbar categories={props.categories}/>
             </div>
             <div className={styles["header-second-horizontal-row"]}>
-                <NavMenu/>
+                <NavMenu categories={props.categories}/>
             </div>
         </header>
     )
