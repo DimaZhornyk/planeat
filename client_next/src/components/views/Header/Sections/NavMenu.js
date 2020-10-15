@@ -16,7 +16,7 @@ function NavMenu({categories}) {
     return (
         <Menu onClick={handleMenuClick} selectedKeys={[current]} mode="horizontal">
             <Menu.Item key="all" icon={<MoreIcon/>}>
-                Усі страви
+                <Link href={'/all'}>Усі страви</Link>
             </Menu.Item>
             {
                 categories.map((category) => (

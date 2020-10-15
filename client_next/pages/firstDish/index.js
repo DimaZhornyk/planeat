@@ -9,7 +9,7 @@ import ContentPage from "../ContentPage";
 
 const QUERY = gql`
     query {
-        recipes(where:{category:"breakfast"}){
+        recipes(where:{category:"firstDish"}){
           id
           timeText
           calories
@@ -35,7 +35,7 @@ export async function getStaticProps() {
         query: QUERY
     })
 
-    return { props: { data:{recipes: data.recipes, categories: data.categories} } }
+    return { props: { data: { recipes: data.recipes, categories: data.categories } } }
 }
 
 function Main({ data }) {
