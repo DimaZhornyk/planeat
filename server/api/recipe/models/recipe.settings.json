@@ -36,6 +36,12 @@
         "dessert",
         "quick"
       ]
+    },
+    "timeText": {
+      "type": "string"
+    },
+    "calories": {
+      "type": "string"
     }
   }
 }

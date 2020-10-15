@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import {Menu} from 'antd'
 import {DishIcon, MoreIcon} from "./Icons"
-
+import Link from "next/link"
 
 function NavMenu({categories}) {
 
@@ -20,8 +20,11 @@ function NavMenu({categories}) {
             </Menu.Item>
             {
                 categories.map((category) => (
+                    
                     <Menu.Item key={category.id} icon={<DishIcon/>} style={{alignItems: "center"}}>
-                        {category.categoryDisplayNameUA}
+                        <Link href={'/' + category.categoryName}>
+                       {category.categoryDisplayNameUA}
+                    </Link>
                     </Menu.Item>
                 ))
             }
