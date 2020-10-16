@@ -1,10 +1,10 @@
 import React from "react"
 import styles from "../styles/Main.module.css"
-import { Col, Row } from 'antd'
+import { Col, Row, Collapse } from 'antd'
 import Header from "../src/components/views/Header/Header";
-import Client from "../lib/apollo"
-import gql from 'graphql-tag';
 import RecipeCard from "../src/components/utils/card/RecipeCard";
+import SearchFilter from "../src/components/utils/filter/SearchFilter";
+
 
 function GetContentPage({data}){
     const displayRecipe = data.recipes.map(recipe => (
@@ -17,6 +17,11 @@ function GetContentPage({data}){
         <div style={{ display: "flex", flexDirection: "column" }}>
             <Header categories={data.categories} />
             <div className={styles["main-page-wrapper"]}>
+                <Collapse defaultActiveKey={['1']} onChange={() => console.log("smth")} style={{width: "100%", margin: "20px", borderRadius: "7px"}}>
+                    <Collapse.Panel header="Фільтри" key="1">
+                        <SearchFilter/>
+                    </Collapse.Panel>
+                </Collapse>
                 <Row gutter={[16, 16]}>
                     {displayRecipe}
                 </Row>
