@@ -1,5 +1,9 @@
 import React, {useState} from "react"
 import {Menu, Dropdown, Input} from 'antd';
+import Client from "../../../../../lib/apollo"
+import gql from "graphql-tag";
+import {BACKEND_URL} from "../../../../../config";
+import Link from "next/link";
 
 const {Search} = Input;
 
@@ -8,10 +12,71 @@ const allCategories = {
     id: "-1"
 }
 
-function Searchbar({categories}) {
+const QUERY = gql`
+    query{
+        recipes{
+            recipeCaption
+            timeText
+            calories
+            recipeImage{
+                url
+            }
+        }
+    }`
 
+function Searchbar({categories, recipes}) {
     const [selectedCategory, setSelectedCategory] = useState(allCategories.categoryDisplayNameUA);
     const [selectedKey, setSelectedKey] = useState(allCategories.id);
+    const [searchItems, setSearchItems] = useState(<></>);
+    const [recipesData, setRecipesData] = useState([]);
+
+    Client.query({
+        query: QUERY
+    }).then(res => {
+        setRecipesData(res.data.recipes)
+    })
+
+    const updateSearchTerm = (event) => {
+        let newSearchTerm = event.currentTarget.value
+        if (newSearchTerm === "") {
+            setSearchItems(<></>)
+        } else {
+            setSearchItems(
+                <Menu>
+                    {recipesData.filter((rec) => {
+                        return rec.recipeCaption.toLowerCase().includes(newSearchTerm.toLowerCase());
+                    }).map((recipe, index) => {
+                        return (
+                            <Menu.Item key={index}>
+                                <Link href={"/recipe/" + recipe.id}>
+                                    <div style={{display: "flex"}}>
+                                        <img src={`${BACKEND_URL}${recipe.recipeImage.url}`}
+                                             style={{width: "67px", height: "50px"}} alt={"recipeImage"}/>
+                                        <div style={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            fontSize: "16px",
+                                            width: "100%",
+                                            justifyContent: "center",
+                                            alignItems: "center"
+                                        }}>
+                                            <p style={{margin: "0 0 0 10px"}}>{recipe.recipeCaption}</p>
+                                            <p style={{
+                                                margin: 0,
+                                                fontSize: "14px",
+                                                fontWeight: "600"
+                                            }}>{recipe.calories} калорій, {recipe.timeText} хв</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </Menu.Item>
+                        )
+                    })}
+                </Menu>
+            )
+        }
+    }
+
 
     const menu = (
         <Menu>
@@ -50,18 +115,24 @@ function Searchbar({categories}) {
                     display: "flex",
                     justifyContent: "space-between",
                     cursor: "pointer",
-                    padding: "0"
+                    padding: "0",
                 }}>
                     <p style={{justifySelf: "center", margin: "auto"}}>
                         {selectedCategory}
                     </p>
                 </div>
             </Dropdown>
-            <Search placeholder="Пошук..."
-                    onSearch={value => console.log(value)}
-                    style={{width: "450px"}}
-                    width={450}
-                    enterButton/>
+            <Dropdown
+                placement="bottomCenter"
+                overlay={searchItems}
+            >
+                <Search placeholder="Пошук..."
+                        onSearch={value => console.log(value)}
+                        onChange={updateSearchTerm}
+                        style={{width: "450px", padding: "0", border: "none"}}
+                        width={450}
+                        enterButton/>
+            </Dropdown>
         </div>
     )
 }

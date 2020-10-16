@@ -2,6 +2,7 @@
 
 body {
     margin: 0;
+    width: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -21,12 +22,13 @@ html {
     margin: 0;
     padding: 0;
     width: 100%;
+    position: relative;
     height: 100%;
     --antd-wave-shadow-color: grey;
 }
 
 .card-image {
-    width: 100%
+    width: 100%;
 }
 
 .card-image > img {
@@ -109,11 +111,11 @@ html {
     border-bottom: 2px solid #FFCA44;
 }
 
-.ant-row{
+.ant-row {
     width: 100%;
 }
 
-.product-card-button:hover{
+.product-card-button:hover {
     border: 1px solid transparent;
     color: #F2F2F2;
 }
