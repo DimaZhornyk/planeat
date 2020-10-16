@@ -9,7 +9,7 @@ import RecipeCard from "../src/components/utils/card/RecipeCard";
 function GetContentPage({data}){
     const displayRecipe = data.recipes.map(recipe => (
         <Col xl={8} lg={8} md={12} sm={12} xs={24}>
-            <RecipeCard id={recipe.id} image={recipe.recipeImage.url} caption={recipe.recipeCaption} time={recipe.timeText} calories={recipe.calories} />
+            <RecipeCard id={recipe.id} image={recipe.recipeImage.url} caption={recipe.recipeCaption} time={recipe.timeText} calories={recipe.calories}/>
         </Col>
     ));
 

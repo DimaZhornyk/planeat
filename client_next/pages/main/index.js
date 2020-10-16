@@ -30,7 +30,8 @@ function Main({categories}) {
 
     const displayCategories = categories.map(category => (
         <Col xl={8} lg={8} md={12} sm={12} xs={24}>
-            <ProductCard id={category.id} image={category.categoryImage.url} caption={category.categoryDisplayNameUA}/>
+            <ProductCard id={category.id} image={category.categoryImage.url} caption={category.categoryDisplayNameUA}
+                         name={category.categoryName}/>
         </Col>
     ));
 
@@ -44,7 +45,7 @@ function Main({categories}) {
                     ipsum
                     dolor sit amet,
                     consectetur adipiscing elit. Sit felis sed nec platea a, magna.</p>
-                <Row gutter={[16, 16]}>
+                <Row gutter={[16, 16]} justify={"center"}>
                     {displayCategories}
                 </Row>
             </div>

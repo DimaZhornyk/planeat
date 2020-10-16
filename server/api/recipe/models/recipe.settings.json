@@ -42,6 +42,9 @@
     },
     "calories": {
       "type": "string"
+    },
+    "recipeSlug": {
+      "type": "string"
     }
   }
 }

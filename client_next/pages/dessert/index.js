@@ -1,10 +1,6 @@
 import React from "react"
-import styles from "../../styles/Main.module.css"
-import { Col, Row } from 'antd'
-import Header from "../../src/components/views/Header/Header";
 import Client from "../../lib/apollo"
 import gql from 'graphql-tag';
-import RecipeCard from "../../src/components/utils/card/RecipeCard";
 import ContentPage from "../ContentPage";
 const QUERY = gql`
     query {
@@ -13,6 +9,7 @@ const QUERY = gql`
           timeText
           calories
           recipeCaption
+          recipeSlug
           recipeDescription
           recipeImage{
             url

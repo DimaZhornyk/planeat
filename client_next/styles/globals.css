@@ -109,3 +109,11 @@ html {
     border-bottom: 2px solid #FFCA44;
 }
 
+.ant-row{
+    width: 100%;
+}
+
+.product-card-button:hover{
+    border: 1px solid transparent;
+    color: #F2F2F2;
+}
