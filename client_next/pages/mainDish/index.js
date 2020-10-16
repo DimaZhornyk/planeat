@@ -24,6 +24,10 @@ const QUERY = gql`
             }
             categoryDisplayNameUA
         }
+        categoriesTexts{
+          CategoryNameText
+          CategoryText
+        }
     }`
 
 export async function getStaticProps() {
@@ -31,13 +35,13 @@ export async function getStaticProps() {
         query: QUERY
     })
 
-    return { props: { data: { recipes: data.recipes, categories: data.categories } } }
+    return { props: { data: { recipes: data.recipes, categories: data.categories, categoriesTexts: data.categoriesTexts  } } }
 }
 
 function Main({ data }) {
 
     return (
-        <ContentPage data={data} />
+        <ContentPage data={data} type={"mainDish"}/>
     )
 }
 

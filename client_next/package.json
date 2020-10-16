@@ -17,6 +17,8 @@
     "antd": "^4.7.0",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
+    "markdown-react-js": "^1.0.2",
+    "markdown-to-jsx": "^7.0.1",
     "next": "9.5.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -25,6 +27,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-promise": "^0.6.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "showdown": "^1.9.1"
   }
 }
