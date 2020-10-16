@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "export": "next export"
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
@@ -13,10 +14,12 @@
     "@svgr/webpack": "^5.4.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
-    "@testing-libraryc/user-event": "^7.2.1",
+    "@testing-library/user-event": "^7.2.1",
     "antd": "^4.7.0",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
+    "markdown-react-js": "^1.0.2",
+    "markdown-to-jsx": "^7.0.1",
     "next": "9.5.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -25,6 +28,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-promise": "^0.6.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "showdown": "^1.9.1"
   }
 }

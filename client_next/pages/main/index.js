@@ -28,8 +28,8 @@ export async function getStaticProps() {
 
 function Main({categories}) {
 
-    const displayCategories = categories.map(category => (
-        <Col xl={8} lg={8} md={12} sm={12} xs={24}>
+    const displayCategories = categories.map((category, index) => (
+        <Col xl={8} lg={8} md={12} sm={12} xs={24} key={index}>
             <ProductCard id={category.id} image={category.categoryImage.url} caption={category.categoryDisplayNameUA}
                          name={category.categoryName}/>
         </Col>
