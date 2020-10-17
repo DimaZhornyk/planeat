@@ -1,53 +1,11 @@
 import React from "react"
 import Client from "../../lib/apollo"
-import gql from 'graphql-tag';
 import ContentPage from "../../src/components/utils/ContentPage";
-
-const QUERY = gql`
-    query {
-        recipes(where:{category:"breakfast"}){
-          id
-          timeText
-          calories
-          recipeCaption
-          recipeDescription
-          recipeImage{
-            url
-          }
-          category
-        }
-        categories{
-            id
-            categoryName
-            categoryImage{
-                url
-            }
-            categoryDisplayNameUA
-        }
-        categoriesTexts{
-          CategoryNameText
-          CategoryText
-        }
-        products{
-          productCaption
-          productCalories
-          productProteins
-          productFats
-          productCarbohydrates
-          icon{
-            url
-          }
-          category
-        }
-        categoriesProducts{
-          categoryProductName
-          categoryProductDisplayNameUA
-        }   
-    }`
+import QUERY from "../../src/components/utils/query"
 
 export async function getStaticProps() {
     const {data} = await Client.query({
-        query: QUERY
+        query: QUERY("breakfast")
     });
 
     console.log(data);
