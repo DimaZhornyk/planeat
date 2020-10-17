@@ -23,7 +23,7 @@ function GetContentPage({ data, type }) {
             <div className={styles["main-page-wrapper"]}>
                 <Collapse defaultActiveKey={['1']} onChange={() => console.log("smth")} style={{width: "100%", margin: "20px", borderRadius: "7px"}}>
                     <Collapse.Panel header="Фільтри" key="1">
-                        <SearchFilter/>
+                        <SearchFilter options={data.products} categories={data.categoriesProducts}/>
                     </Collapse.Panel>
                 </Collapse>
                 <Row gutter={[16, 16]}>

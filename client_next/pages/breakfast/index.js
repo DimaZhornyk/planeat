@@ -28,20 +28,47 @@ const QUERY = gql`
           CategoryNameText
           CategoryText
         }
+        products{
+          productCaption
+          productCalories
+          productProteins
+          productFats
+          productCarbohydrates
+          icon{
+            url
+          }
+          category
+        }
+        categoriesProducts{
+          categoryProductName
+          categoryProductDisplayNameUA
+        }   
     }`
 
 export async function getStaticProps() {
-    const { data } = await Client.query({
+    const {data} = await Client.query({
         query: QUERY
-    })
+    });
 
-    return { props: { data:{recipes: data.recipes, categories: data.categories, categoriesTexts: data.categoriesTexts} } }
+    console.log(data);
+
+    return {
+        props: {
+            data: {
+                recipes: data.recipes,
+                categories: data.categories,
+                categoriesTexts: data.categoriesTexts,
+                products: data.products,
+                categoriesProducts: data.categoriesProducts
+            }
+        }
+    }
 }
 
-function Main({ data }) {
+function Main({data}) {
 
     return (
-        <ContentPage data={data} type={"breakfast"} />
+        <ContentPage data={data} type={"breakfast"}/>
     )
 }
 
