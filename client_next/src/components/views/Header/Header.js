@@ -8,7 +8,7 @@ import NavMenu from "./Sections/NavMenu";
 function Header(props) {
 
     return (
-        <header className={styles["header"]}>
+        <div className={styles["planeat-header"]} style={{width: "100vw"}}>
             <div className={styles["header-first-horizontal-row"]}>
                 <Logo/>
                 <Searchbar categories={props.categories}/>
@@ -16,7 +16,7 @@ function Header(props) {
             <div className={styles["header-second-horizontal-row"]}>
                 <NavMenu categories={props.categories}/>
             </div>
-        </header>
+        </div>
     )
 }
 

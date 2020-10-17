@@ -6,7 +6,7 @@ import RecipeCard from "./card/RecipeCard";
 import SearchFilter from "./filter/SearchFilter";
 import Markdown from 'markdown-to-jsx';
 
-function GetContentPage({ data, type }) {
+function GetContentPage({ data, type, search_recipes }) {
     const displayRecipe = data.recipes.map((recipe, index) => (
         <Col xl={8} lg={8} md={12} sm={12} xs={24} key={index}>
             <RecipeCard id={recipe.id} image={recipe.recipeImage.url} caption={recipe.recipeCaption} time={recipe.timeText} calories={recipe.calories} />
@@ -27,7 +27,7 @@ function GetContentPage({ data, type }) {
                     </Collapse.Panel>
                 </Collapse>
                 <Row gutter={[16, 16]}>
-                    {data !== undefined && displayRecipe}
+                    {displayRecipe}
                 </Row>
                 <Markdown>{category.CategoryText}</Markdown>
             </div>

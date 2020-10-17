@@ -9,7 +9,7 @@ import Link from "next/link";
 export function Logo(props) {
 
     return (
-        <Link href={"/main"}>
+        <Link href={"/"}>
             <PlanEatSvg style={{margin: "0 80px 0 0", cursor: "pointer"}}/>
         </Link>
     )

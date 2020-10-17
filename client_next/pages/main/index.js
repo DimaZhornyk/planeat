@@ -40,11 +40,11 @@ function Main({categories}) {
         <div style={{display: "flex", flexDirection: "column"}}>
             <Header categories={categories}/>
             <div className={styles["main-page-wrapper"]}>
-                <h1 className={styles["heading"]}>Lorem ipsum dolor sit amet, consectetur </h1>
-                <p style={{fontSize: "15px", width: "40%", color: "rgba(0, 0, 0, 0.45)", textAlign: "center"}}>Lorem
-                    ipsum
-                    dolor sit amet,
-                    consectetur adipiscing elit. Sit felis sed nec platea a, magna.</p>
+                <h1 className={styles["heading"]}>Planeat - харчуйся швидко!</h1>
+                <p style={{fontSize: "15px", width: "40%", color: "rgba(0, 0, 0, 0.45)", textAlign: "center"}}>
+                    Привіт любий друже! Любиш смачно харчуватися, але нема часу щоб готувати? Тоді ти потрапив куди треба!
+                    На нашому сайті ти можеш знайти швидкі і смачні рецепти на кожен день.
+                </p>
                 <Row gutter={[16, 16]} justify={"center"}>
                     {displayCategories}
                 </Row>
