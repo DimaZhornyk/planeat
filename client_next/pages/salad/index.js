@@ -24,8 +24,15 @@ export async function getStaticProps() {
 function Main({ data }) {
 
     return (
+        <>
+        <title>Швидкі салати</title>
+        <meta
+                name="description"
+                content="Потрібні салати на швидку руку? Тоді ви завітали за адресою!"
+            />
         <ContentPage data={data} type={"salad"}/>
-    )
+        </>
+        )
 }
 
 export default Main

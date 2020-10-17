@@ -24,7 +24,15 @@ export async function getStaticProps() {
 function Main({ data }) {
 
     return (
+        <>
+            <title>Перші страви на кожен день</title>
+            <meta
+                name="description"
+                content="На нашому сайті ви можете знайти прості рецепти перших страв, 
+                якими зможете потішити своїх рідних. Перші страви на кожен день дозволять вам смачно харчуватися без проблем."
+            />
         <ContentPage data={data} type={"firstDish"}/>
+        </>
     )
 }
 

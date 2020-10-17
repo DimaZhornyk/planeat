@@ -24,7 +24,15 @@ export async function getStaticProps() {
 function Main({ data }) {
 
     return (
+        <>
+            <title>Прості десерти на кожен день</title>
+            <meta
+                name="description"
+                content="У нас ви знайдете швидкі рецепти десертів, які зможете готувати кожен день. 
+                Швидкі десерти не тільки зекономлять ваш час, а ще подарують гарний настрій на весь день."
+            />
         <ContentPage data={data} type={"dessert"} />
+        </>
     )
 }
 
