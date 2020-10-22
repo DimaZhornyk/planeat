@@ -1,28 +1,79 @@
-import React, {useState, useEffect} from "react"
-import {Card} from "antd"
+import React, {useState, useRef, useLayoutEffect, useEffect} from "react"
+import {Card, Image} from "antd"
 import ProductCard from "../card/ProductCard";
 import ModalFilter from "./ModalFilter";
+import Router from "next/router";
+import {BACKEND_URL} from "../../../../config";
+import PlusIcon from "../../../static/icons/plus.svg"
+import Icon from '@ant-design/icons'
+import withSearch from "../../../hoc/withSearch";
+import {filterByProducts} from "../../../_actions/sort_actions";
+import {connect} from "react-redux";
 
 const filterSize = 6;
 
-function SearchFilter({options, categories}) {
+const getOptionsFromQuery = (queryOptions, generalOptions) => {
+    return queryOptions.map((option) => {
+        return generalOptions.find((o) => o.productName === option)
+    })
+};
 
-    console.log(options);
+export function getOptionIcon(option) {
+    if (option !== undefined) {
+        return (
+            <Image src={BACKEND_URL + option.icon.url}/>
+        )
+    } else {
+        return undefined;
+    }
+}
 
-    const [selectedItems, setSelectedItems] = useState([{k: ""}, {k: ""}, {k: ""}]);
+function SearchFilter({options, categories, filterByProducts}) {
+    //const [params] = new URLSearchParams(window.location.search);
+
+    //const [selectedItems, setSelectedItems] = useState(getOptionsFromQuery([params].getAll("product"), options));
+    const [selectedItems, setSelectedItems] = useState([]);
     const [isVisible, setVisible] = useState(false);
+    const firstUpdate = useRef(true);
+
+    useLayoutEffect(() => {
+        if (firstUpdate.current) {
+            firstUpdate.current = false;
+            return;
+        }
+        console.log(selectedItems);
+        Router.push({
+            pathname: Router.pathname,
+            query: {product: selectedItems.map((item) => item.productName)}
+        }).then();
+        filterByProducts(selectedItems);
+    }, [selectedItems]);
 
     function handleItemUnselect(key) {
-        selectedItems.splice(parseInt(key), 1);
-        console.log(selectedItems);
-        setSelectedItems(selectedItems);
+        setSelectedItems(selectedItems.filter((item, index) => parseInt(key) !== index));
+        filterByProducts(selectedItems);
     }
 
     function handleItemClick(key) {
-        if (parseInt(key) === filterSize - 1) {
+        key = parseInt(key);
+        if (key === filterSize - 1) {
             setVisible(true);
         } else {
-            //TODO open popover
+            //TODO popover
+            console.log("POPOVER")
+        }
+    }
+
+    function handleCancelClick() {
+        setVisible(false)
+    }
+
+    function handleSelectClick(option) {
+        let isIncluded = selectedItems.find((item) => {
+            return item.productName === option.productName;
+        });
+        if (!isIncluded) {
+            setSelectedItems([...selectedItems, option]);
         }
     }
 
@@ -30,30 +81,28 @@ function SearchFilter({options, categories}) {
         let cards = [];
         for (let i = 0; i < filterSize - 1; i++) {
             cards.push(
-                <ProductCard key={i}
-                             index={i}
-                             product={selectedItems[i]}
-                             onItemDelete={handleItemUnselect}
-                             onItemClick={handleItemClick}/>
+                <div style={{display: "inline-block"}}>
+                    <ProductCard key={i}
+                                 index={i}
+                                 productIcon={getOptionIcon(selectedItems[i])}
+                                 onItemDelete={handleItemUnselect}
+                                 onItemClick={handleItemClick}/>
+                    <span style={{fontWeight: "500", fontSize: "10px"}}>
+                        {selectedItems[i] !== undefined ? selectedItems[i].productCaption : ""}
+                    </span>
+                </div>
             )
         }
-        cards.push(<ProductCard key={filterSize - 1} index={filterSize - 1} product={{k: " "}}
-                                onItemClick={handleItemClick}
-                                isEnabled={false}>
-                        <span style={{fontSize: "8px", fontWeight: "500"}}>
-                            Додати продукт
-                        </span>
-        </ProductCard>);
+        cards.push(
+            <div style={{display: "inline-block"}}>
+                <ProductCard key={filterSize - 1}
+                             index={filterSize - 1}
+                             productIcon={<Icon component={PlusIcon} style={{fontSize: "24px"}}/>}
+                             onItemClick={handleItemClick}
+                             isEnabled={false}/>
+                <span style={{fontWeight: "500", fontSize: "10px"}}>Додати</span>
+            </div>);
         return cards;
-    }
-
-    function handleCancelClick() {
-        setVisible(false)
-    }
-
-    function handleSelectClick(key) {
-        selectedItems.push(options[key]);
-        setSelectedItems(selectedItems);
     }
 
     return (
@@ -61,7 +110,7 @@ function SearchFilter({options, categories}) {
             <p>
                 Прибори
             </p>
-            <div style={{display: "flex", width: "100%"}}>
+            <div style={{display: "flex", width: "100%", textAlign: "center"}}>
                 {getOptionCards()}
             </div>
             <ModalFilter options={options}
@@ -73,4 +122,8 @@ function SearchFilter({options, categories}) {
     )
 }
 
-export default SearchFilter;
+const mapDispatchToProps = {
+    filterByProducts
+};
+
+export default connect(null, mapDispatchToProps)(SearchFilter);

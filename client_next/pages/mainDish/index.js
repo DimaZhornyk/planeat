@@ -4,7 +4,7 @@ import ContentPage from "../../src/components/utils/ContentPage";
 import QUERY from "../../src/components/utils/query"
 
 export async function getStaticProps() {
-    const { data } = await Client.query({
+    const {data} = await Client.query({
         query: QUERY("mainDish")
     });
 
@@ -21,10 +21,15 @@ export async function getStaticProps() {
     }
 }
 
-function Main({ data }) {
+function Main({data}) {
 
     return (
-        <ContentPage data={data} type={"mainDish"}/>
+        <>
+            <title>Другі страви швидко і смачно</title>
+            <meta name="description"
+                  content="Швидкі рецепти других страв -  для тих, хто не може витрачати багато часу на кухні. Обирай продукти та готуй улюблені страви: на обід, вечерю чи свято!"/>
+            <ContentPage data={data} type={"mainDish"}/>
+        </>
     )
 }
 

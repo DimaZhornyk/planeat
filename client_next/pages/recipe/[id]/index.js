@@ -1,11 +1,7 @@
-import {useRouter} from 'next/router'
 import React from "react";
-import styles from "../../../styles/Main.module.css";
-import { BACKEND_URL } from "../../../config"
 import gql from "graphql-tag";
 import Client from "../../../lib/apollo";
-import Header from "../../../src/components/views/Header/Header";
-import {Image, Col} from "antd"
+
 
 export async function getStaticPaths() {
     const {data} = await Client.query({
@@ -13,11 +9,11 @@ export async function getStaticPaths() {
             query { recipes{
                 id
             }}`
-    })
+    });
 
     const ids = data.recipes.map((recipe) => ({
         params: {id: recipe.id}
-    }))
+    }));
 
     return {paths: ids, fallback: false}
 }
@@ -47,7 +43,7 @@ export async function getStaticProps({params}) {
                     categoryDisplayNameUA
                 }
             }`
-    })
+    });
     return {props: {recipe: data.recipe, categories: data.categories}}
 }
 

@@ -13,6 +13,9 @@ export default function query(param) {
             url
           }
           category
+          products {
+            productName
+          }
         }
         categories{
             id
@@ -28,6 +31,7 @@ export default function query(param) {
         }
         products{
           productCaption
+          productName
           productCalories
           productProteins
           productFats

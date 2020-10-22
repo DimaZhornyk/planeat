@@ -3,6 +3,7 @@ import {Col, Menu, Modal} from "antd";
 import Search from "antd/lib/transfer/search";
 import {MenuOutlined} from "@ant-design/icons";
 import ProductCard from "../card/ProductCard";
+import {getOptionIcon} from "./SearchFilter";
 
 function ModalFilter({options, categories, isVisible, onCancel, onSelect}) {
     const [selectedCategory, setSelectedCategory] = useState(categories[0].categoryProductName);
@@ -14,7 +15,7 @@ function ModalFilter({options, categories, isVisible, onCancel, onSelect}) {
         return (
             products.map((product, index) => (
                 <div key={index} style={{display: "flex", alignItems: "center", margin: "10px"}}>
-                    <ProductCard product={product} isEnabled={false} onItemClick={onSelect}/>
+                    <ProductCard productIcon={getOptionIcon(product)} isEnabled={false} onItemClick={(key) => onSelect(product)}/>
                     <div style={{display: "block"}}>
                         <span style={{fontSize: "10px", fontWeight: "600", display: "block", lineHeight: "10px"}}>
                         {product.productCaption}
