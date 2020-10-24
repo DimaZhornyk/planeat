@@ -7,17 +7,18 @@ import styles from "../../../styles/Recipe.module.css";
 import {BACKEND_URL} from "../../../config";
 import ClockImageSvg from "../../../src/static/icons/clock.svg"
 
+
 export async function getStaticPaths() {
     const {data} = await Client.query({
         query: gql`
             query { recipes{
                 id
             }}`
-    })
+    });
 
     const ids = data.recipes.map((recipe) => ({
         params: {id: recipe.id}
-    }))
+    }));
 
     return {paths: ids, fallback: false}
 }
@@ -47,7 +48,7 @@ export async function getStaticProps({params}) {
                     categoryDisplayNameUA
                 }
             }`
-    })
+    });
     return {props: {recipe: data.recipe, categories: data.categories}}
 }
 

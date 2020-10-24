@@ -1,11 +1,9 @@
-import React from "react"
-import Client from "../../lib/apollo"
-import gql from 'graphql-tag';
-import ContentPage from "../../src/components/utils/ContentPage";
+import gql from "graphql-tag";
 
-const QUERY = gql`
+export default function query(param) {
+    return gql`
     query {
-        recipes{
+        recipes(where:{category:"${param}"}){
           id
           timeText
           calories
@@ -15,6 +13,9 @@ const QUERY = gql`
             url
           }
           category
+          products {
+            productName
+          }
         }
         categories{
             id
@@ -30,6 +31,7 @@ const QUERY = gql`
         }
         products{
           productCaption
+          productName
           productCalories
           productProteins
           productFats
@@ -43,31 +45,5 @@ const QUERY = gql`
           categoryProductName
           categoryProductDisplayNameUA
         }   
-    }`;
-
-export async function getStaticProps() {
-    const {data} = await Client.query({
-        query: QUERY
-    });
-
-    return {
-        props: {
-            data: {
-                recipes: data.recipes,
-                categories: data.categories,
-                categoriesTexts: data.categoriesTexts,
-                products: data.products,
-                categoriesProducts: data.categoriesProducts
-            }
-        }
-    }
+    }`
 }
-
-function Main({data}) {
-
-    return (
-        <ContentPage data={data} type={"all"}/>
-    )
-}
-
-export default Main
