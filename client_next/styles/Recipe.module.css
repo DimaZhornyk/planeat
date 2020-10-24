@@ -1,0 +1,35 @@
+.recipe-content {
+    width: 70%;
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.left-column-recipe {
+    width: 50%;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.left-column-recipe img {
+    width: 100%;
+    border-radius: 6%;
+}
+
+.right-column-recipe {
+    width: 50%;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dishes-and-ingredients {
+    display: flex;
+}
+
+.dishes, .ingredients{
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+}
