@@ -16,13 +16,13 @@ const QUERY = gql`
     query{
         recipes{
             recipeCaption
-            timeText
+            time
             calories
             recipeImage{
                 url
             }
         }
-    }`
+    }`;
 
 function Searchbar({categories, recipes}) {
     const [selectedCategory, setSelectedCategory] = useState(allCategories.categoryDisplayNameUA);
@@ -34,7 +34,7 @@ function Searchbar({categories, recipes}) {
         query: QUERY
     }).then(res => {
         setRecipesData(res.data.recipes)
-    })
+    });
 
     const updateSearchTerm = (event) => {
         let newSearchTerm = event.currentTarget.value
@@ -75,7 +75,7 @@ function Searchbar({categories, recipes}) {
                 </Menu>
             )
         }
-    }
+    };
 
 
     const menu = (
@@ -98,7 +98,7 @@ function Searchbar({categories, recipes}) {
 
     function handleCategoryChange(itemProps) {
         let index = categories.findIndex((category) => category.id === itemProps.key);
-        setSelectedKey(index)
+        setSelectedKey(index);
         if (index !== -1)
             setSelectedCategory(categories[index].categoryDisplayNameUA);
         else

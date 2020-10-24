@@ -5,7 +5,7 @@ import Link from "next/link"
 
 function NavMenu({categories}) {
 
-    const [current, setCurrent] = useState()
+    const [current, setCurrent] = useState();
 
     const handleMenuClick = e => {
         setCurrent(e.key)
@@ -16,13 +16,13 @@ function NavMenu({categories}) {
     return (
         <Menu onClick={handleMenuClick} selectedKeys={[current]} mode="horizontal">
             <Menu.Item key="all" icon={<MoreIcon/>}>
-                <Link href={'/all'}>Усі страви</Link>
+                <Link href={'/recipes/all/all'}>Усі страви</Link>
             </Menu.Item>
             {
                 categories.map((category) => (
                     
                     <Menu.Item key={category.id} icon={<DishIcon/>} style={{alignItems: "center"}}>
-                        <Link href={'/' + category.categoryName}>
+                        <Link href={'/recipes/' + category.categoryName + '/all'}>
                        {category.categoryDisplayNameUA}
                     </Link>
                     </Menu.Item>

@@ -1,14 +1,14 @@
 import React, {useState, useRef, useLayoutEffect, useEffect} from "react"
 import {Card, Image} from "antd"
+import {connect, useDispatch, useSelector} from "react-redux";
+import Router from "next/router";
 import ProductCard from "../card/ProductCard";
 import ModalFilter from "./ModalFilter";
-import Router from "next/router";
 import {BACKEND_URL} from "../../../../config";
 import PlusIcon from "../../../static/icons/plus.svg"
 import Icon from '@ant-design/icons'
-import withSearch from "../../../hoc/withSearch";
 import {filterByProducts} from "../../../_actions/sort_actions";
-import {connect} from "react-redux";
+import queryString from "query-string"
 
 const filterSize = 6;
 
@@ -28,30 +28,66 @@ export function getOptionIcon(option) {
     }
 }
 
-function SearchFilter({options, categories, filterByProducts}) {
-    //const [params] = new URLSearchParams(window.location.search);
+function SearchFilter({options, categories, params, filterByProducts}) {
 
-    //const [selectedItems, setSelectedItems] = useState(getOptionsFromQuery([params].getAll("product"), options));
-    const [selectedItems, setSelectedItems] = useState([]);
+    let initialState;
+    if (params === undefined) {
+        initialState = [];
+    } else {
+        initialState = [options.find((option) => option.productName === params)]
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    initialState = initialState.concat(getOptionsFromQuery(urlParams.getAll("product"), options));
+
+
+    const sort = useSelector(state => state.recipesReducer.sort);
+    const dispatch = useDispatch();
+
+    console.log(typeof sort);
+    console.log(initialState);
+    const [selectedItems, setSelectedItems] = useState(initialState);
     const [isVisible, setVisible] = useState(false);
     const firstUpdate = useRef(true);
+
+    useEffect(() => {
+        filterByProducts(selectedItems);
+    }, []);
 
     useLayoutEffect(() => {
         if (firstUpdate.current) {
             firstUpdate.current = false;
             return;
         }
-        console.log(selectedItems);
+        redirectToFilterLink();
+        filterByProducts(selectedItems);
+        console.log("filter");
+    }, [selectedItems]);
+
+    function redirectToFilterLink() {
+        let href = window.location.href;
+        let routes = href.split("/");
+        let params = routes[routes.length - 1].split("?")[0];
+        let queryObject = queryString.parse(params);
+        let paramsArray = selectedItems.slice(1);
+        queryObject.product = selectedItems[0] ? selectedItems[0].productName : undefined;
+        let queryStr = queryString.stringify(queryObject, {
+            skipNull: true
+        });
         Router.push({
             pathname: Router.pathname,
-            query: {product: selectedItems.map((item) => item.productName)}
+            query: {
+                product: paramsArray.map((item) => item.productName),
+                category: "breakfast",
+                params: queryStr ? queryStr : "all"
+            }
         }).then();
-        filterByProducts(selectedItems);
-    }, [selectedItems]);
+        dispatch({type: sort, payload: null});
+    }
 
     function handleItemUnselect(key) {
         setSelectedItems(selectedItems.filter((item, index) => parseInt(key) !== index));
         filterByProducts(selectedItems);
+        redirectToFilterLink();
     }
 
     function handleItemClick(key) {
@@ -74,6 +110,7 @@ function SearchFilter({options, categories, filterByProducts}) {
         });
         if (!isIncluded) {
             setSelectedItems([...selectedItems, option]);
+            redirectToFilterLink();
         }
     }
 

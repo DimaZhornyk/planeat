@@ -7,7 +7,7 @@ import Link from "next/link";
 function ProductCard(props) {
 
     return (
-        <Link href={"/" + props.name}>
+        <Link href={"/recipes/" + props.name + "/all"}>
             <Card hoverable={true} style={{borderRadius: "10px", height: "250px"}} key={props.id}
                   bodyStyle={{padding: "0 0 24px 0", borderRadius: "10px"}}
                   className={"product-card"}>

@@ -9,13 +9,15 @@ import {
 const initialState = {
     recipes: [],
     filteredRecipes: [],
-    filterStack: []
+    products: [],
+    utensils: [],
+    sort: SORT_BY_TIME
 };
 
 const recipesReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_RECIPES:
-            let recipes = state.recipes.concat(action.payload);
+            let recipes = action.payload;
             return {...state, recipes: recipes, filteredRecipes: recipes};
         case FILTER_BY_PRODUCTS:
             let products = action.payload;
@@ -27,7 +29,8 @@ const recipesReducer = (state = initialState, action) => {
             });
             return {
                 ...state,
-                filteredRecipes: filteredRecipes
+                filteredRecipes,
+                products
             };
         case FILTER_BY_ACCESSORIES:
             //filter
@@ -36,17 +39,37 @@ const recipesReducer = (state = initialState, action) => {
             //filter
             return state;
         case SORT_BY_TIME:
-            //sort by time
-            return state;
+            return {
+                ...state,
+                sort: SORT_BY_TIME,
+                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
+                    return a.time - b.time
+                })
+            };
         case SORT_BY_CALORIES:
-            //sort by calories
-            return state;
+            return {
+                ...state,
+                sort: SORT_BY_CALORIES,
+                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
+                    return a.calories - b.calories
+                })
+            };
         case SORT_BY_PRODUCTS:
-            //sort by quantity of products
-            return state;
+            return {
+                ...state,
+                sort: SORT_BY_PRODUCTS,
+                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
+                    return a.products.length - b.products.length
+                })
+            };
         case SORT_BY_ACCESSORIES:
-            //sort by accessories
-            return state;
+            return {
+                ...state,
+                sort: SORT_BY_ACCESSORIES,
+                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
+                    return a.utensils.length - b.utensils.length
+                })
+            };
         default:
             return state;
     }

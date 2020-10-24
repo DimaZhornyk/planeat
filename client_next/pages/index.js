@@ -16,13 +16,13 @@ const QUERY = gql`
             }
             categoryDisplayNameUA
         }
-    }`
+    }`;
 
 
 export async function getStaticProps() {
     const {data} = await Client.query({
         query: QUERY
-    })
+    });
     return {props: {categories: data.categories}}
 }
 

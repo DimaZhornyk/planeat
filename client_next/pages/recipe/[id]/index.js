@@ -24,10 +24,9 @@ export async function getStaticProps({params}) {
             query {
                 recipe(id: ${params.id}){
                     id
-                    timeText
+                    time
                     calories
                     recipeCaption
-                    recipeSlug
                     recipeDescription
                     recipeImage{
                         url

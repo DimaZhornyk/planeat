@@ -1,6 +1,5 @@
 import React from 'react'
-import {Col, Collapse, Empty, Row} from "antd";
-import SearchFilter from "./filter/SearchFilter";
+import {Col, Empty, Row} from "antd";
 import RecipeCard from "./card/RecipeCard";
 import {connect} from "react-redux";
 
@@ -9,7 +8,7 @@ function Recipes({recipes}) {
     const displayRecipe = recipes.map((recipe, index) => (
         <Col xl={8} lg={8} md={12} sm={12} xs={24} key={index}>
             <RecipeCard id={recipe.id} image={recipe.recipeImage.url} caption={recipe.recipeCaption}
-                        time={recipe.timeText} calories={recipe.calories}/>
+                        time={recipe.time} calories={recipe.calories}/>
         </Col>
     ));
 

@@ -21,6 +21,7 @@
     "markdown-react-js": "^1.0.2",
     "markdown-to-jsx": "^7.0.1",
     "next": "9.5.5",
+    "query-string": "^6.13.6",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-redux": "^7.2.1",
