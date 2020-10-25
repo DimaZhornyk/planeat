@@ -5,7 +5,10 @@ import Header from "../../../src/components/views/Header/Header";
 import Share from "../../../src/components/views/Share/Share";
 import styles from "../../../styles/Recipe.module.css";
 import {BACKEND_URL} from "../../../config";
-import ClockImageSvg from "../../../src/static/icons/clock.svg"
+import ClockImageSvg from "../../../src/static/icons/clockIcon.svg";
+import FireImageSvg from "../../../src/static/icons/fireIcon.svg";
+import DishImageSvg from "../../../src/static/icons/dishIconOrange.svg";
+import Icon from "@ant-design/icons";
 
 
 export async function getStaticPaths() {
@@ -72,20 +75,36 @@ function RecipePage({recipe, categories}) {
                     </div>
                 </div>
                 <div className={styles["right-column-recipe"]}>
-                    <h1>{recipe.recipeCaption}</h1>
-                    <div className={"metrics"}>
-                        <div>
-                            <div
-                                style={{border: "1px solid rgba(0, 0, 0, 0.15)", borderRadius: "8px", display: "flex"}}>
-                                {/*<img src={ClockImageSvg} alt={"clock"} style={{width: "21px", height: "21px"}}/>*/}
-                                <ClockImageSvg/>
-                                <span>{recipe.timeText}</span>
+                    <div className={styles["heading-block"]}>
+                        <h1>{recipe.recipeCaption}</h1>
+                        <div className={styles["metrics"]}>
+                            <div style={{display: "flex"}}>
+                                <div className={styles["metric"]} style={{width: "200px"}}>
+                                    <Icon component={ClockImageSvg} className={styles["metric-icon"]}/>
+                                    <p>{`Підготовка:   5хв. `}</p>
+                                </div>
+                                <div className={styles["metric"]} style={{width: "100px"}}>
+                                    <Icon component={FireImageSvg} className={styles["metric-icon"]}/>
+                                    <p>{recipe.calories} кКал</p>
+                                </div>
+                            </div>
+                            <div style={{display: "flex"}}>
+                                <div className={styles["metric"]} style={{width: "200px"}}>
+                                    <Icon component={ClockImageSvg} className={styles["metric-icon"]}/>
+                                    <p>{`Приготування:   ${recipe.time}хв.`}</p>
+                                </div>
+                                <div className={styles["metric"]} style={{width: "100px"}}>
+                                    <Icon component={DishImageSvg} className={styles["metric-icon"]}/>
+                                    <p>1 порція</p>
+                                </div>
                             </div>
                         </div>
-                        <div>
-
-                        </div>
+                        <p style={{fontSize: "15px"}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit felis
+                            sed
+                            nec platea a, magna.</p>
                     </div>
+                    <p style={{fontSize: "18px"}}>Покроковий рецепт:</p>
+                    <p style={{color: "rgba(0, 0, 0, 0.65)"}}>{recipe.recipeDescription}</p>
                 </div>
             </div>
             <Share recipeId={recipe.id}/>

@@ -1,8 +1,8 @@
 import React from "react"
 import {Card, Image, Button} from "antd"
 import {BACKEND_URL} from "../../../../config"
-import ClockIcon from "../../../static/icons/clock.svg"
-import FireIcon from "../../../static/icons/fire.svg"
+import ClockIcon from "../../../static/icons/clockIcon.svg"
+import FireIcon from "../../../static/icons/fireIcon.svg"
 import Link from "next/link";
 
 function RecipeCard(props) {

@@ -28,8 +28,37 @@
     display: flex;
 }
 
-.dishes, .ingredients{
+.dishes, .ingredients {
     display: flex;
     width: 50%;
     flex-direction: column;
+}
+
+.metrics {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    display: flex;
+    justify-content: start;
+    font-size: 10px;
+    padding: 5px;
+    margin: 10px;
+}
+
+.metric p {
+    margin: 0 0 0 5px;
+    align-self: center;
+    white-space: nowrap;
+}
+.metric-icon{
+    font-size: 18px;
+    margin: 5px;
+}
+
+.heading-block{
+    margin-bottom: 50px;
 }
