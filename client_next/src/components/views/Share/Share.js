@@ -4,7 +4,7 @@ import {FacebookFilled, InstagramFilled, TwitterOutlined} from "@ant-design/icon
 function Share({recipeId}) {
 
     return (
-        <div style={{display: "flex", position: "absolute", bottom: "0px", alignItems: "center", justifyContent: "center", width: "100%", marginBottom: "20px"}}>
+        <div style={{display: "flex", position: "absolute", bottom: "0px", alignItems: "center", justifyContent: "center", width: "100%", marginBottom: "20px", backgroundColor: "white"}}>
             {/*<div style={{height: "0px", border: "1px solid rgba(0, 0, 0, 0.15)"}}/>*/}
             <p style={{fontSize: "18px", margin: "0px 50px"}}>Поділись рецептом з друзями!</p>
             <div style={{display: "flex"}}>
