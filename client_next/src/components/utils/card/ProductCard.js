@@ -1,9 +1,8 @@
 import React from "react"
 import Icon from '@ant-design/icons'
 import Cross from "../../../static/icons/crossIcon.svg"
-import Tomato from "../../../static/icons/tomato.svg"
 
-function ProductCard({index, productIcon, onItemDelete, onItemClick, isEnabled = true}) {
+function ProductCard({index, productIcon: optionIcon, onItemDelete, onItemClick, isEnabled = true}) {
 
     let styles = {
         display: "flex",
@@ -18,7 +17,7 @@ function ProductCard({index, productIcon, onItemDelete, onItemClick, isEnabled =
         alignItems: "center"
     };
 
-    if (productIcon !== undefined) {
+    if (optionIcon !== undefined) {
         styles.border = "solid 2px #D9D9D9"
     }
 
@@ -27,9 +26,9 @@ function ProductCard({index, productIcon, onItemDelete, onItemClick, isEnabled =
             event.stopPropagation();
             onItemClick(index)
         }}>
-            {productIcon !== undefined ?
+            {optionIcon !== undefined ?
                 <div>
-                    {productIcon}
+                    {optionIcon}
                     {
                         isEnabled === true ?
                             <Icon component={Cross} style={{

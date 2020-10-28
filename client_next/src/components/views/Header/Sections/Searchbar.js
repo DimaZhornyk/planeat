@@ -10,7 +10,7 @@ const {Search} = Input;
 const allCategories = {
     categoryDisplayNameUA: "Усі страви",
     id: "-1"
-}
+};
 
 const QUERY = gql`
     query{

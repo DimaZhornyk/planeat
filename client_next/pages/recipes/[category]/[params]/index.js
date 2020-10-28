@@ -2,7 +2,7 @@ import React, {useEffect} from "react"
 import gql from "graphql-tag";
 import Client from "../../../../lib/apollo";
 import queryString from "query-string"
-import {connect} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import Header from "../../../../src/components/views/Header/Header";
 import styles from "../../../../styles/Main.module.css";
 import {Collapse, Dropdown, Menu} from "antd";
@@ -20,7 +20,7 @@ export async function getStaticPaths() {
             categoryName   
         }
         products{
-          productName
+          name
         }
         utensils{
           name
@@ -40,7 +40,7 @@ export async function getStaticPaths() {
                 if (Object.keys(product).length === 0 && Object.keys(utensil).length === 0) {
                     params.all = null;
                 } else {
-                    params.product = product ? product.productName : undefined;
+                    params.product = product ? product.name : undefined;
                     params.utensil = utensil ? utensil.name : undefined
                 }
                 paths.push(
@@ -59,6 +59,7 @@ export async function getStaticPaths() {
             })
         }))
     );
+    console.log(paths);
     return {
         paths: paths,
         fallback: false
@@ -88,7 +89,7 @@ export async function getStaticProps(context) {
             }
             category
             products {
-                productName
+                name
             }
             utensils {
                 name
@@ -107,20 +108,28 @@ export async function getStaticProps(context) {
           CategoryText
         }
         products{
-          productCaption
-          productName
-          productCalories
-          productProteins
-          productFats
-          productCarbohydrates
+          caption
+          name
+          icon{
+            url
+          }
+          category
+        }
+        utensils{
+          caption
+          name
           icon{
             url
           }
           category
         }
         categoriesProducts{
-          categoryProductName
-          categoryProductDisplayNameUA
+          categoryName
+          categoryDisplayNameUA
+        }
+        categoriesUtensils{
+          categoryName
+          categoryDisplayNameUA
         }   
     }`
     });
@@ -132,7 +141,9 @@ export async function getStaticProps(context) {
                 categories: data.categories,
                 categoriesTexts: data.categoriesTexts,
                 products: data.products,
+                utensils: data.utensils,
                 categoriesProducts: data.categoriesProducts,
+                categoriesUtensils: data.categoriesUtensils,
                 params: queryString.parse(context.params.params)
             }
         }
@@ -141,9 +152,14 @@ export async function getStaticProps(context) {
 
 function FilteredPage({data, getRecipes, sortByTime}) {
 
+    console.log(data);
+
+    const sort = useSelector(state => state.recipesReducer.sort);
+    const dispatch = useDispatch();
+
     useEffect(() => {
         getRecipes(data.recipes);
-        sortByTime();
+        dispatch({type: sort, payload: null});
     }, [data]);
 
     const category = data.categoriesTexts.find((category) => {
@@ -159,6 +175,8 @@ function FilteredPage({data, getRecipes, sortByTime}) {
                     <Collapse.Panel header="Фільтри" key="1">
                         <FirstLoad options={data.products} categories={data.categoriesProducts}
                                    params={data.params.product}/>
+                        <FirstLoad options={data.utensils} categories={data.categoriesUtensils}
+                                      params={data.params.utensil}/>
                     </Collapse.Panel>
                 </Collapse>
 

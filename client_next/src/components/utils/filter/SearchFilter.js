@@ -13,8 +13,9 @@ import queryString from "query-string"
 const filterSize = 6;
 
 const getOptionsFromQuery = (queryOptions, generalOptions) => {
+    console.log(queryOptions, generalOptions);
     return queryOptions.map((option) => {
-        return generalOptions.find((o) => o.productName === option)
+        return generalOptions.find((o) => o.name === option)
     })
 };
 
@@ -30,11 +31,13 @@ export function getOptionIcon(option) {
 
 function SearchFilter({options, categories, params, filterByProducts}) {
 
+    console.log(options, categories, params);
+
     let initialState;
     if (params === undefined) {
         initialState = [];
     } else {
-        initialState = [options.find((option) => option.productName === params)]
+        initialState = [options.find((option) => option.name === params)]
     }
     const urlParams = new URLSearchParams(window.location.search);
     initialState = initialState.concat(getOptionsFromQuery(urlParams.getAll("product"), options));
@@ -43,8 +46,6 @@ function SearchFilter({options, categories, params, filterByProducts}) {
     const sort = useSelector(state => state.recipesReducer.sort);
     const dispatch = useDispatch();
 
-    console.log(typeof sort);
-    console.log(initialState);
     const [selectedItems, setSelectedItems] = useState(initialState);
     const [isVisible, setVisible] = useState(false);
     const firstUpdate = useRef(true);
@@ -60,7 +61,6 @@ function SearchFilter({options, categories, params, filterByProducts}) {
         }
         redirectToFilterLink();
         filterByProducts(selectedItems);
-        console.log("filter");
     }, [selectedItems]);
 
     function redirectToFilterLink() {
@@ -68,15 +68,17 @@ function SearchFilter({options, categories, params, filterByProducts}) {
         let routes = href.split("/");
         let params = routes[routes.length - 1].split("?")[0];
         let queryObject = queryString.parse(params);
-        let paramsArray = selectedItems.slice(1);
-        queryObject.product = selectedItems[0] ? selectedItems[0].productName : undefined;
+        let optionsArray = selectedItems.slice(1);
+        let paramsObject = queryString.parse(routes[routes.length - 1].split("?")[1]);
+        queryObject.product = selectedItems[0] ? selectedItems[0].name : undefined;
+        paramsObject.product = optionsArray.map((item) => item.name);
         let queryStr = queryString.stringify(queryObject, {
             skipNull: true
         });
         Router.push({
             pathname: Router.pathname,
             query: {
-                product: paramsArray.map((item) => item.productName),
+                ...paramsObject,
                 category: "breakfast",
                 params: queryStr ? queryStr : "all"
             }
@@ -106,7 +108,7 @@ function SearchFilter({options, categories, params, filterByProducts}) {
 
     function handleSelectClick(option) {
         let isIncluded = selectedItems.find((item) => {
-            return item.productName === option.productName;
+            return item.name === option.name;
         });
         if (!isIncluded) {
             setSelectedItems([...selectedItems, option]);
@@ -125,7 +127,7 @@ function SearchFilter({options, categories, params, filterByProducts}) {
                                  onItemDelete={handleItemUnselect}
                                  onItemClick={handleItemClick}/>
                     <span style={{fontWeight: "500", fontSize: "10px"}}>
-                        {selectedItems[i] !== undefined ? selectedItems[i].productCaption : ""}
+                        {selectedItems[i] !== undefined ? selectedItems[i].caption : ""}
                     </span>
                 </div>
             )

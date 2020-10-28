@@ -24,7 +24,7 @@ const recipesReducer = (state = initialState, action) => {
             if (products.length === 0) return {...state, filteredRecipes: state.recipes};
             let filteredRecipes = state.recipes.filter((recipe) => {
                 return recipe.products.find((recipeProduct) => {
-                    return products.find((product) => product.productName === recipeProduct.productName);
+                    return products.find((product) => product.name === recipeProduct.name);
                 })
             });
             return {
