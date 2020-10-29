@@ -3,10 +3,11 @@
     align-self: center;
     display: flex;
     flex-direction: row;
+    height: calc(100vh - 177px);
 }
 
 .left-column-recipe {
-    width: 50%;
+    width: 40%;
     margin: 10px;
     display: flex;
     flex-direction: column;
@@ -14,18 +15,23 @@
 
 .left-column-recipe img {
     width: 100%;
-    border-radius: 6%;
+    border-radius: 20px;
+    object-fit: cover;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
 .right-column-recipe {
-    width: 50%;
+    width: 60%;
     margin: 10px;
     display: flex;
     flex-direction: column;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .dishes-and-ingredients {
     display: flex;
+    margin-top: 30px;
 }
 
 .dishes, .ingredients {
@@ -54,11 +60,29 @@
     align-self: center;
     white-space: nowrap;
 }
-.metric-icon{
+
+.metric-icon {
     font-size: 18px;
     margin: 5px;
 }
 
-.heading-block{
-    margin-bottom: 50px;
+.heading-block {
+    margin-bottom: 40px;
+}
+
+.utils-list-container {
+    display: flex;
+    align-items: center;
+    margin: 10px 10px 0 0;
+}
+
+.utils-icon {
+    max-width: 40px;
+    max-height: 40px;
+}
+
+.recipeText {
+    max-width: 100%;
+    color: rgba(0, 0, 0, 0.65);
+    word-break: break-all !important;
 }
