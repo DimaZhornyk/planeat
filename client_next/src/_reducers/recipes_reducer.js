@@ -1,8 +1,12 @@
 import {
     FILTER_BY_PRODUCTS,
-    FILTER_BY_TIME, FILTER_BY_UTENSILS, GET_RECIPES, SORT_BY_ACCESSORIES,
-    SORT_BY_CALORIES, SORT_BY_PRODUCTS,
-    SORT_BY_TIME
+    FILTER_BY_TIME,
+    FILTER_BY_UTENSILS,
+    GET_RECIPES,
+    SORT_BY_UTENSILS,
+    SORT_BY_CALORIES,
+    SORT_BY_PRODUCTS,
+    SORT_BY_TIME, FILTER_BY_CALORIES
 } from "../_actions/sort_types";
 
 const initialState = {
@@ -45,8 +49,23 @@ const recipesReducer = (state = initialState, action) => {
                 utensils
             };
         case FILTER_BY_TIME:
-            //filter
-            return state;
+            let timeParams = action.payload;
+            let filteredByTime = state.filteredRecipes.filter((recipe) => {
+                return recipe.time >= timeParams.min && recipe.time <= timeParams.max;
+            });
+            return {
+                ...state,
+                filteredRecipes: filteredByTime
+            };
+        case FILTER_BY_CALORIES:
+            let caloriesParams = action.payload;
+            let filteredByCalories = state.filteredRecipes.filter((recipe) => {
+                return recipe.calories >= caloriesParams.min && recipe.calories <= caloriesParams.max;
+            });
+            return {
+                ...state,
+                filteredRecipes: filteredByCalories
+            };
         case SORT_BY_TIME:
             return {
                 ...state,
@@ -71,10 +90,10 @@ const recipesReducer = (state = initialState, action) => {
                     return a.products.length - b.products.length
                 })
             };
-        case SORT_BY_ACCESSORIES:
+        case SORT_BY_UTENSILS:
             return {
                 ...state,
-                sort: SORT_BY_ACCESSORIES,
+                sort: SORT_BY_UTENSILS,
                 filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
                     return a.utensils.length - b.utensils.length
                 })

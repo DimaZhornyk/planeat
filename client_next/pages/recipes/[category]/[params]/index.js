@@ -8,10 +8,17 @@ import styles from "../../../../styles/Main.module.css";
 import {Col, Collapse, Dropdown, Empty, Menu, Row} from "antd";
 import Recipes from "../../../../src/components/utils/Recipes";
 import Markdown from "markdown-to-jsx";
-import {filterByProducts, filterByUtensils, getRecipes, sortByTime} from "../../../../src/_actions/sort_actions";
+import {
+    filterByCalories,
+    filterByProducts, filterByTime,
+    filterByUtensils,
+    getRecipes,
+    sortByTime
+} from "../../../../src/_actions/sort_actions";
 import RecipesSort from "../../../../src/components/utils/filter/RecipesSort";
 import FirstLoad from "../../../../src/components/utils/FirstLoad";
-import RecipeCard from "../../../../src/components/utils/card/RecipeCard";
+import SliderFilter from "../../../../src/components/utils/filter/SliderFilter";
+import Head from "next/head";
 
 export async function getStaticPaths() {
     let {data} = await Client.query({
@@ -83,7 +90,6 @@ export async function getStaticProps(context) {
             calories
             time
             recipeCaption
-            recipeDescription
             recipeImage{
                 url
             }
@@ -106,6 +112,9 @@ export async function getStaticProps(context) {
         categoriesTexts{
           CategoryNameText
           CategoryText
+          CategoryH1
+          CategoryTitle
+          CategoryDescription
         }
         products{
           caption
@@ -114,6 +123,7 @@ export async function getStaticProps(context) {
             url
           }
           category
+          seoTitle
         }
         utensils{
           caption
@@ -122,6 +132,7 @@ export async function getStaticProps(context) {
             url
           }
           category
+          seoTitle
         }
         categoriesProducts{
           categoryName
@@ -150,9 +161,13 @@ export async function getStaticProps(context) {
     };
 }
 
-function FilteredPage({data, getRecipes, filterByProducts, filterByUtensils}) {
-
-    console.log(data);
+function FilteredPage({
+                          data, getRecipes,
+                          filterByProducts,
+                          filterByUtensils,
+                          filterByTime,
+                          filterByCalories
+                      }) {
 
     const sort = useSelector(state => state.recipesReducer.sort);
     const dispatch = useDispatch();
@@ -166,31 +181,75 @@ function FilteredPage({data, getRecipes, filterByProducts, filterByUtensils}) {
         return category.CategoryNameText === data.category
     });
 
+    const getH1 = () => {
+        let H1 = category.CategoryH1;
+        let product = data.params.product;
+        let utensil = data.params.utensil;
+        if (product) {
+            let productObj = data.products.find((p) => p.name === product);
+            H1 += " " + productObj.seoTitle;
+        }
+        if (utensil) {
+            let utensilObj = data.utensils.find((p) => p.name === utensil);
+            console.log(utensilObj);
+            H1 += " " + utensilObj.seoTitle;
+        }
+        return H1;
+    };
+
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
+            <Head>
+                <title>
+                    {category.CategoryTitle}
+                </title>
+                <meta name={"description"} content={category.CategoryDescription}/>
+            </Head>
             <Header categories={data.categories}/>
             <div className={styles["main-page-wrapper"]}>
                 <Collapse defaultActiveKey={['1']} onChange={() => console.log("smth")}
                           style={{width: "100%", margin: "20px", borderRadius: "7px"}}>
                     <Collapse.Panel header="Фільтри" key="1">
-                        <Row gutter={[16, 16]}>
+                        <Row gutter={[16, 16]} style={{margin: "0"}}>
                             <Col xl={8} lg={8} md={12} sm={12} xs={24}>
-                                <FirstLoad options={data.products} optionName={"product"}
+                                <FirstLoad options={data.products}
+                                           optionName={"product"}
+                                           optionCaption={"Продукти"}
                                            categories={data.categoriesProducts}
                                            params={data.params.product} filter={filterByProducts}/>
                             </Col>
                             <Col xl={8} lg={8} md={12} sm={12} xs={24}>
-                                <FirstLoad options={data.utensils} optionName={"utensil"}
+                                <FirstLoad options={data.utensils}
+                                           optionName={"utensil"}
+                                           optionCaption={"Пробори"}
                                            categories={data.categoriesUtensils}
                                            params={data.params.utensil} filter={filterByUtensils}/>
+                            </Col>
+                            <Col xl={8} lg={8} md={24} sm={24} xs={24}>
+                                <Row gutter={[0, 16]}>
+                                    <Col xl={24} lg={24} md={12} sm={12} xs={24} style={{width: "100%"}}>
+                                        <SliderFilter recipes={data.recipes}
+                                                      optionName={"Калорії"}
+                                                      getParamFunction={(recipe) => recipe.calories}
+                                                      units={"ккл"}
+                                                      filter={filterByCalories}/>
+                                    </Col>
+                                    <Col xl={24} lg={24} md={12} sm={12} xs={24} style={{width: "100%"}}>
+                                        <SliderFilter recipes={data.recipes}
+                                                      optionName={"Час"}
+                                                      getParamFunction={(recipe) => recipe.time}
+                                                      units={"хв"}
+                                                      filter={filterByTime}/>
+                                    </Col>
+                                </Row>
                             </Col>
                         </Row>
                     </Collapse.Panel>
                 </Collapse>
 
-                <div style={{display: "flex", justifyContent: "space-between"}}>
-                    <h1>Заголовок H1</h1>
-                    <RecipesSort/>
+                <div style={{display: "flex", justifyContent: "space-between", width: "100%"}}>
+                    <h1 style={{display: "block"}}>{getH1()}</h1>
+                    <RecipesSort style={{display: "block"}}/>
                 </div>
                 <Recipes recipes={data.recipes}/>
                 <Markdown>{category.CategoryText}</Markdown>
@@ -203,7 +262,9 @@ const mapDispatchToProps = {
     getRecipes,
     sortByTime,
     filterByProducts,
-    filterByUtensils
+    filterByUtensils,
+    filterByTime,
+    filterByCalories
 };
 
 export default connect(null, mapDispatchToProps)(FilteredPage)

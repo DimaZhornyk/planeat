@@ -5,7 +5,7 @@ import Reducer from './src/_reducers/index';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {useMemo} from "react";
 
-const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
+const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 
 
 export function initStore() {

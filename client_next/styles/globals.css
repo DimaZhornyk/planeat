@@ -1,5 +1,6 @@
 @import '~antd/dist/antd.css';
 
+
 body {
     margin: 0;
     width: 100%;
@@ -39,6 +40,10 @@ html {
 
 .ant-card-body .ant-image-img {
     border-radius: 10px;
+}
+
+.ant-card-body {
+    padding: 17px;
 }
 
 
@@ -81,7 +86,7 @@ html {
     border-color: lightgray;
 }
 
-.ant-dropdown-trigger {
+.header_planeat-header__1_4Pr .ant-dropdown-trigger {
     display: flex;
     align-items: center;
     background: rgba(0, 0, 0, 0.06);
@@ -121,6 +126,10 @@ html {
     color: #F2F2F2;
 }
 
+.ant-modal-content {
+    border-radius: 15px;
+}
+
 .ant-modal-body {
     display: flex;
     height: 300px;
@@ -128,16 +137,15 @@ html {
     border-radius: 12px;
 }
 
-.ant-modal-body > .ant-menu{
+.ant-modal-body > .ant-menu {
     height: 100%;
     min-width: 150px;
     overflow: auto;
-    background-color: rgba(0,0,0, 0.04);
+    background-color: rgba(0, 0, 0, 0.04);
 
 }
 
 
-
-#scroll div{
-    direction:ltr;
+#scroll div {
+    direction: ltr;
 }

@@ -1,9 +1,9 @@
 import {
-    FILTER_BY_PRODUCTS, FILTER_BY_UTENSILS,
+    FILTER_BY_PRODUCTS, FILTER_BY_TIME, FILTER_BY_UTENSILS,
     GET_RECIPES,
     SORT_BY_CALORIES,
     SORT_BY_PRODUCTS,
-    SORT_BY_TIME
+    SORT_BY_TIME, SORT_BY_UTENSILS
 } from "./sort_types";
 
 export function getRecipes(recipes) {
@@ -24,6 +24,26 @@ export function filterByUtensils(utensils) {
     return {
         type: FILTER_BY_UTENSILS,
         payload: utensils
+    }
+}
+
+export function filterByTime(minTime, maxTime) {
+    return {
+        type: FILTER_BY_TIME,
+        payload: {
+            min: minTime,
+            max: maxTime
+        }
+    }
+}
+
+export function filterByCalories(minCalories, maxCalories) {
+    return {
+        type: FILTER_BY_UTENSILS,
+        payload: {
+            min: minCalories,
+            max: maxCalories
+        }
     }
 }
 
@@ -48,9 +68,9 @@ export function sortByProducts() {
     }
 }
 
-export function sortByAccessories() {
+export function sortByUtensils() {
     return {
-        type: SORT_BY_ACCESSORIES,
+        type: SORT_BY_UTENSILS,
         payload: undefined
     }
 }

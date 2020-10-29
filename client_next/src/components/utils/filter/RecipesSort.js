@@ -1,15 +1,20 @@
 import React, {useState} from "react"
 import {Dropdown, Menu} from "antd";
-import {SORT_BY_ACCESSORIES, SORT_BY_CALORIES, SORT_BY_PRODUCTS, SORT_BY_TIME} from "../../../_actions/sort_types";
+import {SORT_BY_UTENSILS, SORT_BY_CALORIES, SORT_BY_PRODUCTS, SORT_BY_TIME} from "../../../_actions/sort_types";
 import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
-import {sortByAccessories, sortByCalories, sortByProducts, sortByTime} from "../../../_actions/sort_actions";
+import {
+    sortByCalories,
+    sortByProducts,
+    sortByTime,
+    sortByUtensils
+} from "../../../_actions/sort_actions";
 import {connect} from "react-redux";
 
 function RecipesSort({
                          sortByTime,
                          sortByCalories,
                          sortByProducts,
-                         sortByAccessories
+                         sortByUtensils
                      }) {
 
     const [selectedSort, setSelectedSort] = useState(SORT_BY_TIME);
@@ -27,9 +32,9 @@ function RecipesSort({
         caption: "за продуктами",
         func: sortByProducts
     };
-    sorts[SORT_BY_ACCESSORIES] = {
+    sorts[SORT_BY_UTENSILS] = {
         caption: "за приладдям",
-        func: sortByAccessories
+        func: sortByUtensils
     };
 
     const handleMenuClick = e => {
@@ -50,11 +55,46 @@ function RecipesSort({
     );
 
     return (
-        <Dropdown overlay={menu} trigger={['click']}>
-            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                {sorts[selectedSort].caption} <DownOutlined/>
-            </a>
-        </Dropdown>
+        <div style={{
+            display: "flex",
+            width: "250px",
+            height: "34px",
+            background: "rgba(0, 0, 0, 0.04)",
+            border: "1px solid rgba(0, 0, 0, 0.15)",
+            boxSizing: "border-box",
+            borderRadius: "12px",
+            textAlign: "center",
+            alignItems: "center",
+            fontSize: "11px"
+        }}>
+            <div style={{
+                display: "flex",
+                width: "100px",
+                height: "100%",
+                alignItems: "center",
+                borderRight: "1px solid rgba(0, 0, 0, 0.15)"
+            }}>
+                <span style={{margin: "0 auto"}}>
+                    Сортування
+                </span>
+            </div>
+            <Dropdown overlay={menu} trigger={['click']} style={{display: "block",}}>
+                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "150px",
+                        padding: "0 10px"
+                    }}>
+                        {sorts[selectedSort].caption}
+                        <DownOutlined style={{display: "block"}}/>
+                    </div>
+                </a>
+            </Dropdown>
+
+
+        </div>
     )
 }
 
@@ -62,7 +102,7 @@ const mapDispatchToProps = {
     sortByTime,
     sortByCalories,
     sortByProducts,
-    sortByAccessories
+    sortByUtensils
 };
 
 export default connect(null, mapDispatchToProps)(RecipesSort);

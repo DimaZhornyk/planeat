@@ -11,6 +11,7 @@ import DishImageSvg from "../../../src/static/icons/dishIconOrange.svg";
 import Icon from "@ant-design/icons";
 import Head from "next/head";
 import {Scrollbars} from 'react-custom-scrollbars';
+import Markdown from "markdown-to-jsx";
 
 
 export async function getStaticPaths() {
@@ -38,14 +39,19 @@ export async function getStaticProps({params}) {
                     calories
                     recipeCaption
                     recipeDescription
+                    recipePreparationTime
+                    recipePortions
+                    recipeText
                     products{
                         name
+                        caption
                         icon{
                             url
                         }
                     }
                     utensils{
                         name
+                        caption
                         icon{
                             url
                         }
@@ -65,7 +71,7 @@ export async function getStaticProps({params}) {
                 }
             }`
     });
-    console.log(data.recipe)
+    console.log(data.recipe);
     return {props: {recipe: data.recipe, categories: data.categories}}
 }
 
@@ -76,19 +82,19 @@ function RecipePage({recipe, categories}) {
         return (
             <div className={styles["utils-list-container"]}>
                 <img src={BACKEND_URL + utensil.icon.url} alt={"utensil-icon"} className={styles["utils-icon"]}/>
-                <p style={{margin: "0 0 0 15px"}}>{utensil.name}</p>
+                <p style={{margin: "0 0 0 15px"}}>{utensil.caption}</p>
             </div>
         )
-    })
+    });
 
     const getIngredients = recipe.products.map(product => {
         return (
             <div className={styles["utils-list-container"]}>
                 <img src={BACKEND_URL + product.icon.url} alt={"ingredient-icon"} className={styles["utils-icon"]}/>
-                <p style={{margin: "0 0 0 15px"}}>{product.name}</p>
+                <p style={{margin: "0 0 0 15px"}}>{product.caption}</p>
             </div>
         )
-    })
+    });
 
     return (
         <>
@@ -119,7 +125,7 @@ function RecipePage({recipe, categories}) {
                                     <div style={{display: "flex"}}>
                                         <div className={styles["metric"]} style={{width: "200px"}}>
                                             <Icon component={ClockImageSvg} className={styles["metric-icon"]}/>
-                                            <p>{`Підготовка:   5хв. `}</p>
+                                            <p>{`Підготовка:    ${recipe.recipePreparationTime}хв.`}</p>
                                         </div>
                                         <div className={styles["metric"]} style={{width: "100px"}}>
                                             <Icon component={FireImageSvg} className={styles["metric-icon"]}/>
@@ -133,18 +139,18 @@ function RecipePage({recipe, categories}) {
                                         </div>
                                         <div className={styles["metric"]} style={{width: "100px"}}>
                                             <Icon component={DishImageSvg} className={styles["metric-icon"]}/>
-                                            <p>1 порція</p>
+                                            <p>{recipe.recipePortions + " порції(й)"}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <p style={{fontSize: "15px"}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Sit
-                                    felis
-                                    sed
-                                    nec platea a, magna.</p>
+                                <p style={{fontSize: "15px"}}>{recipe.recipeDescription}</p>
                             </div>
                             <p style={{fontSize: "18px"}}>Покроковий рецепт:</p>
-                            <p className={"recipeText"}>{recipe.recipeDescription}</p>
+                            <p className={"recipeText"}>
+                                <Markdown>
+                                    {recipe.recipeText}
+                                </Markdown>
+                            </p>
                         </Scrollbars>
                     </div>
                 </div>
