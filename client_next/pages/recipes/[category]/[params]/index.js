@@ -5,13 +5,13 @@ import queryString from "query-string"
 import {connect, useDispatch, useSelector} from "react-redux";
 import Header from "../../../../src/components/views/Header/Header";
 import styles from "../../../../styles/Main.module.css";
-import {Collapse, Dropdown, Menu} from "antd";
-import SearchFilter from "../../../../src/components/utils/filter/SearchFilter";
+import {Col, Collapse, Dropdown, Empty, Menu, Row} from "antd";
 import Recipes from "../../../../src/components/utils/Recipes";
 import Markdown from "markdown-to-jsx";
-import {getRecipes, sortByTime} from "../../../../src/_actions/sort_actions";
+import {filterByProducts, filterByUtensils, getRecipes, sortByTime} from "../../../../src/_actions/sort_actions";
 import RecipesSort from "../../../../src/components/utils/filter/RecipesSort";
 import FirstLoad from "../../../../src/components/utils/FirstLoad";
+import RecipeCard from "../../../../src/components/utils/card/RecipeCard";
 
 export async function getStaticPaths() {
     let {data} = await Client.query({
@@ -150,7 +150,7 @@ export async function getStaticProps(context) {
     };
 }
 
-function FilteredPage({data, getRecipes, sortByTime}) {
+function FilteredPage({data, getRecipes, filterByProducts, filterByUtensils}) {
 
     console.log(data);
 
@@ -173,10 +173,18 @@ function FilteredPage({data, getRecipes, sortByTime}) {
                 <Collapse defaultActiveKey={['1']} onChange={() => console.log("smth")}
                           style={{width: "100%", margin: "20px", borderRadius: "7px"}}>
                     <Collapse.Panel header="Фільтри" key="1">
-                        <FirstLoad options={data.products} categories={data.categoriesProducts}
-                                   params={data.params.product}/>
-                        <FirstLoad options={data.utensils} categories={data.categoriesUtensils}
-                                      params={data.params.utensil}/>
+                        <Row gutter={[16, 16]}>
+                            <Col xl={8} lg={8} md={12} sm={12} xs={24}>
+                                <FirstLoad options={data.products} optionName={"product"}
+                                           categories={data.categoriesProducts}
+                                           params={data.params.product} filter={filterByProducts}/>
+                            </Col>
+                            <Col xl={8} lg={8} md={12} sm={12} xs={24}>
+                                <FirstLoad options={data.utensils} optionName={"utensil"}
+                                           categories={data.categoriesUtensils}
+                                           params={data.params.utensil} filter={filterByUtensils}/>
+                            </Col>
+                        </Row>
                     </Collapse.Panel>
                 </Collapse>
 
@@ -193,7 +201,9 @@ function FilteredPage({data, getRecipes, sortByTime}) {
 
 const mapDispatchToProps = {
     getRecipes,
-    sortByTime
+    sortByTime,
+    filterByProducts,
+    filterByUtensils
 };
 
 export default connect(null, mapDispatchToProps)(FilteredPage)

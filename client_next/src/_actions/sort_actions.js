@@ -1,7 +1,6 @@
 import {
-    FILTER_BY_PRODUCTS,
+    FILTER_BY_PRODUCTS, FILTER_BY_UTENSILS,
     GET_RECIPES,
-    SORT_BY_ACCESSORIES,
     SORT_BY_CALORIES,
     SORT_BY_PRODUCTS,
     SORT_BY_TIME
@@ -18,6 +17,13 @@ export function filterByProducts(products) {
     return {
         type: FILTER_BY_PRODUCTS,
         payload: products
+    }
+}
+
+export function filterByUtensils(utensils) {
+    return {
+        type: FILTER_BY_UTENSILS,
+        payload: utensils
     }
 }
 

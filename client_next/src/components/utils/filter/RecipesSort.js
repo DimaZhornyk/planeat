@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useState} from "react"
 import {Dropdown, Menu} from "antd";
 import {SORT_BY_ACCESSORIES, SORT_BY_CALORIES, SORT_BY_PRODUCTS, SORT_BY_TIME} from "../../../_actions/sort_types";
 import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
@@ -15,21 +15,21 @@ function RecipesSort({
     const [selectedSort, setSelectedSort] = useState(SORT_BY_TIME);
 
     const sorts = {};
-    sorts[SORT_BY_TIME] =  {
+    sorts[SORT_BY_TIME] = {
         caption: "за часом",
-            func: sortByTime
+        func: sortByTime
     };
     sorts[SORT_BY_CALORIES] = {
         caption: "за калоріями",
-            func: sortByCalories
+        func: sortByCalories
     };
     sorts[SORT_BY_PRODUCTS] = {
         caption: "за продуктами",
-            func: sortByProducts
+        func: sortByProducts
     };
     sorts[SORT_BY_ACCESSORIES] = {
         caption: "за приладдям",
-            func: sortByAccessories
+        func: sortByAccessories
     };
 
     const handleMenuClick = e => {

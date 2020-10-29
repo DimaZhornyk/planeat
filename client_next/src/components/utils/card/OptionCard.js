@@ -2,7 +2,7 @@ import React from "react"
 import Icon from '@ant-design/icons'
 import Cross from "../../../static/icons/crossIcon.svg"
 
-function ProductCard({index, productIcon: optionIcon, onItemDelete, onItemClick, isEnabled = true}) {
+function OptionCard({index, productIcon: optionIcon, onItemDelete, onItemClick, isEnabled = true}) {
 
     let styles = {
         display: "flex",
@@ -48,4 +48,4 @@ function ProductCard({index, productIcon: optionIcon, onItemDelete, onItemClick,
     )
 }
 
-export default ProductCard;
+export default OptionCard;

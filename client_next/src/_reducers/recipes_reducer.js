@@ -1,7 +1,6 @@
 import {
-    FILTER_BY_ACCESSORIES,
     FILTER_BY_PRODUCTS,
-    FILTER_BY_TIME, GET_RECIPES, SORT_BY_ACCESSORIES,
+    FILTER_BY_TIME, FILTER_BY_UTENSILS, GET_RECIPES, SORT_BY_ACCESSORIES,
     SORT_BY_CALORIES, SORT_BY_PRODUCTS,
     SORT_BY_TIME
 } from "../_actions/sort_types";
@@ -32,9 +31,19 @@ const recipesReducer = (state = initialState, action) => {
                 filteredRecipes,
                 products
             };
-        case FILTER_BY_ACCESSORIES:
-            //filter
-            return state;
+        case FILTER_BY_UTENSILS:
+            let utensils = action.payload;
+            if (utensils.length === 0) return {...state, filteredRecipes: state.recipes};
+            let filtered = state.recipes.filter((recipe) => {
+                return recipe.utensils.find((recipeUtensil) => {
+                    return utensils.find((product) => product.name === recipeUtensil.name);
+                })
+            });
+            return {
+                ...state,
+                filtered,
+                utensils
+            };
         case FILTER_BY_TIME:
             //filter
             return state;

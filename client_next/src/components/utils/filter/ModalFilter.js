@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {Col, Menu, Modal} from "antd";
 import {MenuOutlined} from "@ant-design/icons";
-import ProductCard from "../card/ProductCard";
+import OptionCard from "../card/OptionCard";
 import {getOptionIcon} from "./SearchFilter";
 
 function ModalFilter({options, categories, isVisible, onCancel, onSelect}) {
@@ -15,8 +15,8 @@ function ModalFilter({options, categories, isVisible, onCancel, onSelect}) {
         return (
             products.map((product, index) => (
                 <div key={index} style={{display: "flex", alignItems: "center", margin: "10px"}}>
-                    <ProductCard productIcon={getOptionIcon(product)} isEnabled={false}
-                                 onItemClick={(key) => onSelect(product)}/>
+                    <OptionCard productIcon={getOptionIcon(product)} isEnabled={false}
+                                onItemClick={(key) => onSelect(product)}/>
                     <div style={{display: "block"}}>
                         <span style={{fontSize: "10px", fontWeight: "600", display: "block", lineHeight: "10px"}}>
                         {product.caption}

@@ -1,13 +1,12 @@
 import React, {useState, useRef, useLayoutEffect, useEffect} from "react"
-import {Card, Image} from "antd"
 import {connect, useDispatch, useSelector} from "react-redux";
+import {Card, Image} from "antd"
 import Router from "next/router";
-import ProductCard from "../card/ProductCard";
+import OptionCard from "../card/OptionCard";
 import ModalFilter from "./ModalFilter";
 import {BACKEND_URL} from "../../../../config";
 import PlusIcon from "../../../static/icons/plus.svg"
 import Icon from '@ant-design/icons'
-import {filterByProducts} from "../../../_actions/sort_actions";
 import queryString from "query-string"
 
 const filterSize = 6;
@@ -29,7 +28,7 @@ export function getOptionIcon(option) {
     }
 }
 
-function SearchFilter({options, categories, params, filterByProducts}) {
+function SearchFilter({options, optionName, categories, params, filter}) {
 
     console.log(options, categories, params);
 
@@ -40,7 +39,7 @@ function SearchFilter({options, categories, params, filterByProducts}) {
         initialState = [options.find((option) => option.name === params)]
     }
     const urlParams = new URLSearchParams(window.location.search);
-    initialState = initialState.concat(getOptionsFromQuery(urlParams.getAll("product"), options));
+    initialState = initialState.concat(getOptionsFromQuery(urlParams.getAll(optionName), options));
 
 
     const sort = useSelector(state => state.recipesReducer.sort);
@@ -51,7 +50,7 @@ function SearchFilter({options, categories, params, filterByProducts}) {
     const firstUpdate = useRef(true);
 
     useEffect(() => {
-        filterByProducts(selectedItems);
+        filter(selectedItems);
     }, []);
 
     useLayoutEffect(() => {
@@ -60,7 +59,7 @@ function SearchFilter({options, categories, params, filterByProducts}) {
             return;
         }
         redirectToFilterLink();
-        filterByProducts(selectedItems);
+        filter(selectedItems);
     }, [selectedItems]);
 
     function redirectToFilterLink() {
@@ -70,8 +69,8 @@ function SearchFilter({options, categories, params, filterByProducts}) {
         let queryObject = queryString.parse(params);
         let optionsArray = selectedItems.slice(1);
         let paramsObject = queryString.parse(routes[routes.length - 1].split("?")[1]);
-        queryObject.product = selectedItems[0] ? selectedItems[0].name : undefined;
-        paramsObject.product = optionsArray.map((item) => item.name);
+        queryObject[optionName] = selectedItems[0] ? selectedItems[0].name : undefined;
+        paramsObject[optionName] = optionsArray.map((item) => item.name);
         let queryStr = queryString.stringify(queryObject, {
             skipNull: true
         });
@@ -88,7 +87,7 @@ function SearchFilter({options, categories, params, filterByProducts}) {
 
     function handleItemUnselect(key) {
         setSelectedItems(selectedItems.filter((item, index) => parseInt(key) !== index));
-        filterByProducts(selectedItems);
+        filter(selectedItems);
         redirectToFilterLink();
     }
 
@@ -121,11 +120,11 @@ function SearchFilter({options, categories, params, filterByProducts}) {
         for (let i = 0; i < filterSize - 1; i++) {
             cards.push(
                 <div style={{display: "inline-block"}}>
-                    <ProductCard key={i}
-                                 index={i}
-                                 productIcon={getOptionIcon(selectedItems[i])}
-                                 onItemDelete={handleItemUnselect}
-                                 onItemClick={handleItemClick}/>
+                    <OptionCard key={i}
+                                index={i}
+                                productIcon={getOptionIcon(selectedItems[i])}
+                                onItemDelete={handleItemUnselect}
+                                onItemClick={handleItemClick}/>
                     <span style={{fontWeight: "500", fontSize: "10px"}}>
                         {selectedItems[i] !== undefined ? selectedItems[i].caption : ""}
                     </span>
@@ -134,11 +133,11 @@ function SearchFilter({options, categories, params, filterByProducts}) {
         }
         cards.push(
             <div style={{display: "inline-block"}}>
-                <ProductCard key={filterSize - 1}
-                             index={filterSize - 1}
-                             productIcon={<Icon component={PlusIcon} style={{fontSize: "24px"}}/>}
-                             onItemClick={handleItemClick}
-                             isEnabled={false}/>
+                <OptionCard key={filterSize - 1}
+                            index={filterSize - 1}
+                            productIcon={<Icon component={PlusIcon} style={{fontSize: "24px"}}/>}
+                            onItemClick={handleItemClick}
+                            isEnabled={false}/>
                 <span style={{fontWeight: "500", fontSize: "10px"}}>Додати</span>
             </div>);
         return cards;
@@ -161,8 +160,4 @@ function SearchFilter({options, categories, params, filterByProducts}) {
     )
 }
 
-const mapDispatchToProps = {
-    filterByProducts
-};
-
-export default connect(null, mapDispatchToProps)(SearchFilter);
+export default SearchFilter;
