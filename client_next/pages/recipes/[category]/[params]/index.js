@@ -5,20 +5,24 @@ import queryString from "query-string"
 import {connect, useDispatch, useSelector} from "react-redux";
 import Header from "../../../../src/components/views/Header/Header";
 import styles from "../../../../styles/Main.module.css";
-import {Col, Collapse, Dropdown, Empty, Menu, Row} from "antd";
+import {Col, Collapse, Row, Button} from "antd";
 import Recipes from "../../../../src/components/utils/Recipes";
 import Markdown from "markdown-to-jsx";
 import {
     filterByCalories,
     filterByProducts, filterByTime,
-    filterByUtensils,
-    getRecipes,
+    filterByUtensils, getInitial,
+    setRecipes,
     sortByTime
 } from "../../../../src/_actions/sort_actions";
 import RecipesSort from "../../../../src/components/utils/filter/RecipesSort";
 import FirstLoad from "../../../../src/components/utils/FirstLoad";
 import SliderFilter from "../../../../src/components/utils/filter/SliderFilter";
 import Head from "next/head";
+import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
+import withQueryParams, {getOptionsFromQuery} from "../../../../src/hoc/withQueryParams";
+import SearchFilter from "../../../../src/components/utils/filter/SearchFilter";
+import {getProducts, getUtensils} from "../../../../src/_reducers/recipes_reducer";
 
 export async function getStaticPaths() {
     let {data} = await Client.query({
@@ -162,20 +166,14 @@ export async function getStaticProps(context) {
 }
 
 function FilteredPage({
-                          data, getRecipes,
+                          data,
+                          getRecipes,
+                          getInitial,
                           filterByProducts,
                           filterByUtensils,
                           filterByTime,
                           filterByCalories
                       }) {
-
-    const sort = useSelector(state => state.recipesReducer.sort);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        getRecipes(data.recipes);
-        dispatch({type: sort, payload: null});
-    }, [data]);
 
     const category = data.categoriesTexts.find((category) => {
         return category.CategoryNameText === data.category
@@ -208,22 +206,34 @@ function FilteredPage({
             <Header categories={data.categories}/>
             <div className={styles["main-page-wrapper"]}>
                 <Collapse defaultActiveKey={['1']} onChange={() => console.log("smth")}
-                          style={{width: "100%", margin: "20px", borderRadius: "7px"}}>
-                    <Collapse.Panel header="Фільтри" key="1">
+                          style={{width: "100%", margin: "20px", borderRadius: "7px"}}
+                          ghost>
+                    <Collapse.Panel header={<strong>Фільтри</strong>}
+                                    key="1"
+                                    extra={
+                                        <Button type={"primary"}
+                                                icon={<DeleteOutlined/>}
+                                                onClick={(event => {
+                                                    event.stopPropagation();
+
+                                                })}>Очистити</Button>
+                                    }>
                         <Row gutter={[16, 16]} style={{margin: "0"}}>
                             <Col xl={8} lg={8} md={12} sm={12} xs={24}>
-                                <FirstLoad options={data.products}
-                                           optionName={"product"}
-                                           optionCaption={"Продукти"}
-                                           categories={data.categoriesProducts}
-                                           params={data.params.product} filter={filterByProducts}/>
+                                <SearchFilter options={data.products}
+                                              optionName={"product"}
+                                              optionCaption={"Продукти"}
+                                              categories={data.categoriesProducts}
+                                              params={data.params.product} selector={filterByProducts}
+                                              getter={getProducts}/>
                             </Col>
                             <Col xl={8} lg={8} md={12} sm={12} xs={24}>
-                                <FirstLoad options={data.utensils}
-                                           optionName={"utensil"}
-                                           optionCaption={"Пробори"}
-                                           categories={data.categoriesUtensils}
-                                           params={data.params.utensil} filter={filterByUtensils}/>
+                                <SearchFilter options={data.utensils}
+                                              optionName={"utensil"}
+                                              optionCaption={"Пробори"}
+                                              categories={data.categoriesUtensils}
+                                              params={data.params.utensil} selector={filterByUtensils}
+                                              getter={getUtensils}/>
                             </Col>
                             <Col xl={8} lg={8} md={24} sm={24} xs={24}>
                                 <Row gutter={[0, 16]}>
@@ -247,9 +257,9 @@ function FilteredPage({
                     </Collapse.Panel>
                 </Collapse>
 
-                <div style={{display: "flex", justifyContent: "space-between", width: "100%"}}>
+                <div style={{display: "flex", justifyContent: "space-between", width: "100%", padding: "0 9px"}}>
                     <h1 style={{display: "block"}}>{getH1()}</h1>
-                    <RecipesSort style={{display: "block"}}/>
+                    <RecipesSort category={category.categoryName} style={{display: "block"}}/>
                 </div>
                 <Recipes recipes={data.recipes}/>
                 <Markdown>{category.CategoryText}</Markdown>
@@ -259,7 +269,8 @@ function FilteredPage({
 }
 
 const mapDispatchToProps = {
-    getRecipes,
+    getRecipes: setRecipes,
+    getInitial,
     sortByTime,
     filterByProducts,
     filterByUtensils,

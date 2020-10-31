@@ -1,10 +1,11 @@
-export const GET_RECIPES = 'get_recipes';
-export const SET_INITIAL = 'set_initial';
+export const SET_RECIPES = 'set_recipes';
+export const GET_INITIAL = 'get_initial';
+export const FETCH_RECIPES = 'fetch_recipes';
 
-export const FILTER_BY_PRODUCTS = 'filter_by_products';
-export const FILTER_BY_UTENSILS = 'filter_by_utensils';
-export const FILTER_BY_TIME = 'filter_by_time';
-export const FILTER_BY_CALORIES = 'filter_by_calories';
+export const SET_FILTER_PRODUCTS = 'set_filter_products';
+export const SET_FILTER_UTENSILS = 'set_filter_utensils';
+export const SET_FILTER_TIME = 'set_filter_time';
+export const SET_FILTER_CALORIES = 'set_filter_calories';
 export const SORT_BY_TIME = 'sort_by_time';
 export const SORT_BY_CALORIES = 'sort_by_calories';
 export const SORT_BY_PRODUCTS = 'sort_by_products';

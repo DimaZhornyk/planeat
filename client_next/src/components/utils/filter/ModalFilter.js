@@ -3,6 +3,7 @@ import {Col, Menu, Modal} from "antd";
 import {MenuOutlined} from "@ant-design/icons";
 import OptionCard from "../card/OptionCard";
 import {getOptionIcon} from "./SearchFilter";
+import {Scrollbars} from "react-custom-scrollbars";
 
 function ModalFilter({options, categories, isVisible, onCancel, onSelect}) {
     const [selectedCategory, setSelectedCategory] = useState(categories[0].categoryName);
@@ -37,22 +38,25 @@ function ModalFilter({options, categories, isVisible, onCancel, onSelect}) {
             footer={null}
             onCancel={onCancel}
         >
-            <Menu style={{width: "150px"}}
-                  mode="vertical"
-                  defaultSelectedKeys={[categories[0].categoryName]}>
-                {categories.map((category, index) => (
-                    <Menu.Item icon={<MenuOutlined/>}
-                               key={index}
-                               index={category.categoryName}
-                               onClick={({item, key, keyPath, selectedKeys, domEvent}) => {
-                                   domEvent.stopPropagation();
-                                   setSelectedCategory(categories[key].categoryName)
-                               }}
-                               style={{fontWeight: "600"}}>
-                        {category.categoryDisplayNameUA}
-                    </Menu.Item>
-                ))}
-            </Menu>
+            <Scrollbars style={{height: "100%", margin: "0", maxWidth: "150px", borderRadius: "12px"}} universal={true}>
+                <Menu style={{width: "150px"}}
+                      mode="vertical"
+                      defaultSelectedKeys={[categories[0].categoryName]}>
+                    {categories.map((category, index) => (
+                        <Menu.Item icon={<MenuOutlined/>}
+                                   key={index}
+                                   index={category.categoryName}
+                                   onClick={({item, key, keyPath, selectedKeys, domEvent}) => {
+                                       domEvent.stopPropagation();
+                                       setSelectedCategory(categories[key].categoryName)
+                                   }}
+                                   style={{fontWeight: "600"}}>
+                            {category.categoryDisplayNameUA}
+                        </Menu.Item>
+                    ))}
+                </Menu>
+            </Scrollbars>
+
             <div>
                 <div style={{display: "flex", justifyContent: "start", flexWrap: "wrap", padding: "0px 20px"}}>
                     {getProductsFromSelectedCategory(selectedCategory)}

@@ -1,76 +1,90 @@
 import {
-    FILTER_BY_PRODUCTS,
-    FILTER_BY_TIME,
-    FILTER_BY_UTENSILS,
-    GET_RECIPES,
+    SET_FILTER_PRODUCTS,
+    SET_FILTER_TIME,
+    SET_FILTER_UTENSILS,
+    SET_RECIPES,
     SORT_BY_UTENSILS,
     SORT_BY_CALORIES,
     SORT_BY_PRODUCTS,
-    SORT_BY_TIME, FILTER_BY_CALORIES
+    SORT_BY_TIME, SET_FILTER_CALORIES, GET_INITIAL, FETCH_RECIPES
 } from "../_actions/sort_types";
 
 const initialState = {
     recipes: [],
-    filteredRecipes: [],
     products: [],
     utensils: [],
-    sort: SORT_BY_TIME
+    sort: SORT_BY_TIME,
+    time: {
+        min: 0,
+        max: 0
+    },
+    calories: {
+        min: 0,
+        max: 0
+    }
 };
 
 const recipesReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_RECIPES:
+        case FETCH_RECIPES:
+
+            return state;
+        case SET_RECIPES:
             let recipes = action.payload;
-            return {...state, recipes: recipes, filteredRecipes: recipes};
-        case FILTER_BY_PRODUCTS:
-            let products = action.payload;
+            return {...state, recipes: recipes};
+        case GET_INITIAL:
+            return {
+                ...initialState,
+                recipes: state.recipes
+            };
+        case SET_FILTER_PRODUCTS:
+/*            let products = action.payload;
             if (products.length === 0) return {...state, filteredRecipes: state.recipes};
             let filteredRecipes = state.recipes.filter((recipe) => {
                 return recipe.products.find((recipeProduct) => {
                     return products.find((product) => product.name === recipeProduct.name);
                 })
-            });
+            });*/
             return {
                 ...state,
-                filteredRecipes,
-                products
+                products: action.payload
             };
-        case FILTER_BY_UTENSILS:
-            let utensils = action.payload;
+        case SET_FILTER_UTENSILS:
+            /*let utensils = action.payload;
             if (utensils.length === 0) return {...state, filteredRecipes: state.recipes};
+            console.log(utensils);
             let filtered = state.recipes.filter((recipe) => {
                 return recipe.utensils.find((recipeUtensil) => {
                     return utensils.find((product) => product.name === recipeUtensil.name);
                 })
-            });
+            });*/
             return {
                 ...state,
-                filtered,
-                utensils
+                utensils: action.payload
             };
-        case FILTER_BY_TIME:
-            let timeParams = action.payload;
+        case SET_FILTER_TIME:
+            /*let timeParams = action.payload;
             let filteredByTime = state.filteredRecipes.filter((recipe) => {
                 return recipe.time >= timeParams.min && recipe.time <= timeParams.max;
-            });
+            });*/
             return {
                 ...state,
-                filteredRecipes: filteredByTime
+                time: action.payload
             };
-        case FILTER_BY_CALORIES:
-            let caloriesParams = action.payload;
+        case SET_FILTER_CALORIES:
+            /*let caloriesParams = action.payload;
             let filteredByCalories = state.filteredRecipes.filter((recipe) => {
                 return recipe.calories >= caloriesParams.min && recipe.calories <= caloriesParams.max;
-            });
+            });*/
             return {
                 ...state,
-                filteredRecipes: filteredByCalories
+                calories: action.payload
             };
         case SORT_BY_TIME:
             return {
                 ...state,
                 sort: SORT_BY_TIME,
-                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
+                recipes: [...state.recipes].sort((a, b) => {
                     return a.time - b.time
                 })
             };
@@ -78,7 +92,7 @@ const recipesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sort: SORT_BY_CALORIES,
-                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
+                recipes: [...state.recipes].sort((a, b) => {
                     return a.calories - b.calories
                 })
             };
@@ -86,7 +100,7 @@ const recipesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sort: SORT_BY_PRODUCTS,
-                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
+                recipes: [...state.recipes].sort((a, b) => {
                     return a.products.length - b.products.length
                 })
             };
@@ -94,7 +108,7 @@ const recipesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sort: SORT_BY_UTENSILS,
-                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
+                recipes: [...state.recipes].sort((a, b) => {
                     return a.utensils.length - b.utensils.length
                 })
             };
@@ -102,5 +116,8 @@ const recipesReducer = (state = initialState, action) => {
             return state;
     }
 };
+
+export const getProducts = state => state.recipesReducer.products;
+export const getUtensils = state => state.recipesReducer.utensils;
 
 export default recipesReducer;

@@ -3,7 +3,7 @@ import {Provider} from 'react-redux'
 import {useStore} from '../store'
 import {applyMiddleware, compose} from "redux";
 import thunk from "redux-thunk"
-import '../styles/globals.css'
+import '../styles/less/antd-custom.less'
 import Head from "next/head"
 
 export default function App({Component, pageProps}) {

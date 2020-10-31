@@ -1,6 +1,3 @@
-@import '~antd/dist/antd.css';
-
-
 body {
     margin: 0;
     width: 100%;
@@ -11,7 +8,20 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #FFFFFF;
-    font-weight: 600;
+    font-weight: 400;
+}
+
+a {
+    font-weight: 500;
+}
+
+span {
+    font-weight: 500;
+}
+
+strong {
+    font-weight: 500;
+    font-size: 24px;
 }
 
 code {
@@ -141,6 +151,7 @@ html {
     height: 100%;
     min-width: 150px;
     overflow: auto;
+    border-radius: 12px;
     background-color: rgba(0, 0, 0, 0.04);
 
 }
@@ -148,4 +159,12 @@ html {
 
 #scroll div {
     direction: ltr;
+}
+
+.ant-model-body ul{
+    margin: 0;
+}
+
+.ant-collapse-content > .ant-collapse-content-box {
+    padding: 0px;
 }

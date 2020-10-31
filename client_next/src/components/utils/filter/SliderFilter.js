@@ -6,10 +6,10 @@ const getFilterRange = (recipes, getParamFunction) => {
     let min = Number.POSITIVE_INFINITY;
     let max = Number.NEGATIVE_INFINITY;
 
-    for(let i = 0; i < recipes.length; i++) {
+    for (let i = 0; i < recipes.length; i++) {
         let param = getParamFunction(recipes[i]);
-        if(param < min) min = param;
-        if(param > max) max = param;
+        if (param < min) min = param;
+        if (param > max) max = param;
     }
 
     return {
@@ -17,7 +17,13 @@ const getFilterRange = (recipes, getParamFunction) => {
     };
 };
 
-function SliderFilter({recipes, optionName, filter, getParamFunction, units}) {
+function SliderFilter({
+                          recipes,
+                          optionName,
+                          filter,
+                          getParamFunction,
+                          units
+                      }) {
 
     const range = getFilterRange(recipes, getParamFunction);
 
@@ -31,8 +37,8 @@ function SliderFilter({recipes, optionName, filter, getParamFunction, units}) {
     }
 
     function onAfterChange(value) {
-        console.log('onAfterChange: ', value);
-        //TODO call reducer
+        console.log('onAfterChange: ', filter);
+        filter(minValue, maxValue);
     }
 
     return (
@@ -43,7 +49,7 @@ function SliderFilter({recipes, optionName, filter, getParamFunction, units}) {
                 </span>
                 <Slider
                     range
-                    step={10}
+                    step={1}
                     defaultValue={[range.min, range.max]}
                     min={range.min}
                     max={range.max}

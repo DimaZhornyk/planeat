@@ -9,15 +9,19 @@ import {
     sortByUtensils
 } from "../../../_actions/sort_actions";
 import {connect} from "react-redux";
+import Router from "next/router";
+import withQueryParams from "../../../hoc/withQueryParams";
 
 function RecipesSort({
+                         router,
                          sortByTime,
                          sortByCalories,
                          sortByProducts,
                          sortByUtensils
                      }) {
 
-    const [selectedSort, setSelectedSort] = useState(SORT_BY_TIME);
+    const initialState = router.query.sort !== undefined ? router.query.sort : SORT_BY_TIME;
+    const [selectedSort, setSelectedSort] = useState(initialState);
 
     const sorts = {};
     sorts[SORT_BY_TIME] = {
@@ -40,6 +44,14 @@ function RecipesSort({
     const handleMenuClick = e => {
         setSelectedSort(e.key);
         sorts[e.key].func();
+        console.log(router.query);
+        Router.push({
+            pathname: Router.pathname,
+            query: {
+                ...router.query,
+                sort: e.key
+            }
+        }).then(r => console.log(e.key));
     };
 
     const menu = (
@@ -92,8 +104,6 @@ function RecipesSort({
                     </div>
                 </a>
             </Dropdown>
-
-
         </div>
     )
 }
@@ -105,4 +115,4 @@ const mapDispatchToProps = {
     sortByUtensils
 };
 
-export default connect(null, mapDispatchToProps)(RecipesSort);
+export default connect(null, mapDispatchToProps)(withQueryParams(RecipesSort));

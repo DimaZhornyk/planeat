@@ -8,11 +8,11 @@ import {BACKEND_URL} from "../../../../config";
 import PlusIcon from "../../../static/icons/plus.svg"
 import Icon from '@ant-design/icons'
 import queryString from "query-string"
+import withQueryParams from "../../../hoc/withQueryParams";
 
 const filterSize = 6;
 
 const getOptionsFromQuery = (queryOptions, generalOptions) => {
-    console.log(queryOptions, generalOptions);
     return queryOptions.map((option) => {
         return generalOptions.find((o) => o.name === option)
     })
@@ -30,66 +30,63 @@ export function getOptionIcon(option) {
     }
 }
 
-function SearchFilter({options, optionName, optionCaption, categories, params, filter}) {
+function SearchFilter({
+                          selectedOptions,
+                          options,
+                          optionName,
+                          optionCaption,
+                          categories,
+                          params,
+                          selector,
+                          getter,
+                          router
+                      }) {
 
-    console.log(options, categories, params);
-
-    let initialState;
-    if (params === undefined) {
-        initialState = [];
-    } else {
-        initialState = [options.find((option) => option.name === params)]
-    }
-    const urlParams = new URLSearchParams(window.location.search);
-    initialState = initialState.concat(getOptionsFromQuery(urlParams.getAll(optionName), options));
-
-
-    const sort = useSelector(state => state.recipesReducer.sort);
-    const dispatch = useDispatch();
-
-    const [selectedItems, setSelectedItems] = useState(initialState);
     const [isVisible, setVisible] = useState(false);
     const firstUpdate = useRef(true);
 
     useEffect(() => {
-        filter(selectedItems);
+        let initialState;
+        if (params === undefined) {
+            initialState = [];
+        } else {
+            initialState = [options.find((option) => option.name === params)]
+        }
+        let additionalOptions;
+        let additionalParams = router.query[optionName];
+        if (additionalParams === undefined) additionalOptions = [];
+        else if (!Array.isArray(additionalParams)) additionalOptions = [additionalParams];
+        else additionalOptions = additionalParams;
+        initialState = initialState.concat(getOptionsFromQuery(additionalOptions, options));
+        selector(initialState);
     }, []);
 
-    useLayoutEffect(() => {
-        if (firstUpdate.current) {
-            firstUpdate.current = false;
-            return;
-        }
-        redirectToFilterLink();
-        filter(selectedItems);
-    }, [selectedItems]);
-
     function redirectToFilterLink() {
+        //TODO fix
         let href = window.location.href;
         let routes = href.split("/");
         let params = routes[routes.length - 1].split("?")[0];
         let queryObject = queryString.parse(params);
-        let optionsArray = selectedItems.slice(1);
+        let optionsArray = selectedOptions.slice(1);
         let paramsObject = queryString.parse(routes[routes.length - 1].split("?")[1]);
-        queryObject[optionName] = selectedItems[0] ? selectedItems[0].name : undefined;
+        queryObject[optionName] = selectedOptions[0] ? selectedOptions[0].name : undefined;
         paramsObject[optionName] = optionsArray.map((item) => item.name);
+        console.log(selectedOptions);
         let queryStr = queryString.stringify(queryObject, {
             skipNull: true
         });
         Router.push({
             pathname: Router.pathname,
             query: {
+                ...router.query,
                 ...paramsObject,
-                category: "breakfast",
                 params: queryStr ? queryStr : "all"
             }
         }).then();
-        dispatch({type: sort, payload: null});
     }
 
     function handleItemUnselect(key) {
-        setSelectedItems(selectedItems.filter((item, index) => parseInt(key) !== index));
-        filter(selectedItems);
+        selector(selectedOptions.filter((item, index) => parseInt(key) !== index));
         redirectToFilterLink();
     }
 
@@ -103,17 +100,17 @@ function SearchFilter({options, optionName, optionCaption, categories, params, f
         }
     }
 
-    function handleCancelClick() {
+    function handleModalCancelClick() {
         setVisible(false)
     }
 
-    function handleSelectClick(option) {
-        let isIncluded = selectedItems.find((item) => {
+    function handleModalSelectClick(option) {
+        let isIncluded = selectedOptions.find((item) => {
             return item.name === option.name;
         });
         if (!isIncluded) {
-            setSelectedItems([...selectedItems, option]);
-            redirectToFilterLink();
+            selector([...selectedOptions, option]);
+            redirectToFilterLink(option);
         }
     }
 
@@ -124,11 +121,11 @@ function SearchFilter({options, optionName, optionCaption, categories, params, f
                 <div style={{display: "inline-block"}}>
                     <OptionCard key={i}
                                 index={i}
-                                productIcon={getOptionIcon(selectedItems[i])}
+                                productIcon={getOptionIcon(selectedOptions[i])}
                                 onItemDelete={handleItemUnselect}
                                 onItemClick={handleItemClick}/>
                     <span style={{fontWeight: "500", fontSize: "10px"}}>
-                        {selectedItems[i] !== undefined ? selectedItems[i].caption : ""}
+                        {selectedOptions[i] !== undefined ? selectedOptions[i].caption : ""}
                     </span>
                 </div>
             )
@@ -148,7 +145,9 @@ function SearchFilter({options, optionName, optionCaption, categories, params, f
     return (
         <Card>
             <p>
-                {optionCaption}
+                <span>
+                    {optionCaption}
+                </span>
             </p>
             <div style={{display: "flex", width: "100%", textAlign: "center"}}>
                 {getOptionCards()}
@@ -156,10 +155,17 @@ function SearchFilter({options, optionName, optionCaption, categories, params, f
             <ModalFilter options={options}
                          categories={categories}
                          isVisible={isVisible}
-                         onCancel={handleCancelClick}
-                         onSelect={handleSelectClick}/>
+                         onCancel={handleModalCancelClick}
+                         onSelect={handleModalSelectClick}/>
         </Card>
     )
 }
 
-export default SearchFilter;
+const mapStateToProps = (state, props) => {
+    const {getter} = props;
+    return {
+        selectedOptions: getter(state)
+    }
+};
+
+export default connect(mapStateToProps)(withQueryParams(SearchFilter));

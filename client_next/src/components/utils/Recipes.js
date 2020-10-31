@@ -1,9 +1,15 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Col, Empty, Row} from "antd";
 import RecipeCard from "./card/RecipeCard";
 import {connect} from "react-redux";
+import {fetchRecipes} from "../../_actions/sort_actions";
 
-function Recipes({recipes}) {
+function Recipes({recipes, fetchRecipes, filters}) {
+
+    useEffect(() => {
+        //TODO add filters from hoc
+        fetchRecipes(filters);
+    }, []);
 
     const displayRecipe = recipes.map((recipe, index) => (
         <Col xl={8} lg={8} md={12} sm={12} xs={24} key={index}>
@@ -15,17 +21,23 @@ function Recipes({recipes}) {
     return (
         <>
             <Row gutter={[16, 16]}>
-                {recipes.length !== 0 ? displayRecipe : <Empty description={"Немає обраних рецептів..."} style={{margin: "0 auto"}}/>}
+                {recipes.length !== 0 ? displayRecipe :
+                    <Empty description={"Немає обраних рецептів..."} style={{margin: "100px auto"}}/>}
             </Row>
         </>
     )
 }
 
 const mapStateToProps = state => {
-    console.log(state);
     return {
-        recipes: state.recipesReducer.filteredRecipes
+        recipes: state.recipesReducer.recipes
+    }
+};
+
+const mapDispatchToProps = (dispatch, state) => {
+    return {
+        fetchRecipes: (filter) => dispatch(fetchRecipes(filter), state)
     };
 };
 
-export default connect(mapStateToProps, null)(Recipes);
+export default connect(mapStateToProps, mapDispatchToProps)(Recipes);

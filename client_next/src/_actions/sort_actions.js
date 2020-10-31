@@ -1,35 +1,79 @@
 import {
-    FILTER_BY_PRODUCTS, FILTER_BY_TIME, FILTER_BY_UTENSILS,
-    GET_RECIPES,
+    SET_FILTER_CALORIES,
+    SET_FILTER_PRODUCTS, SET_FILTER_TIME, SET_FILTER_UTENSILS, GET_INITIAL,
+    SET_RECIPES,
     SORT_BY_CALORIES,
     SORT_BY_PRODUCTS,
     SORT_BY_TIME, SORT_BY_UTENSILS
 } from "./sort_types";
+import gql from "graphql-tag";
+import Client from "../../lib/apollo"
 
-export function getRecipes(recipes) {
+const QUERY = gql`query {
+            recipes {
+            id
+            calories
+            time
+            recipeCaption
+            recipeImage{
+                url
+            }
+            category
+            products {
+                name
+            }
+            utensils {
+                name
+            }
+        }
+    }`;
+
+export function setRecipes(recipes) {
     return {
-        type: GET_RECIPES,
+        type: SET_RECIPES,
         payload: recipes
     }
 }
 
+export function fetchRecipes(filters) {
+    //TODO improve filters
+    return (dispatch, getState) => {
+        console.log(getState().recipesReducer);
+        Client.query({query: QUERY})
+            .then(({data}) => {
+                dispatch({
+                    type: SET_RECIPES,
+                    payload: data.recipes
+                })
+            })
+    }
+}
+
+export function getInitial() {
+    return {
+        type: GET_INITIAL,
+        payload: undefined
+    }
+}
+
+
 export function filterByProducts(products) {
     return {
-        type: FILTER_BY_PRODUCTS,
+        type: SET_FILTER_PRODUCTS,
         payload: products
     }
 }
 
 export function filterByUtensils(utensils) {
     return {
-        type: FILTER_BY_UTENSILS,
+        type: SET_FILTER_UTENSILS,
         payload: utensils
     }
 }
 
 export function filterByTime(minTime, maxTime) {
     return {
-        type: FILTER_BY_TIME,
+        type: SET_FILTER_TIME,
         payload: {
             min: minTime,
             max: maxTime
@@ -39,7 +83,7 @@ export function filterByTime(minTime, maxTime) {
 
 export function filterByCalories(minCalories, maxCalories) {
     return {
-        type: FILTER_BY_UTENSILS,
+        type: SET_FILTER_CALORIES,
         payload: {
             min: minCalories,
             max: maxCalories
