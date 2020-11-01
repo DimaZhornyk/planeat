@@ -32,13 +32,16 @@
 .dishes-and-ingredients {
     display: flex;
     margin-top: 30px;
+    height: 100%;
 }
 
 .dishes, .ingredients {
     display: flex;
     width: 50%;
     flex-direction: column;
+    overflow-y: hidden;
 }
+
 
 .metrics {
     display: flex;

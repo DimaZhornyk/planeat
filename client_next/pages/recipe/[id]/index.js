@@ -109,11 +109,15 @@ function RecipePage({recipe, categories}) {
                         <div className={styles["dishes-and-ingredients"]}>
                             <div className={styles["dishes"]}>
                                 <h3 style={{fontWeight: "600"}}>Прибори:</h3>
-                                {getDishes}
+                                <Scrollbars  universal={true}>
+                                    {getDishes}
+                                </Scrollbars>
                             </div>
                             <div className={styles["ingredients"]}>
                                 <h3 style={{fontWeight: "600"}}>Інгредієнти:</h3>
-                                {getIngredients}
+                                    <Scrollbars  universal={true}>
+                                        {getIngredients}
+                                    </Scrollbars>
                             </div>
                         </div>
                     </div>
