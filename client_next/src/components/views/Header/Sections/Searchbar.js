@@ -1,9 +1,12 @@
 import React, {useState} from "react"
-import {Menu, Dropdown, Input} from 'antd';
+import {Menu, Dropdown, Input, Modal} from 'antd';
 import Client from "../../../../../lib/apollo"
 import gql from "graphql-tag";
 import {BACKEND_URL} from "../../../../../config";
 import Link from "next/link";
+import styles from './search.module.css'
+import MediaQuery from "react-responsive";
+import {SearchOutlined} from "@ant-design/icons";
 
 const {Search} = Input;
 
@@ -12,68 +15,65 @@ const allCategories = {
     id: "-1"
 };
 
-const QUERY = gql`
-    query{
-        recipes{
-            recipeCaption
-            time
-            calories
-            recipeImage{
-                url
-            }
-        }
-    }`;
 
-function Searchbar({categories, recipes}) {
+function Searchbar({categories}) {
     const [selectedCategory, setSelectedCategory] = useState(allCategories.categoryDisplayNameUA);
     const [selectedKey, setSelectedKey] = useState(allCategories.id);
     const [searchItems, setSearchItems] = useState(<></>);
-    const [recipesData, setRecipesData] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
 
-    Client.query({
-        query: QUERY
-    }).then(res => {
-        setRecipesData(res.data.recipes)
-    });
 
     const updateSearchTerm = (event) => {
         let newSearchTerm = event.currentTarget.value
         if (newSearchTerm === "") {
             setSearchItems(<></>)
         } else {
-            setSearchItems(
-                <Menu>
-                    {recipesData.filter((rec) => {
-                        return rec.recipeCaption.toLowerCase().includes(newSearchTerm.toLowerCase());
-                    }).map((recipe, index) => {
-                        return (
-                            <Menu.Item key={index}>
-                                <Link href={"/recipe/" + recipe.id}>
-                                    <div style={{display: "flex"}}>
-                                        <img src={`${BACKEND_URL}${recipe.recipeImage.url}`}
-                                             style={{width: "67px", height: "50px"}} alt={"recipeImage"}/>
-                                        <div style={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            fontSize: "16px",
-                                            width: "100%",
-                                            justifyContent: "center",
-                                            alignItems: "center"
-                                        }}>
-                                            <p style={{margin: "0 0 0 10px"}}>{recipe.recipeCaption}</p>
-                                            <p style={{
-                                                margin: 0,
-                                                fontSize: "14px",
-                                                fontWeight: "600"
-                                            }}>{recipe.calories} калорій, {recipe.timeText} хв</p>
+            Client.query({
+                query: gql`query{
+                    recipes(where: {recipeCaption_contains : ${`\"${newSearchTerm}\"`}}){
+                        id
+                        recipeCaption
+                        time
+                        calories
+                        recipeImage{
+                            url
+                        }
+                    }
+                }`
+            }).then(res => {
+                console.log(res.data)
+                setSearchItems(
+                    <Menu>
+                        {res.data.recipes.map((recipe, index) => {
+                            return (
+                                <Menu.Item key={index}>
+                                    <Link href={"/recipe/" + recipe.id}>
+                                        <div style={{display: "flex"}}>
+                                            <img src={`${BACKEND_URL}${recipe.recipeImage.url}`}
+                                                 style={{width: "67px", height: "50px"}} alt={"recipeImage"}/>
+                                            <div style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                fontSize: "16px",
+                                                width: "100%",
+                                                justifyContent: "center",
+                                                alignItems: "center"
+                                            }}>
+                                                <p style={{margin: "0 0 0 10px"}}>{recipe.recipeCaption}</p>
+                                                <p style={{
+                                                    margin: 0,
+                                                    fontSize: "14px",
+                                                    fontWeight: "600"
+                                                }}>{recipe.calories} калорій, {recipe.timeText} хв</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Link>
-                            </Menu.Item>
-                        )
-                    })}
-                </Menu>
-            )
+                                    </Link>
+                                </Menu.Item>
+                            )
+                        })}
+                    </Menu>
+                )
+            });
         }
     };
 
@@ -96,6 +96,35 @@ function Searchbar({categories, recipes}) {
         </Menu>
     );
 
+    const searchComponent = (
+        <>
+            <Dropdown overlay={menu}
+                      trigger={['hover']}>
+                <div style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    cursor: "pointer",
+                    padding: "0",
+                }}>
+                    <p className={styles['searchbar_category-picker']}>
+                        {selectedCategory}
+                    </p>
+                </div>
+            </Dropdown>
+            <Dropdown
+                placement="bottomCenter"
+                overlay={searchItems}
+                style={{maxHeight: "500px", overflowY: "scroll"}}
+            >
+                <Search placeholder="Пошук..."
+                        onSearch={value => console.log(value)}
+                        onChange={updateSearchTerm}
+                        className={styles['searchbar']}
+                        enterButton/>
+            </Dropdown>
+        </>
+    )
+
     function handleCategoryChange(itemProps) {
         let index = categories.findIndex((category) => category.id === itemProps.key);
         setSelectedKey(index);
@@ -106,34 +135,36 @@ function Searchbar({categories, recipes}) {
 
     }
 
-
     return (
-        <div style={{alignSelf: "center", display: "flex"}}>
-            <Dropdown overlay={menu}
-                      trigger={['hover']}>
+        <>
+        <MediaQuery maxDeviceWidth={812}>
+            <div style={{width: "100%"}}>
                 <div style={{
+                    width: "50px",
+                    height: "32px",
+                    borderRadius: "12px",
+                    background: "black",
                     display: "flex",
-                    justifyContent: "space-between",
-                    cursor: "pointer",
-                    padding: "0",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    float: "right",
+                    zIndex: "1000"
                 }}>
-                    <p style={{justifySelf: "center", margin: "auto"}}>
-                        {selectedCategory}
-                    </p>
+                    <SearchOutlined style={{fontSize: '20px', color: "white"}} onClick={() => setModalVisible(true)}/>
+                    <Modal visible={modalVisible} onCancel={() => setModalVisible(false)}>
+                        <div style={{maxHeight: "32px", display: "flex", margin: "30px 0 0 20px", width: "80%"}}>
+                            {searchComponent}
+                        </div>
+                    </Modal>
                 </div>
-            </Dropdown>
-            <Dropdown
-                placement="bottomCenter"
-                overlay={searchItems}
-            >
-                <Search placeholder="Пошук..."
-                        onSearch={value => console.log(value)}
-                        onChange={updateSearchTerm}
-                        style={{width: "450px", padding: "0", border: "none"}}
-                        width={450}
-                        enterButton/>
-            </Dropdown>
-        </div>
+            </div>
+        </MediaQuery>
+        <MediaQuery minDeviceWidth={813}>
+            <div style={{alignSelf: "center", display: "flex", width: "70%"}}>
+                {searchComponent}
+            </div>
+        </MediaQuery>
+            </>
     )
 }
 
