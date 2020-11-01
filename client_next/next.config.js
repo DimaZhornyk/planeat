@@ -36,7 +36,8 @@ module.exports = withCss({
                     use: 'null-loader'
                 })
             }
-            config.resolve.alias['@'] = path.resolve(__dirname)
+            config.resolve.alias['@'] = path.resolve(__dirname);
+
             config.module.rules.push({
                 test: /\.svg$/,
                 issuer: {
@@ -44,6 +45,7 @@ module.exports = withCss({
                 },
                 use: ['@svgr/webpack'],
             });
+
             return config
         }
     })
