@@ -1,5 +1,5 @@
 .recipe-content {
-    width: 70%;
+    width: 1000px;
     align-self: center;
     display: flex;
     flex-direction: row;
@@ -13,7 +13,7 @@
     flex-direction: column;
 }
 
-.left-column-recipe img {
+.recipe-image {
     width: 100%;
     border-radius: 20px;
     object-fit: cover;
@@ -88,4 +88,24 @@
     max-width: 100%;
     color: rgba(0, 0, 0, 0.65);
     word-break: break-all !important;
+}
+
+.recipe-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 1027px) {
+    .recipe-container {
+        align-items: center;
+        align-self: center;
+        max-width: 90%;
+        margin-left: 5%;
+    }
+
+    .utils-list-container{
+        margin: 10px 0;
+        justify-content: center;
+    }
 }

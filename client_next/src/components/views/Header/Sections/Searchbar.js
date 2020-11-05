@@ -97,7 +97,7 @@ function Searchbar({categories}) {
     );
 
     const searchComponent = (
-        <>
+        <div style={{display: 'flex', width: '100%', justifyContent: 'flex-end'}}>
             <Dropdown overlay={menu}
                       trigger={['hover']}>
                 <div style={{
@@ -122,7 +122,7 @@ function Searchbar({categories}) {
                         className={styles['searchbar']}
                         enterButton/>
             </Dropdown>
-        </>
+        </div>
     )
 
     function handleCategoryChange(itemProps) {
@@ -137,34 +137,35 @@ function Searchbar({categories}) {
 
     return (
         <>
-        <MediaQuery maxDeviceWidth={812}>
-            <div style={{width: "100%"}}>
-                <div style={{
-                    width: "50px",
-                    height: "32px",
-                    borderRadius: "12px",
-                    background: "black",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    float: "right",
-                    zIndex: "1000"
-                }}>
-                    <SearchOutlined style={{fontSize: '20px', color: "white"}} onClick={() => setModalVisible(true)}/>
-                    <Modal visible={modalVisible} onCancel={() => setModalVisible(false)}>
-                        <div style={{maxHeight: "32px", display: "flex", margin: "30px 0 0 20px", width: "80%"}}>
-                            {searchComponent}
-                        </div>
-                    </Modal>
+            <MediaQuery maxDeviceWidth={812}>
+                <div style={{width: "100%"}}>
+                    <div style={{
+                        width: "50px",
+                        height: "32px",
+                        borderRadius: "12px",
+                        background: "black",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        float: "right",
+                        zIndex: "1000"
+                    }}>
+                        <SearchOutlined style={{fontSize: '20px', color: "white"}}
+                                        onClick={() => setModalVisible(true)}/>
+                        <Modal visible={modalVisible} onCancel={() => setModalVisible(false)}>
+                            <div style={{maxHeight: "32px", display: "flex", margin: "30px 0 0 20px", width: "80%"}}>
+                                {searchComponent}
+                            </div>
+                        </Modal>
+                    </div>
                 </div>
-            </div>
-        </MediaQuery>
-        <MediaQuery minDeviceWidth={813}>
-            <div style={{alignSelf: "center", display: "flex", width: "70%"}}>
-                {searchComponent}
-            </div>
-        </MediaQuery>
-            </>
+            </MediaQuery>
+            <MediaQuery minDeviceWidth={813}>
+                <div style={{alignSelf: "center", display: "flex", width: "70%"}}>
+                    {searchComponent}
+                </div>
+            </MediaQuery>
+        </>
     )
 }
 
