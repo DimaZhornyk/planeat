@@ -6,85 +6,118 @@ import {
     SORT_BY_UTENSILS,
     SORT_BY_CALORIES,
     SORT_BY_PRODUCTS,
-    SORT_BY_TIME, SET_FILTER_CALORIES, GET_INITIAL, FETCH_RECIPES
+    SORT_BY_TIME,
+    SET_FILTER_CALORIES,
+    GET_INITIAL,
+    FETCH_RECIPES,
+    SET_CATEGORY,
+    FILTER_BY_TIME,
+    FILTER_BY_CALORIES,
+    FILTER_BY_TIME_AND_CALORIES, SET_FILTER_RANGE
 } from "../_actions/sort_types";
 
 const initialState = {
+    category: "",
     recipes: [],
+    filteredRecipes: [],
     products: [],
     utensils: [],
     sort: SORT_BY_TIME,
+    range: {
+        time: {
+            min: 0,
+            max: 1000
+        },
+        calories: {
+            min: 0,
+            max: 1000
+        }
+    },
     time: {
         min: 0,
-        max: 0
+        max: 1000
     },
     calories: {
         min: 0,
-        max: 0
+        max: 1000
     }
 };
 
 const recipesReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_RECIPES:
-
             return state;
+
+        case SET_CATEGORY:
+            return {
+                ...state,
+                category: action.payload
+            };
+
         case SET_RECIPES:
             let recipes = action.payload;
-            return {...state, recipes: recipes};
+            return {
+                ...state,
+                recipes,
+                filteredRecipes: recipes
+            };
+
         case GET_INITIAL:
             return {
-                ...initialState,
-                recipes: state.recipes
+                ...initialState
             };
+
         case SET_FILTER_PRODUCTS:
-/*            let products = action.payload;
-            if (products.length === 0) return {...state, filteredRecipes: state.recipes};
-            let filteredRecipes = state.recipes.filter((recipe) => {
-                return recipe.products.find((recipeProduct) => {
-                    return products.find((product) => product.name === recipeProduct.name);
-                })
-            });*/
             return {
                 ...state,
                 products: action.payload
             };
+
         case SET_FILTER_UTENSILS:
-            /*let utensils = action.payload;
-            if (utensils.length === 0) return {...state, filteredRecipes: state.recipes};
-            console.log(utensils);
-            let filtered = state.recipes.filter((recipe) => {
-                return recipe.utensils.find((recipeUtensil) => {
-                    return utensils.find((product) => product.name === recipeUtensil.name);
-                })
-            });*/
             return {
                 ...state,
                 utensils: action.payload
             };
+
         case SET_FILTER_TIME:
-            /*let timeParams = action.payload;
-            let filteredByTime = state.filteredRecipes.filter((recipe) => {
-                return recipe.time >= timeParams.min && recipe.time <= timeParams.max;
-            });*/
             return {
                 ...state,
                 time: action.payload
             };
+
         case SET_FILTER_CALORIES:
-            /*let caloriesParams = action.payload;
-            let filteredByCalories = state.filteredRecipes.filter((recipe) => {
-                return recipe.calories >= caloriesParams.min && recipe.calories <= caloriesParams.max;
-            });*/
             return {
                 ...state,
                 calories: action.payload
             };
+
+        case SET_FILTER_RANGE:
+            return {
+                ...state,
+                range: action.payload
+            };
+
+        case FILTER_BY_TIME_AND_CALORIES:
+            let timeParams = state.time;
+            let caloriesParams = state.calories;
+            let filteredByTime = state.recipes.filter((recipe) => {
+                return recipe.time >= timeParams.min && recipe.time <= timeParams.max;
+            });
+            console.log(filteredByTime);
+            let filteredByCalories = filteredByTime.filter((recipe) => {
+                return recipe.calories >= caloriesParams.min && recipe.calories <= caloriesParams.max;
+            });
+            console.log(filteredByCalories);
+            return {
+                ...state,
+                filteredRecipes: filteredByCalories
+            };
+
         case SORT_BY_TIME:
             return {
                 ...state,
                 sort: SORT_BY_TIME,
-                recipes: [...state.recipes].sort((a, b) => {
+                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
                     return a.time - b.time
                 })
             };
@@ -92,7 +125,7 @@ const recipesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sort: SORT_BY_CALORIES,
-                recipes: [...state.recipes].sort((a, b) => {
+                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
                     return a.calories - b.calories
                 })
             };
@@ -100,7 +133,7 @@ const recipesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sort: SORT_BY_PRODUCTS,
-                recipes: [...state.recipes].sort((a, b) => {
+                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
                     return a.products.length - b.products.length
                 })
             };
@@ -108,7 +141,7 @@ const recipesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sort: SORT_BY_UTENSILS,
-                recipes: [...state.recipes].sort((a, b) => {
+                filteredRecipes: [...state.filteredRecipes].sort((a, b) => {
                     return a.utensils.length - b.utensils.length
                 })
             };
@@ -119,5 +152,7 @@ const recipesReducer = (state = initialState, action) => {
 
 export const getProducts = state => state.recipesReducer.products;
 export const getUtensils = state => state.recipesReducer.utensils;
+export const getTime = state => state.recipesReducer.range.time;
+export const getCalories = state => state.recipesReducer.range.calories;
 
 export default recipesReducer;

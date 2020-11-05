@@ -1,56 +1,50 @@
-import React, {useState} from "react"
+import React, {useEffect, useState, useRef, useLayoutEffect} from "react"
 import {Card, Slider} from "antd";
 import SliderTooltip from "../tooltip/SliderTooltip";
-
-const getFilterRange = (recipes, getParamFunction) => {
-    let min = Number.POSITIVE_INFINITY;
-    let max = Number.NEGATIVE_INFINITY;
-
-    for (let i = 0; i < recipes.length; i++) {
-        let param = getParamFunction(recipes[i]);
-        if (param < min) min = param;
-        if (param > max) max = param;
-    }
-
-    return {
-        min, max
-    };
-};
+import withQueryParams from "../../../hoc/withQueryParams";
+import {connect} from "react-redux";
+import {fetchRecipes} from "../../../_actions/sort_actions";
 
 function SliderFilter({
-                          recipes,
+                          range,
                           optionName,
                           filter,
-                          getParamFunction,
-                          units
+                          units,
                       }) {
-
-    const range = getFilterRange(recipes, getParamFunction);
 
     const [minValue, setMinValue] = useState(range.min);
     const [maxValue, setMaxValue] = useState(range.max);
 
+    useEffect(() => {
+        setMinValue(range.min);
+        setMaxValue(range.max);
+    }, [range]);
+
+
     function onChange(value) {
-        setMinValue(value[0]);
-        setMaxValue(value[1]);
-        console.log('onChange: ', value);
+        if (value[0] !== Number.NEGATIVE_INFINITY && value[1] !== Number.POSITIVE_INFINITY) {
+            setMinValue(value[0]);
+            setMaxValue(value[1]);
+        }
     }
 
     function onAfterChange(value) {
-        console.log('onAfterChange: ', filter);
-        filter(minValue, maxValue);
+        filter(value[0], value[1]);
     }
+
 
     return (
         <Card>
+            {console.log(minValue, maxValue)}
             <div style={{display: "flex", alignItems: "center", width: "100%"}}>
                 <span style={{display: "block", width: "25%"}}>
                     {optionName}
                 </span>
+                {console.log(range.min, range.max)}
                 <Slider
-                    range
+                    range={true}
                     step={1}
-                    defaultValue={[range.min, range.max]}
+                    value={[minValue, maxValue]}
                     min={range.min}
                     max={range.max}
                     onChange={onChange}
@@ -63,4 +57,17 @@ function SliderFilter({
     )
 }
 
-export default SliderFilter;
+const mapStateToProps = (state, props) => {
+    const {getter} = props;
+    return {
+        range: getter(state)
+    }
+};
+
+const mapDispatchToProps = (dispatch, state) => {
+    return {
+        fetchRecipes: (filter) => dispatch(fetchRecipes(filter), state)
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withQueryParams(SliderFilter));

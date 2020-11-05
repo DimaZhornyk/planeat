@@ -9,7 +9,7 @@ function ModalFilter({options, categories, isVisible, onCancel, onSelect}) {
     const [selectedCategory, setSelectedCategory] = useState(categories[0].categoryName);
 
     function getProductsFromSelectedCategory(category) {
-        console.log(options);
+
         const products = options.filter((element) => {
             return element.category === category
         });

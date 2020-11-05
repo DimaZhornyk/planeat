@@ -9,6 +9,7 @@ import PlusIcon from "../../../static/icons/plus.svg"
 import Icon from '@ant-design/icons'
 import queryString from "query-string"
 import withQueryParams from "../../../hoc/withQueryParams";
+import {fetchRecipes} from "../../../_actions/sort_actions";
 
 const filterSize = 6;
 
@@ -39,7 +40,8 @@ function SearchFilter({
                           params,
                           selector,
                           getter,
-                          router
+                          router,
+                          fetchRecipes
                       }) {
 
     const [isVisible, setVisible] = useState(false);
@@ -58,11 +60,19 @@ function SearchFilter({
         else if (!Array.isArray(additionalParams)) additionalOptions = [additionalParams];
         else additionalOptions = additionalParams;
         initialState = initialState.concat(getOptionsFromQuery(additionalOptions, options));
+        console.log(initialState);
         selector(initialState);
     }, []);
 
+    useLayoutEffect(() => {
+        if (firstUpdate.current) {
+            firstUpdate.current = false;
+            return;
+        }
+        redirectToFilterLink();
+    }, [selectedOptions]);
+
     function redirectToFilterLink() {
-        //TODO fix
         let href = window.location.href;
         let routes = href.split("/");
         let params = routes[routes.length - 1].split("?")[0];
@@ -71,7 +81,6 @@ function SearchFilter({
         let paramsObject = queryString.parse(routes[routes.length - 1].split("?")[1]);
         queryObject[optionName] = selectedOptions[0] ? selectedOptions[0].name : undefined;
         paramsObject[optionName] = optionsArray.map((item) => item.name);
-        console.log(selectedOptions);
         let queryStr = queryString.stringify(queryObject, {
             skipNull: true
         });
@@ -82,12 +91,11 @@ function SearchFilter({
                 ...paramsObject,
                 params: queryStr ? queryStr : "all"
             }
-        }).then();
+        }).then(fetchRecipes());
     }
 
     function handleItemUnselect(key) {
         selector(selectedOptions.filter((item, index) => parseInt(key) !== index));
-        redirectToFilterLink();
     }
 
     function handleItemClick(key) {
@@ -110,7 +118,6 @@ function SearchFilter({
         });
         if (!isIncluded) {
             selector([...selectedOptions, option]);
-            redirectToFilterLink(option);
         }
     }
 
@@ -168,4 +175,10 @@ const mapStateToProps = (state, props) => {
     }
 };
 
-export default connect(mapStateToProps)(withQueryParams(SearchFilter));
+const mapDispatchToProps = (dispatch, state) => {
+    return {
+        fetchRecipes: (filter) => dispatch(fetchRecipes(filter), state)
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withQueryParams(SearchFilter));

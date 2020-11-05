@@ -4,12 +4,11 @@ import RecipeCard from "./card/RecipeCard";
 import {connect} from "react-redux";
 import {fetchRecipes} from "../../_actions/sort_actions";
 
-function Recipes({recipes, fetchRecipes, filters}) {
+function Recipes({recipes, category, fetchRecipes}) {
 
     useEffect(() => {
-        //TODO add filters from hoc
-        fetchRecipes(filters);
-    }, []);
+        fetchRecipes();
+    },[category]);
 
     const displayRecipe = recipes.map((recipe, index) => (
         <Col xl={8} lg={8} md={12} sm={12} xs={24} key={index}>
@@ -30,7 +29,8 @@ function Recipes({recipes, fetchRecipes, filters}) {
 
 const mapStateToProps = state => {
     return {
-        recipes: state.recipesReducer.recipes
+        recipes: state.recipesReducer.filteredRecipes,
+        category: state.recipesReducer.category
     }
 };
 

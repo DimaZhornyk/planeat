@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {Dropdown, Menu} from "antd";
 import {SORT_BY_UTENSILS, SORT_BY_CALORIES, SORT_BY_PRODUCTS, SORT_BY_TIME} from "../../../_actions/sort_types";
 import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
@@ -13,6 +13,7 @@ import Router from "next/router";
 import withQueryParams from "../../../hoc/withQueryParams";
 
 function RecipesSort({
+                         recipes,
                          router,
                          sortByTime,
                          sortByCalories,
@@ -40,6 +41,12 @@ function RecipesSort({
         caption: "за приладдям",
         func: sortByUtensils
     };
+
+    console.log(recipes);
+
+    useEffect(() => {
+        sorts[selectedSort].func();
+    }, [recipes]);
 
     const handleMenuClick = e => {
         setSelectedSort(e.key);
@@ -108,6 +115,13 @@ function RecipesSort({
     )
 }
 
+const mapStateToProps = state => {
+    return {
+        recipes: state.recipesReducer.recipes
+    }
+};
+
+
 const mapDispatchToProps = {
     sortByTime,
     sortByCalories,
@@ -115,4 +129,4 @@ const mapDispatchToProps = {
     sortByUtensils
 };
 
-export default connect(null, mapDispatchToProps)(withQueryParams(RecipesSort));
+export default connect(mapStateToProps, mapDispatchToProps)(withQueryParams(RecipesSort));

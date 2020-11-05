@@ -11,18 +11,17 @@ import Markdown from "markdown-to-jsx";
 import {
     filterByCalories,
     filterByProducts, filterByTime,
-    filterByUtensils, getInitial,
+    filterByUtensils, getInitial, setCategory,
     setRecipes,
     sortByTime
 } from "../../../../src/_actions/sort_actions";
 import RecipesSort from "../../../../src/components/utils/filter/RecipesSort";
-import FirstLoad from "../../../../src/components/utils/FirstLoad";
 import SliderFilter from "../../../../src/components/utils/filter/SliderFilter";
 import Head from "next/head";
 import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
 import withQueryParams, {getOptionsFromQuery} from "../../../../src/hoc/withQueryParams";
 import SearchFilter from "../../../../src/components/utils/filter/SearchFilter";
-import {getProducts, getUtensils} from "../../../../src/_reducers/recipes_reducer";
+import {getCalories, getProducts, getTime, getUtensils} from "../../../../src/_reducers/recipes_reducer";
 
 export async function getStaticPaths() {
     let {data} = await Client.query({
@@ -167,8 +166,7 @@ export async function getStaticProps(context) {
 
 function FilteredPage({
                           data,
-                          getRecipes,
-                          getInitial,
+                          setCategory,
                           filterByProducts,
                           filterByUtensils,
                           filterByTime,
@@ -194,6 +192,10 @@ function FilteredPage({
         }
         return H1;
     };
+
+    useEffect(() => {
+        setCategory(data.category);
+    }, []);
 
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
@@ -238,18 +240,18 @@ function FilteredPage({
                             <Col xl={8} lg={8} md={24} sm={24} xs={24}>
                                 <Row gutter={[0, 16]}>
                                     <Col xl={24} lg={24} md={12} sm={12} xs={24} style={{width: "100%"}}>
-                                        <SliderFilter recipes={data.recipes}
-                                                      optionName={"Калорії"}
+                                        <SliderFilter optionName={"Калорії"}
                                                       getParamFunction={(recipe) => recipe.calories}
                                                       units={"ккл"}
-                                                      filter={filterByCalories}/>
+                                                      filter={filterByCalories}
+                                                      getter={getCalories}/>
                                     </Col>
                                     <Col xl={24} lg={24} md={12} sm={12} xs={24} style={{width: "100%"}}>
-                                        <SliderFilter recipes={data.recipes}
-                                                      optionName={"Час"}
+                                        <SliderFilter optionName={"Час"}
                                                       getParamFunction={(recipe) => recipe.time}
                                                       units={"хв"}
-                                                      filter={filterByTime}/>
+                                                      filter={filterByTime}
+                                                      getter={getTime}/>
                                     </Col>
                                 </Row>
                             </Col>
@@ -268,14 +270,15 @@ function FilteredPage({
     )
 }
 
-const mapDispatchToProps = {
-    getRecipes: setRecipes,
-    getInitial,
-    sortByTime,
-    filterByProducts,
-    filterByUtensils,
-    filterByTime,
-    filterByCalories
+const mapDispatchToProps = (dispatch, state) => {
+    return {
+        setCategory: (category) => dispatch(setCategory(category)),
+        filterByProducts: (products) => dispatch(filterByProducts(products)),
+        filterByUtensils: (utensils) => dispatch(filterByUtensils(utensils)),
+        filterByTime: (minTime, maxTime) => dispatch(filterByTime(minTime, maxTime), state),
+        filterByCalories: (minTime, maxTime) => dispatch(filterByCalories(minTime, maxTime), state)
+    }
+
 };
 
 export default connect(null, mapDispatchToProps)(FilteredPage)
