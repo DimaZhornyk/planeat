@@ -99,7 +99,7 @@ function RecipePage({recipe, categories}) {
                 </div>
             </Col>
         )
-    })
+    });
 
     const getIngredients = recipe.products.map(product => {
         return (
@@ -115,11 +115,11 @@ function RecipePage({recipe, categories}) {
             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                 <div className={styles["utils-list-container"]}>
                     <CustomOptionCard item={product} className={styles["utils-icon"]} size={"40px"}/>
-                    <p style={{margin: "0 0 0 15px"}}>{product.caption}</p>
+                    <p style={{margin: "0 0 0 15px", fontSize: "12px"}}>{product.caption}</p>
                 </div>
             </Col>
         )
-    })
+    });
 
     return (
         <>
@@ -137,7 +137,7 @@ function RecipePage({recipe, categories}) {
                                 {recipe.utensils.length !== 0 &&
                                 <>
                                     <div className={styles["dishes"]}>
-                                        <h3 style={{fontWeight: "600"}}>Прибори:</h3>
+                                        <h3 style={{fontSize: "18px", fontWeight: "600"}}>Прибори:</h3>
                                         <Scrollbars universal={true}>
                                             {getDishes}
                                         </Scrollbars>
@@ -147,7 +147,7 @@ function RecipePage({recipe, categories}) {
                                 {recipe.products.length !== 0 &&
                                 <>
                                     <div className={styles["ingredients"]}>
-                                        <h3 style={{fontWeight: "600"}}>Інгредієнти:</h3>
+                                        <h3 style={{fontSize: "18px", fontWeight: "600"}}>Інгредієнти:</h3>
                                         <Scrollbars universal={true}>
                                             {getIngredients}
                                         </Scrollbars>
@@ -227,7 +227,7 @@ function RecipePage({recipe, categories}) {
                     </div>
                     {recipe.utensils.length !== 0 &&
                     <>
-                        <h3 style={{fontWeight: "600"}}>Прибори:</h3>
+                        <h3 style={{fontSize: "18px", fontWeight: "600"}}>Прибори:</h3>
                         <Row>
                             {getMobileDishes}
                         </Row>
@@ -235,14 +235,14 @@ function RecipePage({recipe, categories}) {
                     }
                     {recipe.products.length !== 0 &&
                     <>
-                        <h3 style={{fontWeight: "600"}}>Інгредієнти:</h3>
+                        <h3 style={{fontSize: "18px", fontWeight: "600"}}>Інгредієнти:</h3>
                         <Row>
                             {getMobileIngredients}
                         </Row>
                     </>
                     }
-                    <p style={{fontSize: "18px"}}>Покроковий рецепт:</p>
-                    <p className={"recipeText"}>
+                    <p style={{fontSize: "18px", fontWeight: "600"}}>Покроковий рецепт:</p>
+                    <p className={styles["recipeText"]}>
                         <Markdown>
                             {recipe.recipeText}
                         </Markdown>

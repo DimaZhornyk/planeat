@@ -88,6 +88,8 @@
     max-width: 100%;
     color: rgba(0, 0, 0, 0.65);
     word-break: break-all !important;
+    font-weight: 500;
+    font-size: 15px;
 }
 
 .recipe-container {
@@ -107,5 +109,9 @@
     .utils-list-container{
         margin: 10px 0;
         justify-content: center;
+    }
+
+    .recipe-image {
+        max-width: 600px;
     }
 }
