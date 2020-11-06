@@ -259,9 +259,16 @@ function FilteredPage({
                     </Collapse.Panel>
                 </Collapse>
 
+                <Row gutter={[8, 8]}>
+                    <Col xs={24} sm={12}>
+                        <h1 style={{display: "block"}}>{getH1()}</h1>
+                    </Col>
+                    <Col xs={24} sm={12}>
+                        <RecipesSort category={category.categoryName} style={{display: "block"}}/>
+                    </Col>
+                </Row>
                 <div style={{display: "flex", justifyContent: "space-between", width: "100%", padding: "0 9px"}}>
-                    <h1 style={{display: "block"}}>{getH1()}</h1>
-                    <RecipesSort category={category.categoryName} style={{display: "block"}}/>
+
                 </div>
                 <Recipes recipes={data.recipes}/>
                 <Markdown>{category.CategoryText}</Markdown>

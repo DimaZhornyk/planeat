@@ -65,7 +65,7 @@ function RecipeCard(props) {
                                 Calories {props.calories}
                             </span>
                         </div>
-                        <Link href={"/recipe/" + props.id}>
+                        <Link href={"/recipe/" + props.slug}>
                             <Button style={{
                                 height: "100%",
                                 borderRadius: "8px",

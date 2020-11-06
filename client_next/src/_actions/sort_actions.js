@@ -30,6 +30,7 @@ const QUERY = gql`query
               }
             }){
             id
+            slug
             calories
             time
             recipeCaption

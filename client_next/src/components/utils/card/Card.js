@@ -16,6 +16,7 @@ function ProductCard(props) {
                        className={"card-image"}
                        style={{borderRadius: "10px"}}
                        preview={false}
+                       alt={props.name}
                 />
                 <div style={{display: "flex", flexDirection: "column", margin: "10px"}}>
                     <p>{props.caption}</p>
