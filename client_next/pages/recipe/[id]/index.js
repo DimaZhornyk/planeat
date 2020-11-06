@@ -14,6 +14,7 @@ import {Scrollbars} from 'react-custom-scrollbars';
 import Markdown from "markdown-to-jsx";
 import MediaQuery from "react-responsive";
 import {Col, Row} from "antd";
+import CustomOptionCard from "../../../src/components/utils/card/СustomOptionCard";
 
 
 export async function getStaticPaths() {
@@ -83,7 +84,7 @@ function RecipePage({recipe, categories}) {
     const getDishes = recipe.utensils.map(utensil => {
         return (
             <div className={styles["utils-list-container"]}>
-                <img src={BACKEND_URL + utensil.icon.url} alt={"utensil-icon"} className={styles["utils-icon"]}/>
+                <CustomOptionCard item={utensil} className={styles["utils-icon"]} size={"40px"}/>
                 <p style={{margin: "0 0 0 15px"}}>{utensil.caption}</p>
             </div>
         )
@@ -93,7 +94,7 @@ function RecipePage({recipe, categories}) {
         return (
             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                 <div className={styles["utils-list-container"]}>
-                    <img src={BACKEND_URL + utensil.icon.url} alt={"utensil-icon"} className={styles["utils-icon"]}/>
+                    <CustomOptionCard item={utensil} className={styles["utils-icon"]} size={"40px"}/>
                     <p style={{margin: "0 0 0 15px"}}>{utensil.caption}</p>
                 </div>
             </Col>
@@ -103,7 +104,7 @@ function RecipePage({recipe, categories}) {
     const getIngredients = recipe.products.map(product => {
         return (
             <div className={styles["utils-list-container"]}>
-                <img src={BACKEND_URL + product.icon.url} alt={"ingredient-icon"} className={styles["utils-icon"]}/>
+                <CustomOptionCard item={product} className={styles["utils-icon"]} size={"40px"}/>
                 <p style={{margin: "0 0 0 15px"}}>{product.caption}</p>
             </div>
         )
@@ -113,7 +114,7 @@ function RecipePage({recipe, categories}) {
         return (
             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                 <div className={styles["utils-list-container"]}>
-                    <img src={BACKEND_URL + product.icon.url} alt={"ingredient-icon"} className={styles["utils-icon"]}/>
+                    <CustomOptionCard item={product} className={styles["utils-icon"]} size={"40px"}/>
                     <p style={{margin: "0 0 0 15px"}}>{product.caption}</p>
                 </div>
             </Col>

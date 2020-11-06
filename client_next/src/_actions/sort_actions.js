@@ -39,15 +39,20 @@ const QUERY = gql`query
             category
             products {
                 name
+                icon {
+                    url
+                }
             }
             utensils {
                 name
+                icon {
+                    url
+                }
             }
         }
     }`;
 
 export function setCategory(category) {
-    console.log("Category");
     return {
         type: SET_CATEGORY,
         payload: category
