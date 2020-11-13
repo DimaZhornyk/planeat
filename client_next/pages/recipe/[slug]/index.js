@@ -15,6 +15,7 @@ import Markdown from "markdown-to-jsx";
 import MediaQuery from "react-responsive";
 import {Col, Row} from "antd";
 import CustomOptionCard from "../../../src/components/utils/card/СustomOptionCard";
+import {useMediaQuery} from 'react-responsive'
 
 
 export async function getStaticPaths() {
@@ -39,7 +40,7 @@ export async function getStaticProps({params}) {
         query: gql`
             query {
                 recipes (where: {
-                        slug: ${params.slug}
+                        slug: \"${params.slug}\"
                     }){
                     id
                     slug
@@ -107,6 +108,8 @@ function MinutesToDuration(s) {
 
 function RecipePage({recipe, categories}) {
 
+    const isTabletOrMobile = useMediaQuery({query: '(max-width: 1026px)'});
+
     const getDishes = recipe.utensils.map(utensil => {
         return (
             <li className={styles["utils-list-container"]}
@@ -152,13 +155,12 @@ function RecipePage({recipe, categories}) {
     });
 
     const getSchemaIngredients = recipe.products.map((product) => product.caption).join(", ");
-
     return (
         <div itemScope itemType={"https://schema.org/Recipe"}>
             <Head>
                 <title>{recipe.recipeCaption}</title>
             </Head>
-            <MediaQuery minDeviceWidth={1027}>
+            {!isTabletOrMobile &&
                 <div className={styles["recipe-container"]}>
                     <Header categories={categories}/>
                     <div className={styles["recipe-content"]}>
@@ -242,76 +244,74 @@ function RecipePage({recipe, categories}) {
                         </div>
                     </div>
                     <Share recipeId={recipe.id}/>
-                </div>
-            </MediaQuery>
-
-            <MediaQuery maxDeviceWidth={1026}>
-                <div className={styles["recipe-container"]}>
-                    <Header categories={categories}/>
-                    <h1 style={{fontWeight: "800"}}>{recipe.recipeCaption}</h1>
-                    <img src={BACKEND_URL + recipe.recipeImage.url} alt={recipe.recipeCaption + "-image"}
-                         className={styles["recipe-image"]}
-                         itemProp={"image"}/>
-                    <div className={styles["metrics"]}>
-                        <div style={{display: "flex"}}>
-                            <div className={styles["metric"]} style={{width: "200px"}}>
-                                <Icon component={ClockImageSvg} className={styles["metric-icon"]}/>
-                                <p>
-                                    <meta itemProp={"prepTime"}
-                                          content={MinutesToDuration(recipe.recipePreparationTime)}/>
-                                    {`Підготовка:    ${recipe.recipePreparationTime}хв.`}
-                                </p>
-                            </div>
-                            <div className={styles["metric"]} style={{width: "100px"}}>
-                                <Icon component={FireImageSvg} className={styles["metric-icon"]}/>
-                                <p>
-                                    <meta itemProp={"calories"}/>
-                                    {recipe.calories} кКал
-                                </p>
-                            </div>
+                </div>}
+            {isTabletOrMobile &&
+            <div className={styles["recipe-container"]}>
+                <Header categories={categories}/>
+                <h1 style={{fontWeight: "800"}}>{recipe.recipeCaption}</h1>
+                <img src={BACKEND_URL + recipe.recipeImage.url} alt={recipe.recipeCaption + "-image"}
+                     className={styles["recipe-image"]}
+                     itemProp={"image"}/>
+                <div className={styles["metrics"]}>
+                    <div style={{display: "flex"}}>
+                        <div className={styles["metric"]} style={{width: "200px"}}>
+                            <Icon component={ClockImageSvg} className={styles["metric-icon"]}/>
+                            <p>
+                                <meta itemProp={"prepTime"}
+                                      content={MinutesToDuration(recipe.recipePreparationTime)}/>
+                                {`Підготовка:    ${recipe.recipePreparationTime}хв.`}
+                            </p>
                         </div>
-                        <div style={{display: "flex"}}>
-                            <div className={styles["metric"]} style={{width: "200px"}}>
-                                <Icon component={ClockImageSvg} className={styles["metric-icon"]}/>
-                                <p>
-                                    <meta itemProp={"performTime"}
-                                          content={MinutesToDuration(recipe.time)}/>
-                                    {`Приготування:   ${recipe.time}хв.`}
-                                </p>
-                            </div>
-                            <div className={styles["metric"]} style={{width: "100px"}}>
-                                <Icon component={DishImageSvg} className={styles["metric-icon"]}/>
-                                <p itemProp={"recipeYield"}>
-                                    {recipe.recipePortions + " порції(й)"}
-                                </p>
-                            </div>
+                        <div className={styles["metric"]} style={{width: "100px"}}>
+                            <Icon component={FireImageSvg} className={styles["metric-icon"]}/>
+                            <p>
+                                <meta itemProp={"calories"}/>
+                                {recipe.calories} кКал
+                            </p>
                         </div>
                     </div>
-                    {recipe.utensils.length !== 0 &&
-                    <>
-                        <h3 style={{fontSize: "18px", fontWeight: "600"}}>Прибори:</h3>
-                        <Row>
-                            {getMobileDishes}
-                        </Row>
-                    </>
-                    }
-                    {recipe.products.length !== 0 &&
-                    <>
-                        <h3 style={{fontSize: "18px", fontWeight: "600"}}>Інгредієнти:</h3>
-                        <Row>
-                            {getMobileIngredients}
-                        </Row>
-                    </>
-                    }
-                    <p style={{fontSize: "18px", fontWeight: "600"}}>Покроковий рецепт:</p>
-                    <p className={styles["recipeText"]}>
-                        <Markdown>
-                            {recipe.recipeText}
-                        </Markdown>
-                    </p>
-                    <Share recipeId={recipe.id}/>
+                    <div style={{display: "flex"}}>
+                        <div className={styles["metric"]} style={{width: "200px"}}>
+                            <Icon component={ClockImageSvg} className={styles["metric-icon"]}/>
+                            <p>
+                                <meta itemProp={"performTime"}
+                                      content={MinutesToDuration(recipe.time)}/>
+                                {`Приготування:   ${recipe.time}хв.`}
+                            </p>
+                        </div>
+                        <div className={styles["metric"]} style={{width: "100px"}}>
+                            <Icon component={DishImageSvg} className={styles["metric-icon"]}/>
+                            <p itemProp={"recipeYield"}>
+                                {recipe.recipePortions + " порції(й)"}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </MediaQuery>
+                {recipe.utensils.length !== 0 &&
+                <>
+                    <h3 style={{fontSize: "18px", fontWeight: "600"}}>Прибори:</h3>
+                    <Row>
+                        {getMobileDishes}
+                    </Row>
+                </>
+                }
+                {recipe.products.length !== 0 &&
+                <>
+                    <h3 style={{fontSize: "18px", fontWeight: "600"}}>Інгредієнти:</h3>
+                    <Row>
+                        {getMobileIngredients}
+                    </Row>
+                </>
+                }
+                <p style={{fontSize: "18px", fontWeight: "600"}}>Покроковий рецепт:</p>
+                <p className={styles["recipeText"]}>
+                    <Markdown>
+                        {recipe.recipeText}
+                    </Markdown>
+                </p>
+                <Share recipeId={recipe.id}/>
+            </div>
+            }
         </div>
     )
 }

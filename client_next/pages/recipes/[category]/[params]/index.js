@@ -187,10 +187,24 @@ function FilteredPage({
         }
         if (utensil) {
             let utensilObj = data.utensils.find((p) => p.name === utensil);
-            console.log(utensilObj);
             H1 += " " + utensilObj.seoTitle;
         }
         return H1;
+    };
+
+    const getTitle = () => {
+        let title = category.CategoryTitle;
+        let product = data.params.product;
+        let utensil = data.params.utensil;
+        if (product) {
+            let productObj = data.products.find((p) => p.name === product);
+            title += " " + productObj.seoTitle;
+        }
+        if (utensil) {
+            let utensilObj = data.utensils.find((p) => p.name === utensil);
+            title += " " + utensilObj.seoTitle;
+        }
+        return title;
     };
 
     useEffect(() => {
@@ -201,9 +215,12 @@ function FilteredPage({
         <div style={{display: "flex", flexDirection: "column"}}>
             <Head>
                 <title>
-                    {category.CategoryTitle}
+                    {getTitle()}
                 </title>
                 <meta name={"description"} content={category.CategoryDescription}/>
+                {data.params.product > 1 || data.params.utensils ?
+                    <meta name="robots" content="index,follow"/> :
+                    <meta name="robots" content="noindex,nofollow"/>}
             </Head>
             <Header categories={data.categories}/>
             <div className={styles["main-page-wrapper"]}>
@@ -263,13 +280,10 @@ function FilteredPage({
                     <Col xs={24} sm={12}>
                         <h1 style={{display: "block"}}>{getH1()}</h1>
                     </Col>
-                    <Col xs={24} sm={12}>
-                        <RecipesSort category={category.categoryName} style={{display: "block"}}/>
+                    <Col xs={24} sm={12} style={{display: "flex", justifyContent: "end"}}>
+                        <RecipesSort category={category.categoryName} style={{display: "flex", justifyContent: "end"}}/>
                     </Col>
                 </Row>
-                <div style={{display: "flex", justifyContent: "space-between", width: "100%", padding: "0 9px"}}>
-
-                </div>
                 <Recipes recipes={data.recipes}/>
                 <Markdown>{category.CategoryText}</Markdown>
             </div>
