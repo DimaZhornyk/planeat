@@ -23,13 +23,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-TBT282Q');`
                 }}/>
                 <link
-                    href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext"
-                    rel="stylesheet"/>
+                    rel='preload'
+                    href='../public/fonts/Montserrat/Montserrat-Medium.ttf'
+                    as='font'
+                    crossOrigin=''
+                    />
             </Head>
             <body>
             <noscript dangerouslySetInnerHTML={{
                 __html: <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBT282Q"
-    height="0" width="0" style="display:none;visibility:hidden"/>
+                                height="0" width="0" style="display:none;visibility:hidden"/>
             }}/>
             <Component {...pageProps} />
             </body>
