@@ -9,6 +9,7 @@
     top: 0;
     min-width: 100vw;
     z-index: 100;
+    text-decoration: none;
 }
 
 .header-first-horizontal-row {
@@ -21,9 +22,6 @@
 
 .ant-menu{
     border-bottom: none;
-}
-
-.header-second-horizontal-row{
 }
 
 @media screen and(max-width: 845px){
