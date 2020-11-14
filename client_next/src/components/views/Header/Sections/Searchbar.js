@@ -7,6 +7,7 @@ import Link from "next/link";
 import styles from './search.module.css'
 import MediaQuery from "react-responsive";
 import {SearchOutlined} from "@ant-design/icons";
+import {useMediaQuery} from 'react-responsive'
 
 const {Search} = Input;
 
@@ -17,6 +18,8 @@ const allCategories = {
 
 
 function Searchbar({categories}) {
+
+    const isTabletOrMobile = useMediaQuery({query: '(max-width: 812px)'});
     const [selectedCategory, setSelectedCategory] = useState(allCategories.categoryDisplayNameUA);
     const [selectedKey, setSelectedKey] = useState(allCategories.id);
     const [searchItems, setSearchItems] = useState(<></>);
@@ -137,34 +140,34 @@ function Searchbar({categories}) {
 
     return (
         <>
-            <MediaQuery maxDeviceWidth={812}>
-                <div style={{width: "100%"}}>
-                    <div style={{
-                        width: "50px",
-                        height: "32px",
-                        borderRadius: "12px",
-                        background: "black",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        float: "right",
-                        zIndex: "1000"
-                    }}>
-                        <SearchOutlined style={{fontSize: '20px', color: "white"}}
-                                        onClick={() => setModalVisible(true)}/>
-                        <Modal visible={modalVisible} onCancel={() => setModalVisible(false)}>
-                            <div style={{maxHeight: "32px", display: "flex", margin: "30px 0 0 20px", width: "80%"}}>
-                                {searchComponent}
-                            </div>
-                        </Modal>
-                    </div>
+            {isTabletOrMobile &&
+            <div style={{width: "100%"}}>
+                <div style={{
+                    width: "50px",
+                    height: "32px",
+                    borderRadius: "12px",
+                    background: "black",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    float: "right",
+                    zIndex: "1000"
+                }}>
+                    <SearchOutlined style={{fontSize: '20px', color: "white"}}
+                                    onClick={() => setModalVisible(true)}/>
+                    <Modal visible={modalVisible} onCancel={() => setModalVisible(false)}>
+                        <div style={{maxHeight: "32px", display: "flex", margin: "30px 0 0 20px", width: "80%"}}>
+                            {searchComponent}
+                        </div>
+                    </Modal>
                 </div>
-            </MediaQuery>
-            <MediaQuery minDeviceWidth={813}>
-                <div style={{alignSelf: "center", display: "flex", width: "70%"}}>
-                    {searchComponent}
-                </div>
-            </MediaQuery>
+            </div>
+            }
+            {!isTabletOrMobile &&
+            <div style={{alignSelf: "center", display: "flex", width: "70%"}}>
+                {searchComponent}
+            </div>
+            }
         </>
     )
 }
