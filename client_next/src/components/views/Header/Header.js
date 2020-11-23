@@ -14,7 +14,7 @@ function Header(props) {
             <div className={styles["planeat-header"]} style={{width: "100vw"}}>
                 <div className={styles["header-first-horizontal-row"]} style={{justifyContent: "space-between"}}>
                     <Logo/>
-                    <Button onClick={() => window.location = "http://localhost:1337/connect/google"}>LOGIN</Button>
+                    <Button onClick={() => window.location = "https://www.admin.planeat.co.ua/connect/google"}>LOGIN</Button>
                     <Searchbar categories={props.categories}/>
                     <NavMenu categories={props.categories}/>
                 </div>
