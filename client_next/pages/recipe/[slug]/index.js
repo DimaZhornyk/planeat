@@ -197,7 +197,7 @@ function RecipePage({recipe, categories}) {
                                     <h1 style={{fontWeight: "800"}}>{recipe.recipeCaption}</h1>
                                     <div className={styles["metrics"]}>
                                         <div style={{display: "flex"}}>
-                                            <div className={styles["metric"]} style={{width: "200px"}}>
+                                            <div className={styles["metric"]} style={{width: "170px"}}>
                                                 <Icon component={ClockImageSvg} className={styles["metric-icon"]}/>
                                                 <p>
                                                     <meta itemProp={"prepTime"}
@@ -206,7 +206,7 @@ function RecipePage({recipe, categories}) {
                                                 </p>
                                             </div>
                                             <div className={styles["metric"]}
-                                                 style={{width: "100px"}}
+                                                 style={{width: "120px"}}
                                                  itemProp={"nutrition"}>
                                                 <Icon component={FireImageSvg} className={styles["metric-icon"]}/>
                                                 <p>
@@ -216,7 +216,7 @@ function RecipePage({recipe, categories}) {
                                             </div>
                                         </div>
                                         <div style={{display: "flex"}}>
-                                            <div className={styles["metric"]} style={{width: "200px"}}>
+                                            <div className={styles["metric"]} style={{width: "170px"}}>
                                                 <Icon component={ClockImageSvg} className={styles["metric-icon"]}/>
                                                 <p>
                                                     <meta itemProp={"performTime"}
@@ -224,7 +224,7 @@ function RecipePage({recipe, categories}) {
                                                     {`Приготування:   ${recipe.time}хв.`}
                                                 </p>
                                             </div>
-                                            <div className={styles["metric"]} style={{width: "100px"}}>
+                                            <div className={styles["metric"]} style={{width: "120px"}}>
                                                 <Icon component={DishImageSvg} className={styles["metric-icon"]}/>
                                                 <p itemProp={"recipeYield"}>
                                                     {recipe.recipePortions + " порції(й)"}
@@ -254,7 +254,7 @@ function RecipePage({recipe, categories}) {
                      itemProp={"image"}/>
                 <div className={styles["metrics"]}>
                     <div style={{display: "flex"}}>
-                        <div className={styles["metric"]} style={{width: "200px"}}>
+                        <div className={styles["metric"]} style={{width: "170px"}}>
                             <Icon component={ClockImageSvg} className={styles["metric-icon"]}/>
                             <p>
                                 <meta itemProp={"prepTime"}
@@ -262,7 +262,7 @@ function RecipePage({recipe, categories}) {
                                 {`Підготовка:    ${recipe.recipePreparationTime}хв.`}
                             </p>
                         </div>
-                        <div className={styles["metric"]} style={{width: "100px"}}>
+                        <div className={styles["metric"]} style={{width: "120px"}}>
                             <Icon component={FireImageSvg} className={styles["metric-icon"]}/>
                             <p>
                                 <meta itemProp={"calories"}/>
@@ -271,7 +271,7 @@ function RecipePage({recipe, categories}) {
                         </div>
                     </div>
                     <div style={{display: "flex"}}>
-                        <div className={styles["metric"]} style={{width: "200px"}}>
+                        <div className={styles["metric"]} style={{width: "170px"}}>
                             <Icon component={ClockImageSvg} className={styles["metric-icon"]}/>
                             <p>
                                 <meta itemProp={"performTime"}
@@ -279,7 +279,7 @@ function RecipePage({recipe, categories}) {
                                 {`Приготування:   ${recipe.time}хв.`}
                             </p>
                         </div>
-                        <div className={styles["metric"]} style={{width: "100px"}}>
+                        <div className={styles["metric"]} style={{width: "120px"}}>
                             <Icon component={DishImageSvg} className={styles["metric-icon"]}/>
                             <p itemProp={"recipeYield"}>
                                 {recipe.recipePortions + " порції(й)"}

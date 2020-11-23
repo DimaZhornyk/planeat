@@ -37,6 +37,7 @@ function Searchbar({categories}) {
                         id
                         recipeCaption
                         time
+                        slug
                         calories
                         recipeImage{
                             url
@@ -44,13 +45,12 @@ function Searchbar({categories}) {
                     }
                 }`
             }).then(res => {
-                console.log(res.data)
                 setSearchItems(
-                    <Menu>
+                    <Menu style={{maxHeight: "400px", overflowY: "scroll"}}>
                         {res.data.recipes.map((recipe, index) => {
                             return (
                                 <Menu.Item key={index}>
-                                    <Link href={"/recipe/" + recipe.id}>
+                                    <Link href={"/recipe/" + recipe.slug}>
                                         <div style={{display: "flex"}}>
                                             <img src={`${BACKEND_URL}${recipe.recipeImage.url}`}
                                                  style={{width: "67px", height: "50px"}} alt={"recipeImage"}/>
