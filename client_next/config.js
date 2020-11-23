@@ -1,1 +1,1 @@
-export const BACKEND_URL = "https://admin.planeat.co.ua";
+export const BACKEND_URL = "https://www.admin.planeat.co.ua";
