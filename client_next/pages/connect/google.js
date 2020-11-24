@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react"
-import { useLocation } from "react-router-dom"
 import axios from "axios"
+import {useRouter} from "next/router";
+import queryString from "query-string"
 import {BACKEND_URL} from "../../config";
 
 function GoogleAuthCallback() {
     const [auth, setAuth] = useState();
+    const router = useRouter();
+
     useEffect(() => {
-        if (!location) {
+        if (router.query === {} || router) {
             return
         }
         axios({
             method: "GET",
-            url: `${BACKEND_URL}/auth/google/callback`,
+            url: `${BACKEND_URL}/auth/google/callback?${queryString.stringify(router.query)}`,
         })
             .then(res => res.data)
             .then(setAuth)
-    }, []);
+    }, [router]);
 
     console.log(auth);
 
@@ -23,9 +26,7 @@ function GoogleAuthCallback() {
         <div>
             {auth && (
                 <>
-                    <div>Jwt: {auth.jwt}</div>
-                    <div>User Id: {auth.user.id}</div>
-                    <div>Provider: {auth.user.provider}</div>
+                    <div>{JSON.stringify(auth)}</div>
                 </>
             )}
         </div>

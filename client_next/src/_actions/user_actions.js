@@ -16,12 +16,11 @@ export function registerUser(dataToSubmit) {
     }
 }
 
-export function loginUser(dataToSubmit) {
-    //make request here
+export function loginUser(user) {
 
     return {
         type: LOGIN_USER,
-        payload: null
+        payload: user
     }
 }
 
