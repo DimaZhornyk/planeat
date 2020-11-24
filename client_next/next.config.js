@@ -6,7 +6,7 @@ const withCss = require('@zeit/next-css')
 
 const themeVariables = lessToJS(
     fs.readFileSync(path.resolve(__dirname, './styles/less/antd-custom.less'), 'utf8')
-)
+);
 
 module.exports = withCss({
     cssModules: true,

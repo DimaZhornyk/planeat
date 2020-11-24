@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from "react"
+import React, {useState, useEffect} from "react"
 import axios from "axios"
 import {useRouter} from "next/router";
 import queryString from "query-string"
 import {BACKEND_URL} from "../../config";
+import {setJwtToken} from "../../src/_actions/jwt_actions";
+import {connect} from "react-redux";
+import {auth, loginUser} from "../../src/_actions/user_actions";
 
-function GoogleAuthCallback() {
-    const [auth, setAuth] = useState();
+function GoogleAuthCallback({authUser}) {
+
     const router = useRouter();
-
+    const [error, setError] = useState('');
     useEffect(() => {
-        if (router.query === {} || router) {
+        if (Object.keys(router.query).length === 0) {
             return
         }
-        axios({
-            method: "GET",
-            url: `${BACKEND_URL}/auth/google/callback?${queryString.stringify(router.query)}`,
-        })
-            .then(res => res.data)
-            .then(setAuth)
+        let options = queryString.stringify(router.query);
+        console.log(options);
+        authUser(options)
+            .then(router.push('/'))
+            .catch(err => setError(err));
     }, [router]);
-
-    console.log(auth);
 
     return (
         <div>
-            {auth && (
-                <>
-                    <div>{JSON.stringify(auth)}</div>
-                </>
-            )}
+            <h1>{error}</h1>}
         </div>
     )
 }
 
-export default GoogleAuthCallback
+const mapDispatchToProps = {
+    authUser: auth
+};
+
+export default connect(null, mapDispatchToProps)(GoogleAuthCallback);
