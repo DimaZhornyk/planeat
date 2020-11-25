@@ -50,7 +50,6 @@ export function auth(accessToken) {
 }
 
 export function logoutUser() {
-
     return {
         type: LOGOUT_USER,
         payload: null

@@ -19,9 +19,10 @@ export default function UR(state = {}, action) {
                 ...action.payload
             };
         case LOGOUT_USER:
-            localStorage.removeItem("jwt");
-            localStorage.removeItem("access_token");
+            window.localStorage.removeItem("jwt");
+            window.localStorage.removeItem("access_token");
             return {
+                ...state,
                 user: {},
                 isAuth: false,
             };

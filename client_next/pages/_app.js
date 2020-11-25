@@ -5,18 +5,11 @@ import {applyMiddleware, compose} from "redux";
 import thunk from "redux-thunk"
 import '../styles/less/antd-custom.less'
 import Head from "next/head"
-import TagManager from "react-gtm-module"
-import {NextScript} from "next/document";
-import {setJwtToken} from "../src/_actions/jwt_actions";
 
 export default function App({Component, pageProps}) {
 
     const store = useStore(pageProps.initialReduxState, compose(applyMiddleware(thunk)));
 
-    useEffect(() => {
-        const token = window.localStorage.getItem("jwt");
-        if (token !== undefined) store.dispatch(setJwtToken(token))
-    });
     return (
         <Provider store={store}>
             <Head>

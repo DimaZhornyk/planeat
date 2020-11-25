@@ -1,8 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect} from 'react';
-import {auth} from '../_actions/user_actions';
 import {useSelector, useDispatch} from "react-redux";
+
 import {useRouter} from "next/router";
+import {auth, logoutUser} from '../_actions/user_actions';
 
 export default function Auth(SpecificComponent, option, adminRoute = null) {
     function AuthenticationCheck(props) {
@@ -14,7 +14,8 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
         useEffect(() => {
 
             const accessToken = window.localStorage.getItem('access_token');
-            if (accessToken !== undefined) {
+            console.log(accessToken);
+            if (accessToken !== null) {
                 dispatch(auth(accessToken)).then(response => {
                     if (!response.isAuth) {
                         //If not auth but in secure page => redirect to home
@@ -27,6 +28,8 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
                         }
                     }
                 })
+            } else {
+                dispatch(logoutUser())
             }
 
 
