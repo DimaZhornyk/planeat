@@ -62,7 +62,7 @@ export async function getStaticProps({params}) {
                         name
                         caption
                         icon{
-                            url
+npm                            url
                         }
                     }
                     recipeImage{

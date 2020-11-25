@@ -84,4 +84,4 @@ const mapDispatchToProps = {
     logoutUser: logoutUser
 }
 
-export default Auth(connect(mapStateToProps, mapDispatchToProps)(Header))
+export default Auth(connect(mapStateToProps, mapDispatchToProps)(Header), true)

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect} from 'react';
-import {auth} from '../_actions/user_actions';
-import {useSelector, useDispatch} from "react-redux";
+import {auth, loginUser, logoutUser} from '../_actions/user_actions';
+import {useSelector, useDispatch, connect} from "react-redux";
 import {useRouter} from "next/router";
 
 export default function Auth(SpecificComponent, option, adminRoute = null) {
@@ -14,7 +14,7 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
         useEffect(() => {
 
             const accessToken = window.localStorage.getItem('access_token');
-            if (accessToken !== undefined) {
+            if (accessToken !== null) {
                 dispatch(auth(accessToken)).then(response => {
                     if (!response.isAuth) {
                         //If not auth but in secure page => redirect to home
@@ -28,7 +28,9 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
                     }
                 })
             }
-
+            else{
+                props.logoutUser();
+            }
 
         }, []);
 
@@ -36,6 +38,9 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
             <SpecificComponent {...props} user={user}/>
         )
     }
+    const mapDispatchToState = {
+        logoutUser: logoutUser
+    }
 
-    return AuthenticationCheck
+    return connect(null, mapDispatchToState)(AuthenticationCheck)
 }
