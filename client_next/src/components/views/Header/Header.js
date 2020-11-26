@@ -25,7 +25,7 @@ function Header(props) {
             <Menu.Item key="1">Вподобані страви</Menu.Item>
             <Menu.Item key="2">Холодильник</Menu.Item>
             <Menu.Divider/>
-            <Menu.Item key="3"onClick={() => props.logoutUser()}><LogoutOutlined/>Вийти</Menu.Item>
+            <Menu.Item key="3" onClick={() => props.logoutUser()}><LogoutOutlined/>Вийти</Menu.Item>
         </Menu>
     );
 
@@ -55,7 +55,7 @@ function Header(props) {
                 <div className={styles["header-first-horizontal-row"]} style={{justifyContent: "space-between"}}>
                     <Logo/>
                     <Searchbar categories={props.categories}/>
-                    {authOrUserProfileBtn}
+                    {/*{authOrUserProfileBtn}*/}
                     <NavMenu categories={props.categories}/>
                 </div>
             </div>
@@ -65,9 +65,9 @@ function Header(props) {
             <div className={styles["header-first-horizontal-row"]} style={{justifyContent: "center"}}>
                 <Logo/>
                 <Searchbar categories={props.categories}/>
-                {authOrUserProfileBtn}
+                {/*{authOrUserProfileBtn}*/}
             </div>
-            <div className={styles["header-second-horizontal-row"]}>
+            <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
                 <NavMenu categories={props.categories}/>
             </div>
         </div>
