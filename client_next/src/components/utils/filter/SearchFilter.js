@@ -125,20 +125,20 @@ function SearchFilter({
         let cards = [];
         for (let i = 0; i < filterSize - 1; i++) {
             cards.push(
-                <div style={{display: "inline-block"}}>
+                <div style={{display: "inline-block",width:"100%", margin:"5px"}}>
                     <OptionCard key={i}
                                 index={i}
                                 productIcon={getOptionIcon(selectedOptions[i])}
                                 onItemDelete={handleItemUnselect}
                                 onItemClick={handleItemClick}/>
-                    <span style={{fontWeight: "500", fontSize: "10px"}}>
+                    <span style={{display:"inline-block", fontWeight: "500", fontSize: "10px", maxWidth:"40px", wordWrap:"break-word"}}>
                         {selectedOptions[i] !== undefined ? selectedOptions[i].caption : ""}
                     </span>
                 </div>
             )
         }
         cards.push(
-            <div style={{display: "inline-block"}}>
+            <div style={{display: "inline-block", width:"100%", margin:"5px"}}>
                 <OptionCard key={filterSize - 1}
                             index={filterSize - 1}
                             productIcon={<Icon component={PlusIcon} style={{fontSize: "24px"}}/>}

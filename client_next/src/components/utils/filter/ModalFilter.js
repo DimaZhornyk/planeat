@@ -15,16 +15,16 @@ function ModalFilter({options, categories, isVisible, onCancel, onSelect}) {
         });
         return (
             products.map((product, index) => (
-                <div key={index} style={{display: "flex", alignItems: "center", margin: "10px"}}>
+                <div key={index} style={{display: "flex", alignItems: "center", margin: "10px", width:"25%"}}>
                     <OptionCard productIcon={getOptionIcon(product)} isEnabled={false}
                                 onItemClick={(key) => onSelect(product)}/>
                     <div style={{display: "block"}}>
                         <span style={{fontSize: "10px", fontWeight: "600", display: "block", lineHeight: "10px"}}>
                         {product.caption}
                         </span>
-                        <span style={{fontSize: "8px", fontWeight: "500", display: "block"}}>
-                        {product.calories + " ккл / 100гр"}
-                        </span>
+                        {/*<span style={{fontSize: "8px", fontWeight: "500", display: "block"}}>*/}
+                        {/*{product.calories + " ккл / 100гр"}*/}
+                        {/*</span>*/}
                     </div>
                 </div>
             ))
@@ -57,11 +57,13 @@ function ModalFilter({options, categories, isVisible, onCancel, onSelect}) {
                 </Menu>
             </Scrollbars>
 
+            <Scrollbars style={{height: "100%", width:"100%", margin: "0", borderRadius: "12px"}} universal={true}>
             <div>
                 <div style={{display: "flex", justifyContent: "start", flexWrap: "wrap", padding: "0px 20px"}}>
                     {getProductsFromSelectedCategory(selectedCategory)}
                 </div>
             </div>
+            </Scrollbars>
         </Modal>
     )
 }

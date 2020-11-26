@@ -26,16 +26,16 @@ import {getCalories, getProducts, getTime, getUtensils} from "../../../../src/_r
 export async function getStaticPaths() {
     let {data} = await Client.query({
         query: gql`query {
-        categories{
-            categoryName   
-        }
-        products{
-          name
-        }
-        utensils{
-          name
-        }
-    }`
+            categories{
+                categoryName
+            }
+            products{
+                name
+            }
+            utensils{
+                name
+            }
+        }`
     });
 
     let products = data.products.concat({});
@@ -105,47 +105,47 @@ export async function getStaticProps(context) {
             }
         }
         categories{
-            id
-            categoryName
-            categoryImage{
-                url
-            }
-            categoryDisplayNameUA
+        id
+        categoryName
+        categoryImage{
+        url
+        }
+        categoryDisplayNameUA
         }
         categoriesTexts{
-          CategoryNameText
-          CategoryText
-          CategoryH1
-          CategoryTitle
-          CategoryDescription
+        CategoryNameText
+        CategoryText
+        CategoryH1
+        CategoryTitle
+        CategoryDescription
         }
         products{
-          caption
-          name
-          icon{
-            url
-          }
-          category
-          seoTitle
+        caption
+        name
+        icon{
+        url
+        }
+        category
+        seoTitle
         }
         utensils{
-          caption
-          name
-          icon{
-            url
-          }
-          category
-          seoTitle
+        caption
+        name
+        icon{
+        url
+        }
+        category
+        seoTitle
         }
         categoriesProducts{
-          categoryName
-          categoryDisplayNameUA
+        categoryName
+        categoryDisplayNameUA
         }
         categoriesUtensils{
-          categoryName
-          categoryDisplayNameUA
-        }   
-    }`
+        categoryName
+        categoryDisplayNameUA
+        }
+        }`
     });
     return {
         props: {
