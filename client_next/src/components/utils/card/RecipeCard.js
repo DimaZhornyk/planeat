@@ -1,14 +1,34 @@
 import React from "react"
-import {Card, Image, Button} from "antd"
+import Icon from "@ant-design/icons/lib";
 import {BACKEND_URL} from "../../../../config"
+import {Card, Image, Button} from "antd"
+
 import ClockIcon from "../../../static/icons/clockIcon.svg"
 import FireIcon from "../../../static/icons/fireIcon.svg"
-import Link from "next/link";
+import {connect} from "react-redux";
+
 import CustomOptionCard from "./СustomOptionCard";
-import Icon from "@ant-design/icons/lib";
+import axios from "axios";
 
 const optionsLength = 4;
 
+async function addCard(jwt, userId, cardId, ids) {
+    ids.push(parseInt(cardId));
+    await axios.put(`${BACKEND_URL}/users/${userId}`, {ids: ids}, {
+        headers: {
+            'Authorization': `Bearer ${jwt}`}
+    });
+}
+
+async function deleteCard(jwt, userId, cardId, ids){
+    let index = ids.indexOf(parseInt(cardId));
+    console.log(index);
+    ids.splice(index,1);
+    await axios.put(`${BACKEND_URL}/users/${userId}`, {ids: ids}, {
+        headers: {
+            'Authorization': `Bearer ${jwt}`}
+    });
+}
 function RecipeCard(props) {
     let optionsArray = [];
     const getOptions = (options) => {
@@ -74,6 +94,17 @@ function RecipeCard(props) {
                                 cursor: "pointer",
                             }} className={"product-card-button"}> До рецепту </Button>
                         </a>
+                        {props.isAuth && <Button style={{
+                            height: "100%",
+                            borderRadius: "8px",
+                            backgroundColor: "#FFCA44",
+                            fontWeight: "600",
+                            cursor: "pointer",
+                        }} className={"product-card-button"} onClick={() => {
+                            if(props.ids.indexOf(parseInt(props.id)) === -1)
+                                return addCard(props.jwt, props.userId, props.id, props.ids);
+                            return deleteCard(props.jwt, props.userId, props.id, props.ids);
+                        }}> {props.ids.indexOf(parseInt(props.id)) === -1?"+":"-"} </Button>}
                     </div>
                 </div>
             </Card>
@@ -81,4 +112,13 @@ function RecipeCard(props) {
     )
 }
 
-export default RecipeCard
+const mapStateToProps = state => {
+    return {
+        isAuth: state.user.isAuth,
+        jwt: state.jwt.jwt,
+        userId: state.user.id,
+        ids: state.user.ids
+    };
+}
+
+export default connect(mapStateToProps)(RecipeCard);

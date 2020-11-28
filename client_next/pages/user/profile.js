@@ -5,9 +5,11 @@ import Header from "../../src/components/views/Header/Header";
 import Client from "../../lib/apollo";
 import gql from "graphql-tag";
 import Recipes from "../../src/components/utils/Recipes";
-import {Col, Empty, Row} from "antd";
+import {Button, Col, Empty, Row} from "antd";
 import RecipeCard from "../../src/components/utils/card/RecipeCard";
 import styles from "../../styles/Main.module.css";
+import axios from "axios";
+import {BACKEND_URL} from "../../config";
 
 export async function getStaticProps() {
     const {data} = await Client.query({
@@ -52,16 +54,20 @@ const QUERY = gql`query
                 }
               }`;
 
-function Profile({recipes, categories}) {
 
+function Profile({recipes, categories}) {
     const [likeRecipes, setLikeRecipes] = useState([])
     useEffect(() => {
         async function fetchData() {
             if (recipes !== undefined) {
                 const recipeId = {
-                    ids: recipes.map(recipes => recipes.id)
+                    ids: recipes
+                        // recipes.map(recipes => recipes.id)
                 }
-                return Client.query({query:QUERY, variables: recipeId}).then(({data}) => data.recipes);
+
+                if(recipes.length !== 0)
+                    return Client.query({query:QUERY, variables: recipeId}).then(({data}) => data.recipes);
+                return undefined;
             }
         }
         fetchData().then(setLikeRecipes);
@@ -89,7 +95,7 @@ function Profile({recipes, categories}) {
 
 const mapStateToProps = state => {
     return {
-        recipes: state.user.recipes
+        recipes: state.user.ids
     };
 }
 
