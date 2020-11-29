@@ -19,7 +19,6 @@ import RecipesSort from "../../../../src/components/utils/filter/RecipesSort";
 import SliderFilter from "../../../../src/components/utils/filter/SliderFilter";
 import Head from "next/head";
 import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
-import withQueryParams, {getOptionsFromQuery} from "../../../../src/hoc/withQueryParams";
 import SearchFilter from "../../../../src/components/utils/filter/SearchFilter";
 import {getCalories, getProducts, getTime, getUtensils} from "../../../../src/_reducers/recipes_reducer";
 
@@ -227,7 +226,7 @@ function FilteredPage({
                 <Collapse defaultActiveKey={['1']} onChange={() => console.log("smth")}
                           style={{width: "100%", margin: "20px", borderRadius: "7px"}}
                           ghost>
-                    <Collapse.Panel header={<strong>Фільтри</strong>}
+                    <Collapse.Panel disabled header={<strong>Фільтри</strong>}
                                     key="1"
                                     extra={
                                         <Button type={"primary"}
@@ -249,7 +248,7 @@ function FilteredPage({
                             <Col xl={8} lg={8} md={12} sm={12} xs={24}>
                                 <SearchFilter options={data.utensils}
                                               optionName={"utensil"}
-                                              optionCaption={"Пробори"}
+                                              optionCaption={"Прибори"}
                                               categories={data.categoriesUtensils}
                                               params={data.params.utensil} selector={filterByUtensils}
                                               getter={getUtensils}/>

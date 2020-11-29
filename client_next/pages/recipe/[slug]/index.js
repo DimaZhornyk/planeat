@@ -12,10 +12,9 @@ import Icon from "@ant-design/icons";
 import Head from "next/head";
 import {Scrollbars} from 'react-custom-scrollbars';
 import Markdown from "markdown-to-jsx";
-import MediaQuery from "react-responsive";
 import {Col, Row} from "antd";
 import CustomOptionCard from "../../../src/components/utils/card/СustomOptionCard";
-import {useMediaQuery} from 'react-responsive'
+import {useMediaQuery} from 'react-responsive';
 
 
 export async function getStaticPaths() {
@@ -62,7 +61,7 @@ export async function getStaticProps({params}) {
                         name
                         caption
                         icon{
-npm                            url
+                           url
                         }
                     }
                     recipeImage{

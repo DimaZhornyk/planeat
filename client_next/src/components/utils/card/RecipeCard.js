@@ -77,12 +77,12 @@ function RecipeCard(props) {
                         <div>
                             <span style={{fontSize: "12px", lineHeight: "16px", display: "block"}}>
                                 <Icon component={ClockIcon} style={{fontSize: "16px", marginRight: "5px"}}/>
-                                Time {props.time}
+                                {props.time} хв
                             </span>
                             <span style={{fontSize: "12px", lineHeight: "16px", display: "block"}}>
                                 <Icon component={FireIcon}
                                       style={{fontSize: "16px", marginRight: "5px", color: "black"}}/>
-                                Calories {props.calories}
+                                 {props.calories} ккал
                             </span>
                         </div>
                         <a href={"/recipe/" + props.slug}>
