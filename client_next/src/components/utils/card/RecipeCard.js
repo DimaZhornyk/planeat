@@ -13,6 +13,8 @@ import axios from "axios";
 const optionsLength = 4;
 
 async function addCard(jwt, userId, cardId, ids) {
+    if(ids === null)
+        ids = [];
     ids.push(parseInt(cardId));
     await axios.put(`${BACKEND_URL}/users/${userId}`, {ids: ids}, {
         headers: {
@@ -101,10 +103,10 @@ function RecipeCard(props) {
                             fontWeight: "600",
                             cursor: "pointer",
                         }} className={"product-card-button"} onClick={() => {
-                            if(props.ids.indexOf(parseInt(props.id)) === -1)
+                            if(props.ids === null || props.ids.indexOf(parseInt(props.id)) === -1)
                                 return addCard(props.jwt, props.userId, props.id, props.ids);
                             return deleteCard(props.jwt, props.userId, props.id, props.ids);
-                        }}> {props.ids.indexOf(parseInt(props.id)) === -1?"+":"-"} </Button>}
+                        }}> {props.ids === null || props.ids.indexOf(parseInt(props.id)) === -1?"+":"-"} </Button>}
                     </div>
                 </div>
             </Card>

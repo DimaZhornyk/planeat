@@ -65,7 +65,7 @@ function Header(props) {
             <div className={styles["header-first-horizontal-row"]} style={{justifyContent: "center"}}>
                 <Logo/>
                 <Searchbar categories={props.categories}/>
-                {/*{authOrUserProfileBtn}*/}
+                {authOrUserProfileBtn}
             </div>
             <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
                 <NavMenu categories={props.categories}/>

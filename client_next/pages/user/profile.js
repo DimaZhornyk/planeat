@@ -59,6 +59,8 @@ function Profile({recipes, categories}) {
     const [likeRecipes, setLikeRecipes] = useState([])
     useEffect(() => {
         async function fetchData() {
+            if(recipes === null)
+                recipes = [];
             if (recipes !== undefined) {
                 const recipeId = {
                     ids: recipes
