@@ -68,7 +68,7 @@ export async function getStaticPaths() {
             })
         }))
     );
-    console.log(paths);
+
     return {
         paths: paths,
         fallback: false
@@ -84,7 +84,6 @@ const getQueryFilter = category => {
 
 export async function getStaticProps(context) {
     const filter = getQueryFilter(context.params.category);
-    console.log(filter);
     const {data} = await Client.query({
         query: gql` query {
             recipes ${filter}{
@@ -242,7 +241,8 @@ function FilteredPage({
                                               optionName={"product"}
                                               optionCaption={"Продукти"}
                                               categories={data.categoriesProducts}
-                                              params={data.params.product} selector={filterByProducts}
+                                              params={data.params.product}
+                                              selector={filterByProducts}
                                               getter={getProducts}/>
                             </Col>
                             <Col xl={8} lg={8} md={12} sm={12} xs={24}>

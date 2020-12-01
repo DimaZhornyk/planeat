@@ -13,12 +13,12 @@ import Router from "next/router";
 import withQueryParams from "../../../hoc/withQueryParams";
 
 function RecipesSort({
-                         recipes,
                          router,
+                         recipes,
                          sortByTime,
-                         sortByCalories,
                          sortByProducts,
-                         sortByUtensils
+                         sortByUtensils,
+                         sortByCalories
                      }) {
 
     const initialState = router.query.sort !== undefined ? router.query.sort : SORT_BY_TIME;
@@ -42,8 +42,6 @@ function RecipesSort({
         func: sortByUtensils
     };
 
-    console.log(recipes);
-
     useEffect(() => {
         sorts[selectedSort].func();
     }, [recipes]);
@@ -51,7 +49,6 @@ function RecipesSort({
     const handleMenuClick = e => {
         setSelectedSort(e.key);
         sorts[e.key].func();
-        console.log(router.query);
         Router.push({
             pathname: Router.pathname,
             query: {

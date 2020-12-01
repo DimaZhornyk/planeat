@@ -68,7 +68,7 @@ export function setRecipes(recipes) {
 }
 
 export function fetchRecipes() {
-    //TODO improve filters
+
     return (dispatch, getState) => {
         const state = getState().recipesReducer;
         let vars = {

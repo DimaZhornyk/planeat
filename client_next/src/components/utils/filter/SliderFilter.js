@@ -35,12 +35,10 @@ function SliderFilter({
 
     return (
         <Card>
-            {console.log(minValue, maxValue)}
             <div style={{display: "flex", alignItems: "center", width: "100%"}}>
                 <span style={{display: "block", width: "25%"}}>
                     {optionName}
                 </span>
-                {console.log(range.min, range.max)}
                 <Slider
                     range={true}
                     step={1}
