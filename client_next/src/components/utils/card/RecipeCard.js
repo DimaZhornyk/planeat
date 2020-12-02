@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 
 import CustomOptionCard from "./СustomOptionCard";
 import axios from "axios";
-import {deleteRecipe} from "../../../_actions/user_actions";
+import {deleteRecipe, addRecipe} from "../../../_actions/user_actions";
 
 const optionsLength = 4;
 
@@ -23,16 +23,10 @@ async function addCard(jwt, userId, cardId, ids) {
     });
 }
 
-async function deleteCard(jwt, userId, cardId, ids){
-    let index = ids.indexOf(parseInt(cardId));
-    ids.splice(index,1);
-    await axios.put(`${BACKEND_URL}/users/${userId}`, {ids: ids}, {
-        headers: {
-            'Authorization': `Bearer ${jwt}`}
-    });
-}
 function RecipeCard(props) {
     let optionsArray = [];
+    console.log("Props: " + props.ids + "" + props.id);
+    console.log(props.ids.includes(parseInt(props.id)));
     const getOptions = (options) => {
         if (options.length > optionsLength) {
             optionsArray = options.slice(0, optionsLength - 1).map((option) => {
@@ -104,9 +98,9 @@ function RecipeCard(props) {
                             cursor: "pointer",
                         }} className={"product-card-button"} onClick={() => {
                             if(props.ids === null || props.ids.indexOf(parseInt(props.id)) === -1)
-                                return addCard(props.jwt, props.userId, props.id, props.ids);
+                                return props.addRecipes(props.id).then(console.log);
                             return props.deleteRecipes(props.id).then(console.log);
-                        }}> {props.ids === null || props.ids.indexOf(parseInt(props.id)) === -1?"+":"-"} </Button>}
+                        }}> {props.ids.includes(parseInt(props.id)) ? "-" : "+"} </Button>}
                     </div>
                 </div>
             </Card>
@@ -123,6 +117,7 @@ const mapStateToProps = state => {
     };
 }
 const mapDispatchToProps = {
-    deleteRecipes: deleteRecipe
+    deleteRecipes: deleteRecipe,
+    addRecipes: addRecipe
 }
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeCard);

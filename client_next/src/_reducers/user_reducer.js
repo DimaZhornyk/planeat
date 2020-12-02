@@ -1,4 +1,4 @@
-import {AUTH_USER, DELETE_RECIPE, LOGIN_USER, LOGOUT_USER} from "../_actions/types";
+import {ADD_RECIPE, AUTH_USER, DELETE_RECIPE, LOGIN_USER, LOGOUT_USER} from "../_actions/types";
 
 let initialState = {
     isAuth: undefined,
@@ -31,6 +31,11 @@ export default function UR(state = {}, action) {
             return{
                 ...state,
                 ids: newIds
+            }
+        case ADD_RECIPE:
+            return{
+                ...state,
+                ids:action.payload
             }
         default:
             return state;
