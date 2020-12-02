@@ -1,4 +1,4 @@
-import {AUTH_USER, LOGIN_USER, LOGOUT_USER} from "../_actions/types";
+import {AUTH_USER, DELETE_RECIPE, LOGIN_USER, LOGOUT_USER} from "../_actions/types";
 
 let initialState = {
     isAuth: undefined,
@@ -26,6 +26,12 @@ export default function UR(state = {}, action) {
                 user: {},
                 isAuth: false,
             };
+        case DELETE_RECIPE:
+            const newIds = state.ids.splice(action.payload,1);
+            return{
+                ...state,
+                ids: newIds
+            }
         default:
             return state;
     }

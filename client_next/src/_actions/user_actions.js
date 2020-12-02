@@ -2,7 +2,7 @@ import {
     LOGIN_USER,
     REGISTER_USER,
     AUTH_USER,
-    LOGOUT_USER,
+    LOGOUT_USER, DELETE_RECIPE,
 } from './types';
 import axios from "axios";
 import {setAccessToken, setJwtToken} from "./jwt_actions";
@@ -44,6 +44,30 @@ export function auth(accessToken) {
                 return res;
             })
     };
+}
+
+export function deleteRecipe(id) {
+    console.log(id);
+    return (dispatch, getState) => {
+
+        const state = getState();
+        let ids = state.user.ids;
+        const jwt = state.jwt.jwt;
+        const userId = state.user.id;
+        let index = ids.indexOf(parseInt(id));
+        ids.splice(index,1);
+
+        return axios.put(`${BACKEND_URL}/users/${userId}`, {ids: ids}, {
+            headers: {
+                'Authorization': `Bearer ${jwt}`
+            }
+        }).then(res => {
+            dispatch({
+                type: DELETE_RECIPE,
+                payload: index
+            })
+        })
+    }
 }
 
 export function logoutUser() {

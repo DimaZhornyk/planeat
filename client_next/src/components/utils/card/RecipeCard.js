@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 
 import CustomOptionCard from "./СustomOptionCard";
 import axios from "axios";
+import {deleteRecipe} from "../../../_actions/user_actions";
 
 const optionsLength = 4;
 
@@ -24,7 +25,6 @@ async function addCard(jwt, userId, cardId, ids) {
 
 async function deleteCard(jwt, userId, cardId, ids){
     let index = ids.indexOf(parseInt(cardId));
-    console.log(index);
     ids.splice(index,1);
     await axios.put(`${BACKEND_URL}/users/${userId}`, {ids: ids}, {
         headers: {
@@ -105,7 +105,7 @@ function RecipeCard(props) {
                         }} className={"product-card-button"} onClick={() => {
                             if(props.ids === null || props.ids.indexOf(parseInt(props.id)) === -1)
                                 return addCard(props.jwt, props.userId, props.id, props.ids);
-                            return deleteCard(props.jwt, props.userId, props.id, props.ids);
+                            return props.deleteRecipes(props.id).then(console.log);
                         }}> {props.ids === null || props.ids.indexOf(parseInt(props.id)) === -1?"+":"-"} </Button>}
                     </div>
                 </div>
@@ -119,8 +119,10 @@ const mapStateToProps = state => {
         isAuth: state.user.isAuth,
         jwt: state.jwt.jwt,
         userId: state.user.id,
-        ids: state.user.ids
+        ids: state.user.ids,
     };
 }
-
-export default connect(mapStateToProps)(RecipeCard);
+const mapDispatchToProps = {
+    deleteRecipes: deleteRecipe
+}
+export default connect(mapStateToProps, mapDispatchToProps)(RecipeCard);
