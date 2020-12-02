@@ -34,7 +34,6 @@ export function auth(accessToken) {
         })
             .then(res => res.data)
             .then(res => {
-                console.log(res);
                 dispatch(setJwtToken(res.jwt));
                 dispatch(setAccessToken(accessToken));
                 dispatch({

@@ -34,7 +34,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params}) {
-    console.log(params.slug);
+
     const {data} = await Client.query({
         query: gql`
             query {
@@ -79,7 +79,6 @@ export async function getStaticProps({params}) {
                 }
             }`
     });
-    console.log(data.recipes);
     return {props: {recipe: data.recipes[0], categories: data.categories}}
 }
 
@@ -153,7 +152,6 @@ function RecipePage({recipe, categories}) {
         )
     });
 
-    const getSchemaIngredients = recipe.products.map((product) => product.caption).join(", ");
     return (
         <div itemScope itemType={"https://schema.org/Recipe"}>
             <Head>

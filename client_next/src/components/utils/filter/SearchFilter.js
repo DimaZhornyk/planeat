@@ -60,7 +60,6 @@ function SearchFilter({
         else if (!Array.isArray(additionalParams)) additionalOptions = [additionalParams];
         else additionalOptions = additionalParams;
         initialState = initialState.concat(getOptionsFromQuery(additionalOptions, options));
-        console.log(initialState);
         selector(initialState);
     }, []);
 

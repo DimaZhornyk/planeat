@@ -13,7 +13,6 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
         useEffect(() => {
 
             const accessToken = window.localStorage.getItem('access_token');
-            console.log(accessToken);
             if (accessToken !== null) {
                 dispatch(auth(accessToken)).then(response => {
                     if (!response.isAuth) {
@@ -40,7 +39,7 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
 
     const mapDispatchToState = {
         logoutUser: logoutUser
-    }
+    };
 
     return connect(null, mapDispatchToState)(AuthenticationCheck)
 }
