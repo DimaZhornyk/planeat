@@ -227,14 +227,15 @@ function FilteredPage({
                           ghost>
                     <Collapse.Panel disabled header={<strong>Фільтри</strong>}
                                     key="1"
-                                    extra={
-                                        <Button type={"primary"}
-                                                icon={<DeleteOutlined/>}
-                                                onClick={(event => {
-                                                    event.stopPropagation();
-
-                                                })}>Очистити</Button>
-                                    }>
+                                    // extra={
+                                    //     <Button type={"primary"}
+                                    //             icon={<DeleteOutlined/>}
+                                    //             onClick={(event => {
+                                    //                 event.stopPropagation();
+                                    //
+                                    //             })}>Очистити</Button>
+                                    // }
+                        >
                         <Row gutter={[16, 16]} style={{margin: "0"}}>
                             <Col xl={8} lg={8} md={12} sm={12} xs={24}>
                                 <SearchFilter options={data.products}
@@ -279,7 +280,7 @@ function FilteredPage({
                     <Col xs={24} sm={12}>
                         <h1 style={{display: "block"}}>{getH1()}</h1>
                     </Col>
-                    <Col xs={24} sm={12} style={{display: "flex", justifyContent: "end"}}>
+                    <Col xs={24} sm={12} style={{display: "flex", justifyContent: "center"}}>
                         <RecipesSort category={category.categoryName} style={{display: "flex", justifyContent: "end"}}/>
                     </Col>
                 </Row>

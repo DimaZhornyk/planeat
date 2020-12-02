@@ -55,7 +55,7 @@ function Header(props) {
                 <div className={styles["header-first-horizontal-row"]} style={{justifyContent: "space-between"}}>
                     <Logo/>
                     <Searchbar categories={props.categories}/>
-                    {/*{authOrUserProfileBtn}*/}
+                    {authOrUserProfileBtn}
                     <NavMenu categories={props.categories}/>
                 </div>
             </div>
