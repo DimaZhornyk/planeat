@@ -26,7 +26,7 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
                             router.push('/')
                         }
                     }
-                })
+                }).catch(error => dispatch(logoutUser()))
             } else {
                 dispatch(logoutUser())
             }
