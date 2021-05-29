@@ -15,6 +15,9 @@ const schema = new mongoose.Schema(
         minutesToCook: {
             type: Number,
         },
+        text: {
+            type: String,
+        },
         category: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Category"
