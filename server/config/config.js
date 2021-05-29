@@ -1,0 +1,1 @@
+const mongoURI = "mongodb+srv://admin:<password>@planeat.f1hnx.mongodb.net"
