@@ -5,7 +5,7 @@ import { Recipe, recipeSchemaToType, RecipeType } from './recipe.dto';
 
 @Injectable()
 export class RecipeService {
-  constructor(@InjectModel('recipes') private readonly model: Model<Recipe>) {}
+  constructor(@InjectModel('recipes') private readonly model: Model<Recipe>) { }
 
   async findAll(): Promise<RecipeType[]> {
     return (
@@ -39,6 +39,22 @@ export class RecipeService {
       .exec();
     return res
       .filter(({ category }) => ids.includes(category.id))
+      .map(recipeSchemaToType);
+  }
+
+  async findByCaption(caption: string): Promise<RecipeType[]> {
+    const res = await this.model
+      .find()
+      .populate('category')
+      .populate('products')
+      .populate('utensils')
+      .exec();
+    return res
+      .filter(({ recipeCaption }) => {
+        if (recipeCaption != undefined && recipeCaption != null)
+          return recipeCaption.toLowerCase().includes(caption)
+        return false
+      })
       .map(recipeSchemaToType);
   }
 }

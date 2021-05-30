@@ -13,11 +13,20 @@ import { RecipeType } from './recipe.dto';
 import { RecipeService } from './recipe.service';
 @InputType()
 export class RecipesWhere {
-  @Field()
+  @Field({ nullable: true })
   category?: string;
 
-  @Field(() => [ID])
+  @Field(() => [ID], { nullable: true })
   id?: [string];
+
+  @Field({ nullable: true })
+  recipeCaption?: string;
+
+  @Field(() => [String], { nullable: true })
+  products?: string[];
+
+  @Field(() => [String], { nullable: true })
+  utensils?: string[];
 }
 
 @ArgsType()
@@ -29,7 +38,7 @@ export class GetRecipesArgs {
 @Resolver((of) => RecipeType)
 export class RecipeResolver {
   private readonly logger = new Logger(RecipeResolver.name);
-  constructor(private readonly service: RecipeService) {}
+  constructor(private readonly service: RecipeService) { }
   @Query((returns) => [RecipeType])
   async recipes(@Args() args: GetRecipesArgs): Promise<RecipeType[]> {
     if (args.where) {
@@ -37,6 +46,8 @@ export class RecipeResolver {
         return await this.service.findByCategory(args.where.category);
       } else if (args.where.id) {
         return await this.service.findByIds(args.where.id);
+      } else if (args.where.recipeCaption) {
+        return await this.service.findByCaption(args.where.recipeCaption)
       }
     }
     return this.service.findAll();

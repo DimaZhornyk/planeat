@@ -30,6 +30,8 @@ export const RecipeSchema = new mongoose.Schema({
 export interface Recipe extends Document {
   readonly _id: string;
   readonly title: string;
+  readonly text: string;
+  readonly recipeCaption: string;
   readonly slug: string;
   readonly img: string;
   readonly category: Category;
@@ -42,8 +44,10 @@ export interface Recipe extends Document {
 export function recipeSchemaToType(r: Recipe): RecipeType {
   const res: RecipeType = {
     id: r._id,
+    recipeCaption: "",
     slug: r.slug,
     calories: r.calories,
+    text: r.text,
     time: r.minutesToCook,
     recipeImage: { url: r.img },
     category: r.category.slug,
@@ -59,6 +63,9 @@ export class RecipeType {
   readonly id?: string;
 
   @Field()
+  readonly recipeCaption: string;
+
+  @Field()
   readonly slug: string;
 
   @Field()
@@ -66,6 +73,9 @@ export class RecipeType {
 
   @Field()
   readonly time: number;
+
+  @Field()
+  readonly text: string;
 
   @Field()
   readonly recipeImage: ObjectImage;

@@ -50,9 +50,11 @@ type UtensilType {
 
 type RecipeType {
   id: ID!
+  recipeCaption: String!
   slug: String!
   calories: Float!
   time: Float!
+  text: String!
   recipeImage: ObjectImage!
   category: String!
   products: [ProductType!]!
@@ -69,6 +71,9 @@ type Query {
 }
 
 input RecipesWhere {
-  category: String!
-  id: [ID!]!
+  category: String
+  id: [ID!]
+  recipeCaption: String
+  products: [String!]
+  utensils: [String!]
 }
