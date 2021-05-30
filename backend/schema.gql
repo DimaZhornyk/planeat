@@ -1,0 +1,74 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CategoryImage {
+  url: String!
+}
+
+type CategoryType {
+  id: ID!
+  categoryName: String!
+  categoryDisplayNameUA: String!
+  categoryImage: CategoryImage!
+}
+
+type CategoryTextType {
+  CategoryNameText: String!
+  CategoryText: String!
+  CategoryH1: String!
+  CategoryTitle: String!
+  CategoryDescription: String!
+}
+
+type ObjectImage {
+  url: String!
+}
+
+type ProductType {
+  id: ID!
+  name: String!
+  caption: String!
+  icon: ObjectImage!
+  category: String!
+  seoTitle: String!
+}
+
+type ProductCategoriesType {
+  categoryName: String!
+  categoryDisplayNameUA: String!
+}
+
+type UtensilType {
+  id: ID!
+  name: String!
+  category: String!
+  caption: String!
+  icon: ObjectImage!
+  seoTitle: String!
+}
+
+type RecipeType {
+  id: ID!
+  slug: String!
+  calories: Float!
+  time: Float!
+  recipeImage: ObjectImage!
+  category: String!
+  products: [ProductType!]!
+  utensils: [UtensilType!]!
+}
+
+type Query {
+  categories: [CategoryType!]!
+  categoriesTexts: [CategoryTextType!]!
+  products: [ProductType!]!
+  categoriesProducts: [ProductCategoriesType!]!
+  utensils: [UtensilType!]!
+  recipes(where: RecipesWhere): [RecipeType!]!
+}
+
+input RecipesWhere {
+  category: String!
+  id: [ID!]!
+}
