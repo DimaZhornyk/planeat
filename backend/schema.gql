@@ -74,6 +74,7 @@ input RecipesWhere {
   category: String
   id: [ID!]
   recipeCaption: String
+  slug: String
   products: [String!]
   utensils: [String!]
 }

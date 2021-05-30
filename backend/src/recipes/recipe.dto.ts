@@ -22,6 +22,7 @@ export const RecipeSchema = new mongoose.Schema({
   img: String,
   calories: Number,
   minutesToCook: Number,
+  text: String,
   category: { type: mongoose.Schema.Types.ObjectId, ref: 'categories' },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'products' }],
   utensils: [{ type: mongoose.Schema.Types.ObjectId, ref: 'utensils' }],

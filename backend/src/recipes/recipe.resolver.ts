@@ -22,6 +22,9 @@ export class RecipesWhere {
   @Field({ nullable: true })
   recipeCaption?: string;
 
+  @Field({ nullable: true })
+  slug: string;
+
   @Field(() => [String], { nullable: true })
   products?: string[];
 
@@ -48,6 +51,8 @@ export class RecipeResolver {
         return await this.service.findByIds(args.where.id);
       } else if (args.where.recipeCaption) {
         return await this.service.findByCaption(args.where.recipeCaption)
+      } else if (args.where.slug) {
+        return await this.service.findBySlug(args.where.slug)
       }
     }
     return this.service.findAll();

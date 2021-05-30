@@ -57,4 +57,16 @@ export class RecipeService {
       })
       .map(recipeSchemaToType);
   }
+
+  async findBySlug(slugName: string): Promise<RecipeType[]> {
+    const res = await this.model
+      .find()
+      .populate('category')
+      .populate('products')
+      .populate('utensils')
+      .exec();
+    return res
+      .filter(({ slug }) => slug === slugName)
+      .map(recipeSchemaToType);
+  }
 }
