@@ -14,6 +14,14 @@ mongoose.connect(
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err));
 
+    mongoose.connection.on('open', function (ref) {
+        console.log('Connected to mongo server.');
+        //trying to get collection names
+        mongoose.connection.db.listCollections().toArray(function (err, names) {
+            console.log(names); // [{ name: 'dbname.myCollection' }]
+        });
+    })
+
 const app = express();
 
 app.listen(3000, () =>
