@@ -29,7 +29,7 @@ export async function getStaticProps() {
 }
 
 const QUERY = gql`query
-              getRecipes($ids: [Int]){
+              getRecipes($ids: [ID!]){
                 recipes(where: {
                   id: $ids
                 }){

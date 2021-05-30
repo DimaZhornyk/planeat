@@ -32,8 +32,9 @@ function Searchbar({categories}) {
             setSearchItems(<></>)
         } else {
             Client.query({
-                query: gql`query{
-                    recipes(where: {recipeCaption_contains : ${`\"${newSearchTerm}\"`}}){
+                query: gql`
+                query{
+                    recipes(where: {recipeCaption : ${`\"${newSearchTerm}\"`}}){
                         id
                         recipeCaption
                         time
