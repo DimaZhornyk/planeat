@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {MiddlewareConsumer, Module} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -7,6 +7,7 @@ import { CategoryModule } from './categories/categories.module';
 import { ProductModule } from './products/product.module';
 import { UtensilModule } from './utensils/utensil.module';
 import { RecipeModule } from './recipes/recipe.module';
+import {LoggerMiddleware} from "./util/logging.middleware";
 
 const { MONGO_USERNAME, MONGO_PASSWORD } = process.env;
 console.log({ MONGO_PASSWORD, MONGO_USERNAME });
@@ -24,4 +25,10 @@ console.log({ MONGO_PASSWORD, MONGO_USERNAME });
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+        .apply(LoggerMiddleware)
+        .forRoutes('*');
+  }
+}

@@ -28,7 +28,7 @@ const QUERY = gql`
       where: { category: $category, products: $products, utensils: $utensils }
     ) {
       id
-      #slug
+      slug
       calories
       time
       recipeCaption
@@ -76,7 +76,6 @@ export function fetchRecipes() {
     if (state.category !== "all") vars.category = state.category;
     Client.query({ query: QUERY, variables: vars }).then(({ data }) => {
       let recipes = data.recipes;
-      console.log(recipes);
       dispatch({
         type: SET_FILTER_RANGE,
         payload: {

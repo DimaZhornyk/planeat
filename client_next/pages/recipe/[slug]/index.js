@@ -32,15 +32,17 @@ export async function getStaticPaths() {
     params: { slug: recipe.slug },
   }));
 
+
   return { paths: slugs, fallback: false };
 }
 
 export async function getStaticProps({ params }) {
+  console.log("called")
   const { data } = await Client.query({
     query: gql`
         query {
             recipes (where: {
-                    slug: \"${params.slug}\"
+                    slug: "${params.slug}"
                 }){
                 id
                 slug
@@ -79,6 +81,9 @@ export async function getStaticProps({ params }) {
             }
         }`,
   });
+
+  console.log(data)
+
   return { props: { recipe: data.recipes[0], categories: data.categories } };
 }
 

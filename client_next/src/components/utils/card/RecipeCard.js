@@ -26,7 +26,7 @@ async function addCard(jwt, userId, cardId, ids) {
 function RecipeCard(props) {
     let optionsArray = [];
     console.log("Props: " + props.ids + "" + props.id);
-    console.log(props.ids.includes(parseInt(props.id)));
+    // console.log(props.ids.includes(parseInt(props.id)));
     const getOptions = (options) => {
         if (options.length > optionsLength) {
             optionsArray = options.slice(0, optionsLength - 1).map((option) => {
