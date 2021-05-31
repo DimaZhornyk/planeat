@@ -1,0 +1,5 @@
+## to redeploy
+
+```
+# ./redeploy.sh
+```

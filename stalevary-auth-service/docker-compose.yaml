@@ -1,0 +1,36 @@
+version: "3.3"
+
+services: 
+  api:
+    image: stalevary-auth
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment: 
+      - ENABLE_TEST=${ENABLE_TEST}
+    ports:
+      - "${OUTER_PORT}:5000"
+    depends_on:
+      - db
+    links:
+      - db:postgres
+    profiles:
+      - prod
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      PGDATA: /var/lib/postgresql/data/
+    ports:
+      - "5432:5432" 
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+
+volumes:
+  db-data:      
+
+
+

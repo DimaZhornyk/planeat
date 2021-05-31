@@ -1,0 +1,1 @@
+export const USER_ALREADY_EXISTS = new Error('USER ALREADY EXISTS');
