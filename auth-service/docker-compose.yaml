@@ -2,14 +2,13 @@ version: "3.3"
 
 services: 
   api:
-    image: stalevary-auth
+    image: planeat-auth
+    container_name: planeat-auth
     build:
       context: .
       dockerfile: Dockerfile
-    environment: 
-      - ENABLE_TEST=${ENABLE_TEST}
     ports:
-      - "${OUTER_PORT}:5000"
+      - "5002:5000"
     depends_on:
       - db
     links:
@@ -25,12 +24,12 @@ services:
       POSTGRES_PASSWORD: secret
       PGDATA: /var/lib/postgresql/data/
     ports:
-      - "5432:5432" 
+      - "1337:5432"
     volumes:
       - db-data:/var/lib/postgresql/data/
 
 volumes:
-  db-data:      
+  db-data:
 
 
 

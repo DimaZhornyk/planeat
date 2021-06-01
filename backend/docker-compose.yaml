@@ -1,0 +1,13 @@
+version: "3.3"
+
+services:
+  api-main:
+    image: planeat-main
+    container_name: planeat-main
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000"
+    profiles:
+      - prod
