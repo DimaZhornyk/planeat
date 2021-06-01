@@ -32,12 +32,11 @@ export async function getStaticPaths() {
     params: { slug: recipe.slug },
   }));
 
-
   return { paths: slugs, fallback: false };
 }
 
 export async function getStaticProps({ params }) {
-  console.log("called")
+  console.log("called");
   const { data } = await Client.query({
     query: gql`
         query {
@@ -82,8 +81,6 @@ export async function getStaticProps({ params }) {
         }`,
   });
 
-  console.log(data)
-
   return { props: { recipe: data.recipes[0], categories: data.categories } };
 }
 
@@ -110,6 +107,8 @@ function MinutesToDuration(s) {
 
 function RecipePage({ recipe, categories }) {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1026px)" });
+
+  console.log(recipe);
 
   const getDishes = recipe.utensils.map((utensil) => {
     return (

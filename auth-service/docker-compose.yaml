@@ -1,6 +1,6 @@
 version: "3.3"
 
-services: 
+services:
   api:
     image: planeat-auth
     container_name: planeat-auth
@@ -24,12 +24,20 @@ services:
       POSTGRES_PASSWORD: secret
       PGDATA: /var/lib/postgresql/data/
     ports:
+<<<<<<< HEAD:auth-service/docker-compose.yaml
       - "1337:5432"
+=======
+      - "${DB_EXTERNAL_PORT}:5432"
+>>>>>>> d6ef7927f94ea8e2de5ba814c38d84b308e81320:stalevary-auth-service/docker-compose.yaml
     volumes:
       - db-data:/var/lib/postgresql/data/
 
 volumes:
+<<<<<<< HEAD:auth-service/docker-compose.yaml
   db-data:
 
 
 
+=======
+  db-data:
+>>>>>>> d6ef7927f94ea8e2de5ba814c38d84b308e81320:stalevary-auth-service/docker-compose.yaml
