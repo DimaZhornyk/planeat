@@ -1,24 +1,24 @@
-import React, { useEffect } from "react";
 import Icon from "@ant-design/icons";
-import { Logo } from "./Sections/Icons";
-import Searchbar from "./Sections/Searchbar";
-import styles from "./header.module.css";
-import NavMenu from "./Sections/NavMenu";
-import { useMediaQuery } from "react-responsive";
-import { Button, Dropdown, Menu, Spin } from "antd";
-import Avatar from "../../../static/icons/avatar.svg";
 import Auth from "../../../hoc/Auth";
-import { useRouter } from "next/router";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
+import styles from "./header.module.css";
+import Avatar from "../../../static/icons/avatar.svg";
+import NavMenu from "./Sections/NavMenu";
+import Searchbar from "./Sections/Searchbar";
+import LoginForm from "../../utils/login/LoginForm";
 import LogoutOutlined from "@ant-design/icons/lib/icons/LogoutOutlined";
+
+import { Logo } from "./Sections/Icons";
+import { connect } from "react-redux";
 import { logoutUser } from "../../../_actions/user_actions";
-import LoginModal from "../../utils/login/LoginModal";
+import { useMediaQuery } from "react-responsive";
+import { Button, Dropdown, Menu, Spin, Modal } from "antd";
 
 function Header(props) {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
-  const loginViaGoogle = () =>
-    (window.location = "https://www.admin.planeat.co.ua/connect/google");
+  const [isLoginVisible, setLoginVisibility] = useState(false);
+
   const linkToProfile = () => (window.location = "/user/profile");
 
   const menu = (
@@ -54,11 +54,18 @@ function Header(props) {
             type={"text"}
             style={{ display: "flex", alignSelf: "center" }}
             icon={<Icon component={Avatar} style={{ fontSize: "24px" }} />}
-            onClick={loginViaGoogle}
+            onClick={() => setLoginVisibility(true)}
           >
             Увійти
           </Button>
-          <LoginModal isLoginVisible={true}></LoginModal>
+          <Modal
+            footer={null}
+            style={{ margin: "0 auto" }}
+            visible={isLoginVisible}
+            onCancel={() => setLoginVisibility(false)}
+          >
+            <LoginForm isLoginVisible={isLoginVisible}></LoginForm>
+          </Modal>
         </>
       )}
     </div>

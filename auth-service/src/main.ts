@@ -8,8 +8,7 @@ const COOKIE_PARSER_SECRET = 'COOKIE_PARSER_SECRET';
 
 async function bootstrap() {
   console.log(process.env);
-  const app = await NestFactory.create(AppModule, {});
-  app.enableCors();
+  const app = await NestFactory.create(AppModule, { cors: { origin: true, credentials: true } });
   app.use(cookieParser(COOKIE_PARSER_SECRET));
   app.useGlobalPipes(
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })

@@ -26,7 +26,7 @@ export default class AuthService {
   }
   public createJwt(
     creds: JwtCreds,
-    expiresAt: number = Math.round(Date.now() / 1000) + 60
+    expiresAt: number = Math.round(Date.now() / 1000) + 60000
   ): string {
     this.logger.debug(expiresAt);
     this.logger.debug(creds);

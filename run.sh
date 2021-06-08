@@ -1,1 +1,1 @@
-docker-compose -f backend/docker-compose.yaml -f auth-service/docker-compose.yaml --profile prod up -d
+docker-compose --profile prod up -d
