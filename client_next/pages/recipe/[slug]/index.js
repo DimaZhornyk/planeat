@@ -188,7 +188,7 @@ function RecipePage({ recipe, categories }) {
             <div className={styles["left-column-recipe"]}>
               <img
                 itemProp={"image"}
-                src={BACKEND_URL + recipe.recipeImage.url}
+                src={MAIN_BACKEND_URL + recipe.recipeImage.url}
                 alt={recipe.recipeCaption + "-image"}
                 className={styles["recipe-image"]}
               />

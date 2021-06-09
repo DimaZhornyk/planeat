@@ -17,7 +17,7 @@ export function registerUser(login, email, password) {
         method: "POST",
         url: `${AUTH_BACKEND_URL}/user/sign_up`,
       },
-      { login, email, password },
+      { login: login, email: email, password: password },
       { withCredentials: true }
     )
       .then((res) => res.data)
