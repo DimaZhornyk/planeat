@@ -14,15 +14,15 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
 
             const accessToken = window.localStorage.getItem('access_token');
             if (accessToken !== null) {
-                dispatch(auth(accessToken)).then(response => {
+                dispatch(auth()).then(response => {
                     if (!response.isAuth) {
                         //If not auth but in secure page => redirect to home
                         if (option) {
-                            router.push('/')
+                            //router.push('/')
                         }
                     } else {
                         if (!option) {
-                            router.push('/')
+                            //router.push('/')
                         }
                     }
                 }).catch(error => dispatch(logoutUser()))

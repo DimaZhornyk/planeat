@@ -13,6 +13,7 @@ export default function UR(state = {}, action) {
                 ...action.payload
             };
         case AUTH_USER:
+            console.log(action)
             return {
                 ...state,
                 isAuth: true,

@@ -1,7 +1,7 @@
-import React from "react";
-import { Form, Input, Button } from "antd";
+import React, { useState } from "react";
+import { Tabs, Form, Input, Button } from "antd";
+const { TabPane } = Tabs;
 import GoogleLogin from "react-google-login";
-import axios from "axios";
 
 const layout = {
   labelCol: { span: 8 },
@@ -11,44 +11,25 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-function LoginForm() {
+function LoginForm({ onSignIn, onSignUp }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, setLogin] = useState("");
+
   const onFinish = () => {};
   const onFinishFailed = () => {};
 
-  const responseGoogle = async (response) => {
+  const responseGoogle = (response) => {
     console.log(response);
-
-    const res = axios
-      .post(
-        "http://localhost:5002/user/sign_in_google",
-        {
-          token: response.tokenId,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        console.log(response);
-        fetchFav();
-      })
-      .catch((error) => {});
-    //window.location = "/user/profile"
-    //TODO process reponse to handle session
+    onLogin("", "", response.tokenId);
   };
 
-  const fetchFav = async () => {
-    await axios
-      .get("http://localhost:5002/favorites", {
-        withCredentials: true,
-      })
-      .then((response) => {
-        console.log(response);
-      });
+  const onSubmitSignIn = () => {
+    onSignIn(email, password);
   };
 
-  const onSubmitLogin = async (email, password) => {
-    console.log(email, password);
+  const onSubmitSignUp = () => {
+    onSignUp(login, email, password);
   };
 
   return (
@@ -60,52 +41,106 @@ function LoginForm() {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <Form.Item
-        label="Email"
-        name="username"
-        rules={[
-          {
-            required: true,
-            type: "email",
-            message: "Введіть корректну пошту!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+      <Tabs defaultActiveKey="1">
+        <TabPane tab="Login" key="1">
+          <Form.Item
+            label="Email"
+            name="username"
+            rules={[
+              {
+                required: true,
+                type: "email",
+                message: "Введіть корректну пошту!",
+              },
+            ]}
+          >
+            <Input onChange={(e) => setEmail(e.target.value)} value={email} />
+          </Form.Item>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: "Введіть коректний пароль!",
-          },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Введіть коректний пароль!",
+              },
+            ]}
+          >
+            <Input.Password
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
+          </Form.Item>
 
-      <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit" onClick={onSubmitLogin}>
-          Submit
-        </Button>
-      </Form.Item>
+          <Form.Item {...tailLayout}>
+            <Button type="primary" htmlType="submit" onClick={onSubmitSignIn}>
+              Submit
+            </Button>
+          </Form.Item>
+          <Form.Item {...tailLayout} label="або" name="hint">
+            {" "}
+            <GoogleLogin
+              clientId={
+                "469925953534-0r004nl79hgimfjabvbghrhjkkl8bi2b.apps.googleusercontent.com"
+              }
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
+          </Form.Item>
+        </TabPane>
+        <TabPane tab="Sign up" key="2">
+          <Form.Item
+            label="Login"
+            name="login"
+            rules={[
+              {
+                required: true,
+                message: "Введіть корректный логін!",
+              },
+            ]}
+          >
+            <Input onChange={(e) => setLogin(e.target.value)} value={login} />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="username"
+            rules={[
+              {
+                required: true,
+                type: "email",
+                message: "Введіть корректну пошту!",
+              },
+            ]}
+          >
+            <Input onChange={(e) => setEmail(e.target.value)} value={email} />
+          </Form.Item>
 
-      <Form.Item {...tailLayout} label="або" name="hint"></Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Введіть коректний пароль!",
+              },
+            ]}
+          >
+            <Input.Password
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
+          </Form.Item>
 
-      <Form.Item {...tailLayout}>
-        <GoogleLogin
-          clientId={
-            "469925953534-0r004nl79hgimfjabvbghrhjkkl8bi2b.apps.googleusercontent.com"
-          }
-          buttonText="Login"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          cookiePolicy={"single_host_origin"}
-        />
-      </Form.Item>
+          <Form.Item {...tailLayout}>
+            <Button type="primary" htmlType="submit" onClick={onSubmitSignUp}>
+              Submit
+            </Button>
+          </Form.Item>
+        </TabPane>
+      </Tabs>
     </Form>
   );
 }

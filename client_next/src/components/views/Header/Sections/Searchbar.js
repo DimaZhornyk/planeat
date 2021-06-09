@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import {Menu, Dropdown, Input, Modal} from 'antd';
 import Client from "../../../../../lib/apollo"
 import gql from "graphql-tag";
-import {BACKEND_URL} from "../../../../../config";
+import {MAIN_BACKEND_URL} from "../../../../../config";
 import Link from "next/link";
 import styles from './search.module.css'
 import MediaQuery from "react-responsive";
@@ -53,7 +53,7 @@ function Searchbar({categories}) {
                                 <Menu.Item key={index}>
                                     <Link href={"/recipe/" + recipe.slug}>
                                         <div style={{display: "flex"}}>
-                                            <img src={`${BACKEND_URL}${recipe.recipeImage.url}`}
+                                            <img src={`${MAIN_BACKEND_URL}${recipe.recipeImage.url}`}
                                                  style={{width: "67px", height: "50px"}} alt={"recipeImage"}/>
                                             <div style={{
                                                 display: "flex",

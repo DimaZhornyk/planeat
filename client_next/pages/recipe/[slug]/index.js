@@ -4,7 +4,7 @@ import Client from "../../../lib/apollo";
 import Header from "../../../src/components/views/Header/Header";
 import Share from "../../../src/components/views/Share/Share";
 import styles from "../../../styles/Recipe.module.css";
-import { BACKEND_URL } from "../../../config";
+import { MAIN_BACKEND_URL } from "../../../config";
 import ClockImageSvg from "../../../src/static/icons/clockIcon.svg";
 import FireImageSvg from "../../../src/static/icons/fireIcon.svg";
 import DishImageSvg from "../../../src/static/icons/dishIconOrange.svg";
@@ -232,11 +232,9 @@ function RecipePage({ recipe, categories }) {
                         <p>
                           <meta
                             itemProp={"prepTime"}
-                            content={MinutesToDuration(
-                              recipe.recipePreparationTime
-                            )}
+                            content={MinutesToDuration(recipe.time)}
                           />
-                          {`Підготовка:    ${recipe.recipePreparationTime}хв.`}
+                          {`Підготовка: ${recipe.time}хв.`}
                         </p>
                       </div>
                       <div
@@ -279,17 +277,15 @@ function RecipePage({ recipe, categories }) {
                           component={DishImageSvg}
                           className={styles["metric-icon"]}
                         />
-                        <p itemProp={"recipeYield"}>
-                          {recipe.recipePortions + " порції(й)"}
-                        </p>
+                        <p itemProp={"recipeYield"}>{"4 порції(й)"}</p>
                       </div>
                     </div>
                   </div>
-                  <p style={{ fontSize: "15px" }}>{recipe.recipeDescription}</p>
+                  {/* <p style={{ fontSize: "15px" }}>{recipe.recipeDescription}</p> */}
                 </div>
                 <p style={{ fontSize: "18px" }}>Покроковий рецепт:</p>
                 <p className={"recipeText"}>
-                  <Markdown>{recipe.recipeText}</Markdown>
+                  <Markdown>{recipe.text}</Markdown>
                 </p>
               </Scrollbars>
             </div>
@@ -317,9 +313,9 @@ function RecipePage({ recipe, categories }) {
                 <p>
                   <meta
                     itemProp={"prepTime"}
-                    content={MinutesToDuration(recipe.recipePreparationTime)}
+                    content={MinutesToDuration(recipe.time)}
                   />
-                  {`Підготовка:    ${recipe.recipePreparationTime}хв.`}
+                  {`Підготовка:    ${recipe.time}хв.`}
                 </p>
               </div>
               <div className={styles["metric"]} style={{ width: "120px" }}>
@@ -352,9 +348,7 @@ function RecipePage({ recipe, categories }) {
                   component={DishImageSvg}
                   className={styles["metric-icon"]}
                 />
-                <p itemProp={"recipeYield"}>
-                  {recipe.recipePortions + " порції(й)"}
-                </p>
+                <p itemProp={"recipeYield"}>{"4 порції(й)"}</p>
               </div>
             </div>
           </div>
@@ -372,11 +366,11 @@ function RecipePage({ recipe, categories }) {
               <Row>{getMobileIngredients}</Row>
             </>
           )}
-          <p style={{ fontSize: "18px", fontWeight: "600" }}>
+          <h2 style={{ fontSize: "24px", fontWeight: "600" }}>
             Покроковий рецепт:
-          </p>
+          </h2>
           <p className={styles["recipeText"]}>
-            <Markdown>{recipe.recipeText}</Markdown>
+            <Markdown>{recipe.text}</Markdown>
           </p>
           <Share recipeId={recipe.id} />
         </div>

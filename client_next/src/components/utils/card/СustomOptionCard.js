@@ -1,7 +1,7 @@
 import React from "react"
 import styles from "./card.module.css"
 import {Image} from "antd";
-import {BACKEND_URL} from "../../../../config";
+import {MAIN_BACKEND_URL} from "../../../../config";
 
 function CustomOptionCard({item, size, onHover}) {
 
@@ -21,7 +21,7 @@ function CustomOptionCard({item, size, onHover}) {
             </span>)
         } else {
             return (
-                <Image src={BACKEND_URL + item.icon.url}
+                <Image src={MAIN_BACKEND_URL + item.icon.url}
                        preview={false}/>
             )
         }
