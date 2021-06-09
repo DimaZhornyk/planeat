@@ -14,5 +14,6 @@ async function bootstrap() {
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })
   );
   await app.listen(process.env.PORT, process.env.HOST);
+  console.log({p:process.env.PORT, h:process.env.HOST})
 }
 bootstrap();
