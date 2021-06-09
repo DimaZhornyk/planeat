@@ -94,6 +94,7 @@ export default class UserRepository {
       return id;
     });
     if (err != null) {
+      this.logger.debug({err})
       if (
         err.message ===
         `duplicate key value violates unique constraint "account_email_key"`
@@ -101,6 +102,7 @@ export default class UserRepository {
         return USER_ALREADY_EXISTS;
       }
     }
+    this.logger.debug({id})
     return null;
   }
 }

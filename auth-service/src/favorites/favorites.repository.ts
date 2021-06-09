@@ -14,7 +14,8 @@ export default class FavoritesRepository {
       $1 as slug
     from account
     where email=$2;`;
-    const res = await tryCatchAsync<Error,any>(()=>this.pool.query(qText,[slug,userEmail]))
+    const res = await tryCatchAsync<Error,any>(async ()=> await this.pool.query(qText,[slug,userEmail]))
+    this.logger.debug({r:res[0],userEmail,slug,r2:res[1]})
     return res[0];
   }
 

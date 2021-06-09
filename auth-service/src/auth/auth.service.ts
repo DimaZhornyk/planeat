@@ -30,7 +30,6 @@ export default class AuthService {
   ): string {
     this.logger.debug(expiresAt);
     this.logger.debug(creds);
-    this.logger.debug(PRIVATE_RSA)
     return sign({ ...creds, exp: expiresAt }, {key:PRIVATE_RSA,passphrase:'passphrase'} , { algorithm: 'RS256' });
   }
   public async createHash(data: string): Promise<string> {
