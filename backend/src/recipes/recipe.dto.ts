@@ -45,7 +45,7 @@ export interface Recipe extends Document {
 export function recipeSchemaToType(r: Recipe): RecipeType {
   const res: RecipeType = {
     id: r._id,
-    recipeCaption: "",
+    recipeCaption: r.title,
     slug: r.slug,
     calories: r.calories,
     text: r.text,

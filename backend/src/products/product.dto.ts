@@ -23,7 +23,7 @@ export interface Producttype extends Document {
 
 export interface Product extends Document {
   readonly title: string;
-  readonly slug: number;
+  readonly slug: string;
   readonly seoTitle: string;
   readonly img: string;
   readonly productType: Producttype;
@@ -31,7 +31,7 @@ export interface Product extends Document {
 
 export function productSchemaToType(p: Product): ProductType {
   return {
-    name: p.title,
+    name: p.slug,
     caption: p.title,
     icon: { url: p.img },
     category: p.productType.slug,
