@@ -149,9 +149,18 @@ export class UserController {
 
     // create user if not exists.
     const maybeUser = await this.userService.getUser(email);
-    const creds: JwtCreds = await maybeUserToJwtCreds(maybeUser).getOrElseAsync(
+    const creds: JwtCreds = await (await maybeUserToJwtCreds(maybeUser)
+    .mapPromise(async ()=>{
+      const applyToken = this.applyAuthentication(response, {
+        ...creds,
+        password: ''
+      });
+      const token = this.auth.createJwt(creds);
+      await applyToken(token);
+      return creds
+    }))
+    .getOrElseAsync(
       async () => {
-        this.logger.debug("OoooooOOOOOO")
         const creds = { email, login: name, role: AuthRole.USER };
         const [err, applied] = await this.createGoogleUserAndAthenticate(
           creds,
