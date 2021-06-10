@@ -8,7 +8,6 @@ import {
   Query,
   Resolver,
 } from '@nestjs/graphql';
-import { mapLog } from 'src/util/util';
 import { RecipeType } from './recipe.dto';
 import { RecipeService } from './recipe.service';
 @InputType()
@@ -24,6 +23,9 @@ export class RecipesWhere {
 
   @Field({ nullable: true })
   slug: string;
+
+  @Field(() => [String], { nullable: true })
+  slugs: string[]
 
   @Field(() => [String], { nullable: true })
   products?: string[];
@@ -46,9 +48,14 @@ export class RecipeResolver {
   async recipes(@Args() args: GetRecipesArgs): Promise<RecipeType[]> {
     if (args.where) {
       if (args.where.category) {
+        if(args.where.products && args.where.utensils) {
+          return await this.service.findByCategoryProductUtensil(args.where.category, args.where.products, args.where.utensils)
+        }
         return await this.service.findByCategory(args.where.category);
       } else if (args.where.id) {
         return await this.service.findByIds(args.where.id);
+      } else if (args.where.slugs) {
+        return await this.service.findBySlugs(args.where.slugs)
       } else if (args.where.recipeCaption) {
         return await this.service.findByCaption(args.where.recipeCaption)
       } else if (args.where.slug) {

@@ -50,9 +50,9 @@ export class RecipeService {
       .populate('utensils')
       .exec();
     return res
-      .filter(({ recipeCaption }) => {
-        if (recipeCaption != undefined && recipeCaption != null)
-          return recipeCaption.toLowerCase().includes(caption)
+      .filter(({ title }) => {
+        if (title != undefined && title != null)
+          return title.toLowerCase().includes(caption)
         return false
       })
       .map(recipeSchemaToType);
@@ -67,6 +67,40 @@ export class RecipeService {
       .exec();
     return res
       .filter(({ slug }) => slug === slugName)
+      .map(recipeSchemaToType);
+  }
+
+  async findBySlugs(slugNames: string[]): Promise<RecipeType[]> {
+    const res = await this.model
+      .find()
+      .populate('category')
+      .populate('products')
+      .populate('utensils')
+      .exec();
+    return res
+      .filter(({ slug }) => slugNames.includes(slug))
+      .map(recipeSchemaToType);
+  }
+
+  async findByCategoryProductUtensil(categoryName: string, productsName: string[], utensilsName: string[]): Promise<RecipeType[]> {
+    const res = await this.model
+      .find()
+      .populate('category')
+      .populate('products')
+      .populate('utensils')
+      .exec();
+    return res
+      .filter(({ category, products, utensils }) => {
+        if (category.slug === categoryName) {
+          let productFlag = productsName.length !== 0 ? products.map(it => it.slug).some(r => productsName.includes(r)) : true
+          let utensilFlag = utensilsName.length !== 0 ? utensils.map(it => it.slug).some(r => utensilsName.includes(r)) : true
+
+          return productFlag && utensilFlag
+        }
+
+        return false
+      }
+      )
       .map(recipeSchemaToType);
   }
 }

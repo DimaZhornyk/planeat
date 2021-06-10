@@ -12,27 +12,28 @@ import { AUTH_BACKEND_URL } from "../../config";
 
 export function registerUser(login, email, password) {
   return (dispatch) => {
-    axios(
-      {
-        method: "POST",
-        url: `${AUTH_BACKEND_URL}/user/sign_up`,
-      },
-      { login: login, email: email, password: password },
-      { withCredentials: true }
-    )
+    axios
+      .post(
+        `${AUTH_BACKEND_URL}/user/sign_up`,
+        { login: login, email: email, password: password },
+        { withCredentials: true }
+      )
       .then((res) => res.data)
       .then((res) => {
         fetchIds()
           .then((res) => res.data)
           .then((res) => {
             dispatch(setJwtToken("res.jwt"));
-            dispatch(setAccessToken(accessToken));
+            dispatch(setAccessToken(""));
             console.log(res);
             dispatch({
               type: AUTH_USER,
               payload: { ids: res },
             });
             res.isAuth = true;
+          })
+          .catch((err) => {
+            console.log(err);
           });
         return res;
       });
@@ -59,9 +60,8 @@ export function auth() {
             console.log(res);
             dispatch({
               type: AUTH_USER,
-              payload: { ids: res },
+              payload: { ids: res, isAuth: true },
             });
-            res.isAuth = true;
           });
         return res;
       });
@@ -71,12 +71,9 @@ export function loginUser(email, password, accessToken) {
   return (dispatch) => {
     let response =
       accessToken === undefined
-        ? axios(
-            {
-              method: "POST",
-              url: `${AUTH_BACKEND_URL}/user/sign_in`,
-            },
-            { email, password },
+        ? axios.post(
+            `${AUTH_BACKEND_URL}/user/sign_in`,
+            { email: email, password: password },
             { withCredentials: true }
           )
         : axios.post(
@@ -92,15 +89,20 @@ export function loginUser(email, password, accessToken) {
           .then((res) => res.data)
           .then((res) => {
             dispatch(setJwtToken("res.jwt"));
-            dispatch(setAccessToken(accessToken));
+            dispatch(setAccessToken("accessToken"));
             console.log(res);
             dispatch({
               type: AUTH_USER,
-              payload: { ids: res },
+              payload: { ids: res, isAuth: true },
             });
-            res.isAuth = true;
+          })
+          .catch((err) => {
+            console.log(err);
           });
         return res;
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 }
@@ -109,24 +111,23 @@ export function deleteRecipe(id) {
   return (dispatch, getState) => {
     const state = getState();
     let ids = state.user.ids;
-    const jwt = state.jwt.jwt;
-    const userId = state.user.id;
-    let index = ids.indexOf(parseInt(id));
+    let index = ids.indexOf(id);
     ids.splice(index, 1);
 
     return axios
       .delete(
         `${AUTH_BACKEND_URL}/favorites`,
         { slug: id },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       )
       .then((res) => {
         dispatch({
           type: DELETE_RECIPE,
           payload: index,
         });
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 }
@@ -137,24 +138,23 @@ export function addRecipe(id) {
     let ids = state.user.ids;
     if (ids === null) ids = [];
     ids.push(id);
-    const jwt = state.jwt.jwt;
-    const userId = state.user.id;
 
     return axios
       .post(
         `${AUTH_BACKEND_URL}/favorites`,
         { slug: id },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       )
       .then((res) => {
         console.log("DISPATCH");
-        console.log(res);
+        console.log(ids);
         dispatch({
           type: ADD_RECIPE,
           payload: ids,
         });
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 }

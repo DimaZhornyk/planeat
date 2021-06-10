@@ -8,28 +8,15 @@ import FireIcon from "../../../static/icons/fireIcon.svg";
 import { connect } from "react-redux";
 
 import CustomOptionCard from "./СustomOptionCard";
-import axios from "axios";
 import { deleteRecipe, addRecipe } from "../../../_actions/user_actions";
 
 const optionsLength = 4;
 
-async function addCard(jwt, userId, cardId, ids) {
-  if (ids === null) ids = [];
-  ids.push(parseInt(cardId));
-  await axios.put(
-    `${MAIN_BACKEND_URL}/users/${userId}`,
-    { ids: ids },
-    {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    }
-  );
-}
-
 function RecipeCard(props) {
   let optionsArray = [];
-  console.log("Props: " + props.slug);
+
+  console.log("State: " + props);
+
   const getOptions = (options) => {
     if (options.length > optionsLength) {
       optionsArray = options.slice(0, optionsLength - 1).map((option) => {
@@ -171,8 +158,23 @@ function RecipeCard(props) {
                   return props.deleteRecipes(props.slug).then(console.log);
                 }}
               >
-                {" "}
-                {props.ids.includes(parseInt(props.slug)) ? "-" : "+"}{" "}
+                {
+                  props.ids.includes(props.slug)
+                    ? "-"
+                    : //   <svg
+                      //     src={`${MAIN_BACKEND_URL}/uploads/fill_like.svg`}
+                      //     height={16}
+                      //     width={16}
+                      //     z={30}
+                      //   ></svg>
+                      "+"
+                  //   <svg
+                  //     src={`${MAIN_BACKEND_URL}/uploads/empty_like.svg`}
+                  //     height={16}
+                  //     width={16}
+                  //     z={30}
+                  //   ></svg>
+                }
               </Button>
             )}
           </div>
@@ -185,8 +187,6 @@ function RecipeCard(props) {
 const mapStateToProps = (state) => {
   return {
     isAuth: state.user.isAuth,
-    jwt: state.jwt.jwt,
-    userId: state.user.id,
     ids: state.user.ids,
   };
 };

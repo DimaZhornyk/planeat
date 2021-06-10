@@ -21,7 +21,7 @@ function LoginForm({ onSignIn, onSignUp }) {
 
   const responseGoogle = (response) => {
     console.log(response);
-    onLogin("", "", response.tokenId);
+    onSignIn("", "", response.tokenId);
   };
 
   const onSubmitSignIn = () => {
