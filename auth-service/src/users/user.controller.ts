@@ -150,7 +150,7 @@ export class UserController {
     // create user if not exists.
     const maybeUser = await this.userService.getUser(email);
     const creds: JwtCreds = await (await maybeUserToJwtCreds(maybeUser)
-    .mapPromise(async ()=>{
+    .mapPromise(async (creds)=>{
       const applyToken = this.applyAuthentication(response, {
         ...creds,
         password: ''
