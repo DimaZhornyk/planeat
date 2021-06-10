@@ -1,7 +1,4 @@
 CREATE DOMAIN email AS varchar(255);
-/* CHECK(
- value ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'
- ); */
 CREATE TYPE auth_provider as ENUM ('google');
 CREATE TABLE IF NOT EXISTS account (
   id SERIAL PRIMARY KEY,
